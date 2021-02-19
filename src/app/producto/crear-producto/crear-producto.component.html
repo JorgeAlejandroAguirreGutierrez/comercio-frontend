@@ -1,0 +1,211 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">PRODUCTO</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/index">Pagina Web</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/leer-producto">Ver Productos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/leer-pedido">Ver Pedidos</a>
+            </li>
+        </ul>
+        <div class="d-flex">
+            <a class="nav-link" type="button" href="#" (click)="cerrarSesion($event)">CERRAR SESION</a>
+        </div>
+    </div>
+</nav>
+<br>
+<br>
+<br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm">
+            <h2 class="font-weight-bold" align="center">CREAR PRODUCTO</h2>
+            <hr>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Marca:</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input type="text" [(ngModel)]="producto.marca"
+                            oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                        <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Descripcion:</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input type="text" [(ngModel)]="producto.descripcion"
+                            oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                        <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Material:</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input type="text" [(ngModel)]="producto.material"
+                            oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                        <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Estilo:</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <select class="form-control form-control-sm" [(ngModel)]="producto.estilo">
+                            <option *ngFor="let estilo of estilos; let i=index" [value]=estilo.valor>{{estilo.valor}}</option>
+                        </select>
+                        <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">categoria:</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <select class="form-control form-control-sm" [(ngModel)]="producto.categoria">
+                            <option *ngFor="let categoria of categorias; let i=index" [value]=categoria.valor>{{categoria.valor}}</option>
+                        </select>
+                        <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Precio:</label>
+                <div class="col-sm-9">
+                    <div class="input-group">
+                        <input type="text" [(ngModel)]="producto.precio" class="form-control form-control-sm">
+                        <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Garantia:</label>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-sm mb-3">
+                        <input type="text" [(ngModel)]="producto.garantia" class="form-control">
+                        <div class="input-group-append">
+                            <span class="input-group-text font-weight-bold">MESES</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Talla:</label>
+                <div class="col-sm">
+                    <div class="input-group">
+                        <select [(ngModel)]="tallaForm" (change)="crearTalla()" class="form-control form-control-sm">
+                            <option *ngFor="let talla of tallas; let i=index" [value]=talla.valor>{{talla.valor}}</option>
+                        </select>
+                        <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm">
+                    <table class="table table-hover table-bordered" style="font-size: 0.7rem">
+                        <thead class="table-active">
+                            <tr>
+                                <th>No.</th>
+                                <th>TALLA</th>
+                                <th>OPC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let talla of this.producto.tallas; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{talla.descripcion}}</td>
+                                <td>
+                                    <button (click)="eliminarTalla(i)" class="btn btn-primary form-control-sm"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Colores:</label>
+                <div class="col-sm">
+                    <div class="input-group">
+                        <select [(ngModel)]="colorForm" (change)="crearColor()" class="form-control form-control-sm">
+                            <option *ngFor="let color of colores; let i=index" [value]=color.valor>{{color.valor}}</option>
+                        </select>
+                        <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </div>
+                </div>
+                <br>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm">
+                    <table class="table table-hover table-bordered" style="font-size: 0.7rem">
+                        <thead class="table-active">
+                            <tr>
+                                <th>No.</th>
+                                <th>COLOR</th>
+                                <th>OPC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let color of producto.colores; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{color.descripcion}}</td>
+                                <td>
+                                    <button (click)="eliminarColor(i)" class="btn btn-primary form-control-sm"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Imagenes:</label>
+                <div class="col-sm-5">
+                    <input hidden type="file" #botonImagen id="qr" name="qr" (change)="cargarImagen($event)">
+                    <button (click)="botonImagen.click()" class="btn btn-sm btn-block btn-primary">Cargar</button>
+                </div>
+                <div class="col-sm-4">
+                    <ng-container *ngIf="imagen!=null">
+                        <p>{{imagen.name}}</p>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm">
+                    <button class="btn btn-sm btn-block btn-success" (click)="crear()">Crear</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm">
+            <footer class="text-muted">
+                <div class="container">
+                    <p class="float-right">
+                        <a href="#">Back to top</a>
+                    </p>
+                    <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+                    <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a
+                            href="../../getting-started/">getting started guide</a>.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>

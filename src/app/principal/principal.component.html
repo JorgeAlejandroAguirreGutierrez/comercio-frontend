@@ -1,0 +1,372 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                <a class="navbar-brand" href="#">CIUDAD VICTORIA</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index?producto={{tipo_zapatos}}">ZAPATOS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index?producto={{tipo_bolsos}}">BOLSOS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/index?producto={{tipo_trajes_deportivos}}">TRAJES DEPORTIVOS</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex">
+                        <a class="nav-link" type="button" href="/resumen-pedido">
+                            <li class="fa fa-cart-plus separate"></li>VER PEDIDO
+                        </a>
+                    </div>
+                    <div class="d-flex">
+                        <a class="nav-link" type="button" href="/iniciar-sesion">INICIAR SESION</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <br><br><br>
+    <div class="row">
+        <div class="col-sm">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img class="d-block w-100" src="/assets/slide1.svg" alt="First slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="/assets/slide2.svg" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                        <img class="d-block w-100" src="/assets/slide3.svg" alt="Third slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm" align="center">
+            <h1>{{titulo}}</h1>
+            <hr>
+        </div>
+    </div>
+    <ng-container *ngFor="let producto of productosEnc">
+        <div class="row">
+            <div class="col-sm">
+                <div class="card-group">
+                    <ng-container *ngIf="producto.length>0">
+                        <div class="card col-sm-4">
+                            <ng-container *ngIf="producto[0].imagenes.length==0">
+                                <img class="card-img-top" height="400px" src="/assets/fondoNegro.jpg"
+                                    alt="Card image cap">
+                            </ng-container>
+                            <ng-container *ngIf="producto[0].imagenes.length>0">
+                                <img class="card-img-top" height="400px" (click)="leerImagen(producto[0])"
+                                    src="{{prefijoUrlImagenes+producto[0].imagenes[0].ruta}}" alt="Card image cap">
+                            </ng-container>
+                            <div class="card-body">
+                                <h2 class="card-title">{{producto[0].marca}}</h2>
+                                <p class="card-text">{{producto[0].descripcion}}</p>
+                                <p class="card-text"><small class="text-muted">*incluye envío</small></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm" style="text-align: left;">
+                                            PRECIO
+                                        </div>
+                                        <div class="col-sm" style="text-align: right;">
+                                            <span class="badge bg-success text-white"
+                                                style="font-size: medium;">{{producto[0].precio | currency}} </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-4" style="text-align: left;">
+                                            TALLA
+                                        </div>
+                                        <div class="col-sm-8" style="text-align: right;">
+                                            <ng-container *ngFor="let talla of producto[0].tallas">
+                                                <span class="badge bg-primary text-white separate"
+                                                    style="font-size: medium;">{{talla.descripcion}} </span>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-4" style="text-align: left;">
+                                            COLORES
+                                        </div>
+                                        <div class="col-sm-8" style="text-align: right;">
+                                            <ng-container *ngFor="let color of producto[0].colores">
+                                                <span
+                                                    class="badge badge-color-{{color.descripcion}} text-white separate"
+                                                    style="font-size: medium;">&nbsp;&nbsp;&nbsp;</span>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-12" style="text-align: center;">
+                                            <button class="btn btn-sm btn-block btn-success"
+                                                (click)="agregarLineaPedido(producto[0])">Agregar al carrito</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.length>1">
+                        <div class="card col-sm-4">
+                            <ng-container *ngIf="producto[1].imagenes.length==0">
+                                <img class="card-img-top" height="400px" src="/assets/fondoNegro.jpg"
+                                    alt="Card image cap">
+                            </ng-container>
+                            <ng-container *ngIf="producto[1].imagenes.length>0">
+                                <img class="card-img-top" height="400px" (click)="leerImagen(producto[1])"
+                                    src="{{prefijoUrlImagenes+producto[1].imagenes[0].ruta}}" alt="Card image cap">
+                            </ng-container>
+                            <div class="card-body">
+                                <h2 class="card-title">{{producto[1].marca}}</h2>
+                                <p class="card-text">{{producto[1].descripcion}}</p>
+                                <p class="card-text"><small class="text-muted">*incluye envío</small></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm" style="text-align: left;">
+                                            PRECIO
+                                        </div>
+                                        <div class="col-sm" style="text-align: right;">
+                                            <span class="badge bg-success text-white"
+                                                style="font-size: medium;">{{producto[1].precio | currency}} </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-4" style="text-align: left;">
+                                            TALLA
+                                        </div>
+                                        <div class="col-sm-8" style="text-align: right;">
+                                            <ng-container *ngFor="let talla of producto[1].tallas">
+                                                <span class="badge bg-primary text-white separate"
+                                                    style="font-size: medium;">{{talla.descripcion}} </span>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-4" style="text-align: left;">
+                                            COLORES
+                                        </div>
+                                        <div class="col-sm-8" style="text-align: right;">
+                                            <ng-container *ngFor="let color of producto[1].colores">
+                                                <span
+                                                    class="badge badge-color-{{color.descripcion}} text-white separate"
+                                                    style="font-size: medium;">&nbsp;&nbsp;&nbsp;</span>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-12" style="text-align: center;">
+                                            <button class="btn btn-sm btn-block btn-success"
+                                                (click)="agregarLineaPedido(producto[1])">Agregar al carrito</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.length>2">
+                        <div class="card col-sm-4">
+                            <ng-container *ngIf="producto[2].imagenes.length==0">
+                                <img class="card-img-top" height="400px" src="/assets/fondoNegro.jpg"
+                                    alt="Card image cap">
+                            </ng-container>
+                            <ng-container *ngIf="producto[2].imagenes.length>0">
+                                <img class="card-img-top" height="400px" (click)="leerImagen(producto[2])"
+                                    src="{{prefijoUrlImagenes+producto[2].imagenes[0].ruta}}" alt="Card image cap">
+                            </ng-container>
+                            <div class="card-body">
+                                <h2 class="card-title">{{producto[2].marca}}</h2>
+                                <p class="card-text">{{producto[2].descripcion}}</p>
+                                <p class="card-text"><small class="text-muted">*incluye envío</small></p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm" style="text-align: left;">
+                                            PRECIO
+                                        </div>
+                                        <div class="col-sm" style="text-align: right;">
+                                            <span class="badge bg-success text-white"
+                                                style="font-size: medium;">{{producto[2].precio | currency}} </span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-4" style="text-align: left;">
+                                            TALLA
+                                        </div>
+                                        <div class="col-sm-8" style="text-align: right;">
+                                            <ng-container *ngFor="let talla of producto[2].tallas">
+                                                <span class="badge bg-primary text-white separate"
+                                                    style="font-size: medium;">{{talla.descripcion}} </span>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-4" style="text-align: left;">
+                                            COLORES
+                                        </div>
+                                        <div class="col-sm-8" style="text-align: right;">
+                                            <ng-container *ngFor="let color of producto[2].colores">
+                                                <span
+                                                    class="badge badge-color-{{color.descripcion}} text-white separate"
+                                                    style="font-size: medium;">&nbsp;&nbsp;&nbsp;</span>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <div class="col-sm-12" style="text-align: center;">
+                                            <button class="btn btn-sm btn-block btn-success"
+                                                (click)="agregarLineaPedido(producto[2])">Agregar al carrito</button>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+        <br>
+    </ng-container>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-sm">
+            <footer class="text-muted">
+                <div class="container">
+                    <p class="float-right">
+                        <a href="#">Back to top</a>
+                    </p>
+                    <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
+                    <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
+                            href="../../getting-started/">Contactenos</a>.</p>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalAgregarLineaPedido let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">PEDIDO</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Talla:</label>
+                <div class="input-group">
+                    <select [(ngModel)]="tallaPedido" class="form-control form-control-sm">
+                        <option [value]="i" *ngFor="let talla of productoPedido.tallas; let i=index">
+                            {{talla.descripcion}}</option>
+                    </select>
+                    <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Color:</label>
+                <div class="input-group">
+                    <select [(ngModel)]="colorPedido" class="form-control form-control-sm">
+                        <option [value]="i" *ngFor="let color of productoPedido.colores; let i=index">
+                            {{color.descripcion}}</option>
+                    </select>
+                    <div class="input-group-text"><i class="fa fa-contao"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="crearLineaPedido()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #modalLeerImagen let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">IMAGENES</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="carouselModalLeerImagen" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <ng-container *ngFor="let imagenModal of imagenesModal; let i=index">
+                            <ng-container *ngIf="i==0">
+                                <div class="carousel-item active">
+                                    <img class="d-block w-100" src="{{prefijoUrlImagenes+imagenModal.ruta}}"
+                                        alt="Imagen">
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="i!=0">
+                                <div class="carousel-item">
+                                    <img class="d-block w-100" src="{{prefijoUrlImagenes+imagenModal.ruta}}"
+                                        alt="Imagen">
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselModalLeerImagen" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselModalLeerImagen" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+        </div>
+    </div>
+</ng-template>

@@ -44,7 +44,7 @@
                 <div class="alert alert-primary form-row" role="alert">
                     <label align="center" class="col-sm-2 col-form-label font-weight-bold">Fecha Pedido</label>
                     <div class="col-sm-2">
-                        <input type="text" value="{{pedido.fecha | DateShortPipe}}" [disabled]="true"
+                        <input type="text" value="{{pedido.fecha}}" [disabled]="true"
                             class="form-control form-control-sm">
                     </div>
                     <label align="center" class="col-sm-1 col-form-label font-weight-bold">Confirmado</label>
@@ -57,7 +57,7 @@
                     </div>
                     <label align="center" class="col-sm-1 col-form-label font-weight-bold">Entrega</label>
                     <div class="col-sm-2">
-                        <input type="text" value="{{pedido.fechaEntrega | DateShortPipe}}" [disabled]="true"
+                        <input type="text" value="{{pedido.fechaEntrega}}" [disabled]="true"
                             class="form-control form-control-sm">
                     </div>
                     <label align="center" class="col-sm-1 col-form-label font-weight-bold">Enviado</label>
@@ -69,6 +69,15 @@
             </div>
             <div class="col-sm-1"></div>
         </div>
+        <ng-container *ngIf="pedido.habilitarMediosPago">
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <button class="btn btn-sm btn-block btn-primary" (click)="leerOtrosMediosPago()">VER OTROS MEDIOS DE PAGO</button>
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+        </ng-container>
         <div class="row">
             <div class="col-sm-1"></div>
             <div class="col-sm-10 table-responsive">
@@ -138,7 +147,8 @@
                         alt="Imagen QR">
                     <div class="card-body">
                         <h2 class="card-title" align="center">QR DE PAGO BANCOLOMBIA</h2>
-                        <p class="card-text"><button class="btn btn-sm btn-block btn-success" (click)="descargarQr(pedidoActualizar.qr)">Descargar</button></p>
+                        <p class="card-text"><button class="btn btn-sm btn-block btn-success"
+                                (click)="descargarQr(pedidoActualizar.qr)">Descargar</button></p>
                     </div>
                 </div>
             </div>

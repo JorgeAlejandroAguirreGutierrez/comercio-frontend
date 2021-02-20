@@ -7,6 +7,7 @@ export const exito_crear_producto='Exito al crear el producto';
 export const exito_actualizar_producto='Exito al actualizar el producto';
 export const exito_agregar_producto='Exito al agregar el producto';
 export const exito_crear_imagen='Exito al crear la imagen';
+export const exito_disponible_producto='Exito al actualizar la disponibilidad del producto';
 export const exito_actualizar_qr='Exito al actualizar el QR';
 
 export const exito_iniciar_sesion='Exito al iniciar sesion';
@@ -31,6 +32,7 @@ export const error_consultar_categorias='Error al consultar las categorias';
 export const error_consultar_estilos='Error al consultar los estilos';
 export const error_consultar_tallas='Error al consultar las tallas';
 export const error_consultar_colores='Error al consultar los colores';
+export const error_disponible_producto='Error al actualizar la disponibilidad del producto';
 
 export const exito_consultar_por_estado_pedido='Exito al consultar por estado del pedido';
 export const error_consultar_por_estado_pedido='Error al consultar por estado del pedido';

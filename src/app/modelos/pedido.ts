@@ -13,6 +13,7 @@ export class Pedido {
     confirmar: boolean;
     enviado: boolean;
     pagado: boolean;
+    habilitarMediosPago: boolean;
     cliente: Cliente;
     lineasPedido: LineaPedido[];
     
@@ -28,6 +29,7 @@ export class Pedido {
         this.confirmar=false;
         this.enviado=false;
         this.pagado=false;
+        this.habilitarMediosPago=false;
         this.lineasPedido=[];
         this.cliente=new Cliente();
     }

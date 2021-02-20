@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">VER PRODUCTO</a>
+    <a class="navbar-brand" href="#">VER PEDIDOS</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -14,6 +14,9 @@
                 <a class="nav-link" href="/crear-producto">Crear Producto</a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="/leer-producto">Ver Productos</a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="/leer-pedido">Ver Pedidos</a>
             </li>
         </ul>
@@ -23,6 +26,8 @@
     </div>
 </nav>
 <br>
+<br>
+<br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm">
@@ -31,18 +36,18 @@
         </div>
     </div>
     <br>
-    <div class="row">
-        <div class="col-sm-10">
-            <label>Estado del Pedido:</label>
+    <div class="form-group row">
+        <div class="col-sm-1"></div>
+        <label align="center" class="col-sm-2 col-form-label font-weight-bold">Estado del Pedido:</label>
+        <div class="col-sm-6">
             <select class="form-control form-control-sm" [(ngModel)]="estadoPedido">
                 <option *ngFor="let estadoPedido of estadosPedido; let i=index" [value]=estadoPedido.valor>{{estadoPedido.valor}}</option>
             </select>
         </div>
         <div class="col-sm-2">
-            <label>&nbsp;</label>
             <button class="btn btn-sm btn-block btn-primary" (click)="consultarPorEstadoPedido()">Buscar</button>
         </div>
-        <div class="col-sm-2"></div>
+        <div class="col-sm-1"></div>
     </div>
     <ng-container *ngFor="let pedido of pedidos; let i=index">
         <div class="row">
@@ -171,6 +176,14 @@
                             class="form-control form-control-sm">
                     </div>
                 </div>
+                <hr>
+                <div class="form-row">
+                    <label align="center" class="col-sm-5 col-form-label font-weight-bold">Otros Medios de Pago</label>
+                    <div class="col-sm-7">
+                        <input type="checkbox" [(ngModel)]="pedidoActualizar.habilitarMediosPago"
+                            class="form-control form-control-sm">
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -197,12 +210,6 @@
                 <ng-container *ngIf="qr!=null">
                     <p>{{qr.name}}</p>
                 </ng-container>
-            </div>
-        </div>
-        <div class="form-row">
-            <label align="center" class="col-sm-5 col-form-label font-weight-bold">Subir QR</label>
-            <div class="col-sm-7">
-                <input type="file" id="imagen" name="imagen" (change)="cargarQr($event)">
             </div>
         </div>
         <ng-container *ngIf="pedidoActualizar.qr!=''">

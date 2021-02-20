@@ -22,6 +22,7 @@ export class LeerPedidoClienteComponent implements OnInit {
 
   cerrarModal: string="";
   @ViewChild('modalVerQr', { static: false }) private modalVerQr: any;
+  @ViewChild('modalLeerMediosPago', { static: false }) private modalLeerMediosPago: any;
 
   constructor(private pedidoService: PedidoService, 
     private modalService: NgbModal, private sesionService: SesionService) { }
@@ -40,6 +41,10 @@ export class LeerPedidoClienteComponent implements OnInit {
         Swal.fire(constantes.error, constantes.error_consultar_pedido, constantes.error_swal)
       }
     );
+  }
+
+  leerOtrosMediosPago(){
+    this.open(this.modalLeerMediosPago);
   }
 
   verQr(i: number){

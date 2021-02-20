@@ -31,6 +31,7 @@ export class LeerProductoComponent implements OnInit {
   cerrarModal: string="";
 
   @ViewChild('modalProductoActualizar', { static: false }) private modalProductoActualizar: any;
+  @ViewChild('modalProductoDescuento', { static: false }) private modalProductoDescuento: any;
 
   constructor(private sesionService: SesionService, private productoService : ProductoService,
     private parametroService: ParametroService, private modalService: NgbModal, private router: Router ) { }
@@ -122,8 +123,22 @@ export class LeerProductoComponent implements OnInit {
     }
   }
 
-  noDisponible(i: number){
-    
+  disponible(i: number){
+    this.productoActualizar=this.productos[i];
+    this.productoService.disponible(this.productoActualizar).subscribe(
+      res => {
+          Swal.fire(constantes.exito, constantes.exito_disponible_producto, constantes.exito_swal);
+          this.modalService.dismissAll();
+          if(this.imagen!=null){
+            this.crearImagen(res.id);
+          } else{
+            this.consultarProductos();
+          }
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_disponible_producto, constantes.error_swal)
+      }
+    );
   }
 
   editar(i: number){
@@ -200,6 +215,11 @@ export class LeerProductoComponent implements OnInit {
         Swal.fire(constantes.error, constantes.error_crear_imagen, constantes.error_swal)
       }
     );
+  }
+
+  descuento(i: number){
+    this.productoActualizar= {... this.productos[i]};
+    this.open(this.modalProductoDescuento);
   }
 
   open(content: any) {

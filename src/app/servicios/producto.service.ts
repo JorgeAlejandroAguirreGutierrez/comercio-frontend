@@ -103,4 +103,13 @@ export class ProductoService {
     );
   }
 
+  disponible(producto: Producto): Observable<Producto> {
+    return this.http.put(environment.host + util.ruta + util.producto +util.disponible, producto, util.options).pipe(
+      map(response => response as Producto),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
+  }
+
 }

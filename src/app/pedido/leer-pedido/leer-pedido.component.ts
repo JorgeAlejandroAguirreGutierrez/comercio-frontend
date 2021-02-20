@@ -37,6 +37,7 @@ export class LeerPedidoComponent implements OnInit {
 
   ngOnInit(): void {
     this.consultarPedidos();
+    this.consultarEstadosPedido();
   }
 
   consultarPedidos(){

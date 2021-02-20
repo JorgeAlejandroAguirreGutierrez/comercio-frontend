@@ -10,6 +10,7 @@ export class Producto {
     estilo: string;
     categoria: string;
     precio: number;
+    descuento: number;
     garantia: string;
     tallas: Talla[];
     imagenes: Imagen[];
@@ -24,6 +25,7 @@ export class Producto {
         this.estilo="";
         this.categoria="";
         this.precio=0;
+        this.descuento=0;
         this.garantia="";
         this.tallas=[];
         this.colores=[];

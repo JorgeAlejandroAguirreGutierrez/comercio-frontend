@@ -91,4 +91,13 @@ export class ParametroService {
       })
     );
   }
+
+  consultarPorTituloTipo(titulo: string, tipo: string): Observable<Parametro[]> {
+    return this.http.get<Parametro[]>(environment.host + util.ruta + util.parametro+util.consultarPorTituloTipo+'/'+titulo+'/'+tipo, util.options).pipe(
+      map(response => response as Parametro[]),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
+  }
 }

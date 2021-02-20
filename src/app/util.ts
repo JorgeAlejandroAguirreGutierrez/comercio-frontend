@@ -5,6 +5,7 @@ export const ruta: string='/comercio';
 export const producto: string='/producto';
 export const parametro: string='/parametro';
 export const consultarPorTipo: string='/consultarPorTipo';
+export const consultarPorTituloTipo: string='/consultarPorTituloTipo';
 export const cliente: string='/cliente';
 export const pedido: string='/pedido';
 export const usuario: string='/usuario';

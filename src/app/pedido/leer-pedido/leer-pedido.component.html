@@ -38,16 +38,22 @@
     <br>
     <div class="form-group row">
         <div class="col-sm-1"></div>
-        <label align="center" class="col-sm-2 col-form-label font-weight-bold">Estado del Pedido:</label>
-        <div class="col-sm-6">
+        <label align="center" class="col-sm-5 col-form-label font-weight-bold">Estado del Pedido:</label>
+        <div class="col-sm-5">
             <select class="form-control form-control-sm" [(ngModel)]="estadoPedido">
-                <option *ngFor="let estadoPedido of estadosPedido; let i=index" [value]=estadoPedido.valor>{{estadoPedido.valor}}</option>
+                <option *ngFor="let estadoPedido of estadosPedido; let i=index" [value]=estadoPedido.valor>
+                    {{estadoPedido.valor}}</option>
             </select>
         </div>
-        <div class="col-sm-2">
+        <br>
+        <div class="col-sm-1"></div>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm">
             <button class="btn btn-sm btn-block btn-primary" (click)="consultarPorEstadoPedido()">Buscar</button>
         </div>
-        <div class="col-sm-1"></div>
+        <div class="col-sm-2"></div>
     </div>
     <ng-container *ngFor="let pedido of pedidos; let i=index">
         <div class="row">
@@ -149,7 +155,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="form-row">
-                    <label align="center" class="col-sm-5 col-form-label font-weight-bold">Confirmacion del Pedido</label>
+                    <label align="center" class="col-sm-5 col-form-label font-weight-bold">Confirmacion del
+                        Pedido</label>
                     <div class="col-sm-7">
                         <input type="checkbox" [(ngModel)]="pedidoActualizar.confirmar"
                             class="form-control form-control-sm">

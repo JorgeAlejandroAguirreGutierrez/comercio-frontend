@@ -35,7 +35,6 @@ export class CrearProductoComponent implements OnInit {
   ngOnInit(): void {
     this.validarSesion();
     this.consultarCategorias();
-    this.consultarTallas();
     this.consultarColores();
   }
 
@@ -46,17 +45,6 @@ export class CrearProductoComponent implements OnInit {
       },
       err => {
         Swal.fire(constantes.error, constantes.error_consultar_categorias, constantes.error_swal)
-      }
-    );
-  }
-
-  consultarTallas(){
-    this.parametroService.consultarPorTipo(constantes.parametroTalla).subscribe(
-      res => {
-        this.tallas = res
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_tallas, constantes.error_swal)
       }
     );
   }
@@ -76,6 +64,15 @@ export class CrearProductoComponent implements OnInit {
     this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroEstilo).subscribe(
       res => {
         this.estilos = res
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
+      }
+    );
+
+    this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroTalla).subscribe(
+      res => {
+        this.tallas = res
       },
       err => {
         Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)

@@ -21,8 +21,10 @@ export class LeerPedidoClienteComponent implements OnInit {
   prefijoUrlImagenes = environment.prefijo_url_imagenes;
   mediosPago: Parametro[]=[];
 
-
   pedidoActualizar: Pedido= null as any;
+
+  estadosPedido: Parametro[]=[];
+  estadoPedido: string="";
 
   cerrarModal: string="";
   @ViewChild('modalVerQr', { static: false }) private modalVerQr: any;
@@ -33,6 +35,7 @@ export class LeerPedidoClienteComponent implements OnInit {
 
   ngOnInit(): void {
     this.consultarPedidos();
+    this.consultarEstadosPedido();
     this.consultarMediosPago();
   }
 
@@ -44,6 +47,29 @@ export class LeerPedidoClienteComponent implements OnInit {
       },
       err => {
         Swal.fire(constantes.error, constantes.error_consultar_pedido, constantes.error_swal)
+      }
+    );
+  }
+
+  consultarEstadosPedido(){
+    this.parametroService.consultarPorTipo(constantes.estado_pedido).subscribe(
+      res => {
+        this.estadosPedido = res
+      },
+      err => {
+        Swal.fire(constantes.error, err.error.mensaje, constantes.error_swal)
+      }
+    );
+  }
+
+  consultarPorEstadoPedido(){
+    this.pedidoService.consultarPorEstado(this.estadoPedido).subscribe(
+      res => {
+        this.pedidos=res;
+        Swal.fire(constantes.exito, constantes.exito_consultar_por_estado_pedido, constantes.exito_swal);
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_por_estado_pedido, constantes.error_swal)
       }
     );
   }

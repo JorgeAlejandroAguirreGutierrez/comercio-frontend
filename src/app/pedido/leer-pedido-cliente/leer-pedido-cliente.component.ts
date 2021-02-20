@@ -7,6 +7,8 @@ import { environment } from './../../../environments/environment';
 import * as constantes from '../../constantes';
 import Swal from 'sweetalert2';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Parametro } from 'src/app/modelos/parametro';
+import { ParametroService } from 'src/app/servicios/parametro.service';
 
 @Component({
   selector: 'app-leer-pedido-cliente',
@@ -17,6 +19,8 @@ export class LeerPedidoClienteComponent implements OnInit {
 
   pedidos: Pedido[]=[];
   prefijoUrlImagenes = environment.prefijo_url_imagenes;
+  mediosPago: Parametro[]=[];
+
 
   pedidoActualizar: Pedido= null as any;
 
@@ -24,11 +28,12 @@ export class LeerPedidoClienteComponent implements OnInit {
   @ViewChild('modalVerQr', { static: false }) private modalVerQr: any;
   @ViewChild('modalLeerMediosPago', { static: false }) private modalLeerMediosPago: any;
 
-  constructor(private pedidoService: PedidoService, 
+  constructor(private pedidoService: PedidoService, private parametroService: ParametroService,
     private modalService: NgbModal, private sesionService: SesionService) { }
 
   ngOnInit(): void {
     this.consultarPedidos();
+    this.consultarMediosPago();
   }
 
   consultarPedidos(){
@@ -43,7 +48,7 @@ export class LeerPedidoClienteComponent implements OnInit {
     );
   }
 
-  leerOtrosMediosPago(){
+  leerMediosPago(){
     this.open(this.modalLeerMediosPago);
   }
 
@@ -64,6 +69,17 @@ export class LeerPedidoClienteComponent implements OnInit {
         a.click();
         URL.revokeObjectURL(objectUrl);
       })
+  }
+
+  consultarMediosPago(){
+    this.parametroService.consultarPorTipo(constantes.parametroMedioPago).subscribe(
+      res => {
+        this.mediosPago = res
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
+      }
+    );
   }
 
   open(content: any) {

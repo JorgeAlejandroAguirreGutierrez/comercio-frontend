@@ -50,5 +50,6 @@ export const parametroCategoria="CATEGORIA";
 export const parametroEstilo="ESTILO";
 export const parametroTalla="TALLA";
 export const parametroColor="COLOR";
+export const parametroMedioPago="MEDIO_PAGO";
 
 export const estado_pedido='ESTADO_PEDIDO';

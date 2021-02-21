@@ -13,6 +13,7 @@ export const sesion: string='/sesion';
 export const buscar: string='/buscar';
 export const consultarPorCliente: string='/consultarporcliente';
 export const consultarPorEstadoPedido: string='/consultarporestadopedido';
+export const consultarPorCelularEstadoPedido: string='/consultarporcelularestadopedido';
 export const obtenerporcodigo: string='/obtenerporcodigo';
 export const confirmar: string='/confirmar'
 export const generar: string='/generar'

@@ -63,7 +63,8 @@ export class LeerPedidoClienteComponent implements OnInit {
   }
 
   consultarPorEstadoPedido(){
-    this.pedidoService.consultarPorEstado(this.estadoPedido).subscribe(
+    let cliente: Cliente=this.sesionService.getCliente();
+    this.pedidoService.consultarPorCelularEstadoPedido(cliente.celular, this.estadoPedido).subscribe(
       res => {
         this.pedidos=res;
         Swal.fire(constantes.exito, constantes.exito_consultar_por_estado_pedido, constantes.exito_swal);

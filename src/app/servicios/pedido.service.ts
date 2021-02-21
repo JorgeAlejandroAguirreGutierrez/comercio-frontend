@@ -108,8 +108,8 @@ export class PedidoService {
       }));
   }
 
-  consultarPorEstado(estado: string): Observable<Pedido[]> {
-    return this.http.get<Pedido[]>(environment.host + util.ruta + util.pedido + util.consultarPorEstadoPedido + '/'+estado, util.options).pipe(
+  consultarPorCelularEstadoPedido(celular: string, estado: string): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(environment.host + util.ruta + util.pedido + util.consultarPorCelularEstadoPedido+'/'+celular + '/'+estado, util.options).pipe(
       map(response => response as Pedido[]),
       catchError(err => {
         return throwError(err);

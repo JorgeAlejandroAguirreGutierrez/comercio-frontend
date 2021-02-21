@@ -25,6 +25,7 @@ export class LeerPedidoComponent implements OnInit {
 
   estadosPedido: Parametro[]=[];
   estadoPedido: string="";
+  celular: string="";
   
 
   cerrarModal: string="";
@@ -103,8 +104,8 @@ export class LeerPedidoComponent implements OnInit {
     this.open(this.modalVerQr);
   }
 
-  consultarPorEstadoPedido(){
-    this.pedidoService.consultarPorEstado(this.estadoPedido).subscribe(
+  consultarPorCelularEstadoPedido(){
+    this.pedidoService.consultarPorCelularEstadoPedido(this.celular, this.estadoPedido).subscribe(
       res => {
         this.pedidos=res;
         Swal.fire(constantes.exito, constantes.exito_consultar_por_estado_pedido, constantes.exito_swal);

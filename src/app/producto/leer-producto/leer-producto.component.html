@@ -140,8 +140,8 @@
             <label class="col-sm-3 col-form-label font-weight-bold">Estilo:</label>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <select [(ngModel)]="productoActualizar.estilo" class="form-control form-control-sm">
-                        <option *ngFor="let estilo of estilos; let i=index" [value]=estilo.valor>{{estilo.valor}}
+                    <select [(ngModel)]="productoActualizar.subcategoria" class="form-control form-control-sm">
+                        <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>{{subcategoria.valor}}
                         </option>
                     </select>
                     <div class="input-group-text"><i class="fa fa-tumblr"></i></div>

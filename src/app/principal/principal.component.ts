@@ -10,6 +10,8 @@ import { PedidoService } from '../servicios/pedido.service';
 import { SesionService } from '../servicios/sesion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Imagen } from '../modelos/imagen';
+import { ParametroService } from '../servicios/parametro.service';
+import { Parametro } from '../modelos/parametro';
 
 @Component({
   selector: 'app-principal',
@@ -18,7 +20,9 @@ import { Imagen } from '../modelos/imagen';
 })
 export class PrincipalComponent implements OnInit {
 
-  titulo: string="";
+  marca: string="";
+  categoria: string="";
+  subcategoria: string="";
 
   productos: Producto[] = [];
   
@@ -34,32 +38,67 @@ export class PrincipalComponent implements OnInit {
 
   prefijoUrlImagenes = environment.prefijo_url_imagenes;
 
-  tipo_zapatos: string=constantes.tipo_zapatos;
-  tipo_bolsos: string=constantes.tipo_bolsos;
-  tipo_trajes_deportivos: string=constantes.tipo_trajes_deportivos;
+  categoria_zapatos: string=constantes.categoria_zapatos;
+  categoria_bolsos: string=constantes.categoria_bolsos;
+  categoria_trajes_deportivos: string=constantes.categoria_trajes_deportivos;
 
   imagenesModal: Imagen[]=[];
+
+  subcategorias: Parametro[]=[];
 
   @ViewChild('modalAgregarLineaPedido', { static: false }) private modalAgregarLineaPedido: any;
   @ViewChild('modalLeerImagen', { static: false }) private modalLeerImagen: any;
 
   cerrarModal: string = "";
 
-  constructor(private productoService: ProductoService, private pedidoService: PedidoService, private sesionService: SesionService,
+  constructor(private productoService: ProductoService, private parametroService: ParametroService, private sesionService: SesionService,
     private router: Router, private modalService: NgbModal, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.titulo=this.route.snapshot.queryParamMap.get('producto') || null as any;
-    console.log(this.titulo);
-    if(this.titulo==null){
-      this.titulo=this.tipo_zapatos;
+    this.categoria=this.route.snapshot.queryParamMap.get('producto') || null as any;
+    console.log(this.categoria);
+    if(this.categoria==null){
+      this.categoria=this.categoria_zapatos;
     }
-    
-    this.consultarProductos(this.titulo);
+    this.consultarPorCategoria();
+    this.consultarSubcategorias();
   }
 
-  consultarProductos(tipo: string){
-    this.productoService.consultarPorTipo(tipo).subscribe(
+  consultarPorCategoria(){
+    this.productoService.consultarPorCategoria(this.categoria).subscribe(
+      res => {
+        this.productos = res
+        let productosRec: Producto[] = [];
+        for (let i = 0; i < this.productos.length; i++) {
+          productosRec.push(this.productos[i]);
+          if (productosRec.length == 3) {
+            this.productosEnc.push(productosRec);
+            productosRec = [];
+          }
+        }
+        if (productosRec.length > 0) {
+          this.productosEnc.push(productosRec);
+        }
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
+      }
+    );
+  }
+
+  consultarSubcategorias(){
+    this.parametroService.consultarPorTituloTipo(this.categoria, constantes.parametroSubcategoria).subscribe(
+      res => {
+        this.subcategorias = res
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
+      }
+    );
+  }
+
+  consultarPorMarcaCategoriaSubcategoria(){
+    this.productoService.consultarPorMarcaCategoriaSubcategoria(this.marca, this.categoria, this.subcategoria).subscribe(
       res => {
         this.productos = res
         let productosRec: Producto[] = [];

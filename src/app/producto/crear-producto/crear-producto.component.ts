@@ -24,9 +24,10 @@ export class CrearProductoComponent implements OnInit {
   imagen: any= null as any;
 
   categorias: Parametro[]=[];
+  subcategorias: Parametro[]=[];
   tallas: Parametro[]=[];
   colores: Parametro[]=[];
-  estilos: Parametro[]=[];
+  
 
   constructor(private productoService : ProductoService, private parametroService: ParametroService,
     private sesionService: SesionService,
@@ -61,23 +62,34 @@ export class CrearProductoComponent implements OnInit {
   }
 
   seleccionarCategoria(){
-    this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroEstilo).subscribe(
-      res => {
-        this.estilos = res
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
-      }
-    );
-
-    this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroTalla).subscribe(
-      res => {
-        this.tallas = res
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
-      }
-    );
+    this.producto.tallas=[];
+    if (this.producto.categoria != ""){
+      this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroSubcategoria).subscribe(
+        res => {
+          this.subcategorias = res;
+          this.producto.subcategoria="";
+        },
+        err => {
+          Swal.fire(constantes.error, constantes.error_consultar_subcategorias, constantes.error_swal)
+        }
+      );
+    } else{
+      this.subcategorias=[];
+    }
+  
+    if (this.producto.categoria != ""){
+      this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroTalla).subscribe(
+        res => {
+          this.tallas = res;
+          this.tallaForm = "";
+        },
+        err => {
+          Swal.fire(constantes.error, constantes.error_consultar_tallas, constantes.error_swal)
+        }
+      );
+    } else{
+      this.tallas=[];
+    }
   }
 
   validarSesion(){

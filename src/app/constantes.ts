@@ -19,7 +19,7 @@ export const titulo_leer_pedido_cliente='Ver tus Pedidos!';
 export const ingresar_numero_celular='Por favor ingresa el numero de celular';
 
 export const error_crear_pedido='Error al crear el pedido';
-export const error_crear_producto='Error al crear el pedido';
+export const error_crear_producto='Error al crear el producto';
 export const error_actualizar_pedido='Error al actualizar el pedido';
 export const error_actualizar_producto='Error al actualizar el producto';
 export const error_obtener_pedido='Error al obtener el pedido';
@@ -29,7 +29,7 @@ export const error_talla_existente='Error talla existente';
 export const error_color_existente='Error color existente';
 export const error_crear_imagen='Error al crear la imagen';
 export const error_consultar_categorias='Error al consultar las categorias';
-export const error_consultar_estilos='Error al consultar los estilos';
+export const error_consultar_subcategorias='Error al consultar las subcategorias';
 export const error_consultar_tallas='Error al consultar las tallas';
 export const error_consultar_colores='Error al consultar los colores';
 export const error_disponible_producto='Error al actualizar la disponibilidad del producto';
@@ -42,12 +42,12 @@ export const error_generar_pedido='Error al generar el pedido';
 export const exito_confirmar_pedido='Exito al confirmar el pedido';
 export const error_confirmar_pedido='Error al confirmar el pedido';
 
-export const tipo_zapatos='ZAPATOS';
-export const tipo_bolsos='BOLSOS';
-export const tipo_trajes_deportivos='TRAJES DEPORTIVOS';
+export const categoria_zapatos='ZAPATOS';
+export const categoria_bolsos='BOLSOS';
+export const categoria_trajes_deportivos='TRAJES DEPORTIVOS';
 
 export const parametroCategoria="CATEGORIA";
-export const parametroEstilo="ESTILO";
+export const parametroSubcategoria="SUBCATEGORIA";
 export const parametroTalla="TALLA";
 export const parametroColor="COLOR";
 export const parametroMedioPago="MEDIO_PAGO";

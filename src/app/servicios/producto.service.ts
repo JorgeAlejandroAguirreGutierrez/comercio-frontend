@@ -83,8 +83,17 @@ export class ProductoService {
     );
   }
 
-  consultarPorTipo(tipo: string): Observable<Producto[]> {
-    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorTipo+'/'+tipo, util.options).pipe(
+  consultarPorCategoria(categoria: string): Observable<Producto[]> {
+    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorCategoria+'/'+categoria, util.options).pipe(
+      map(response => response as Producto[]),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
+  }
+
+  consultarPorMarcaCategoriaSubcategoria(marca: string, categoria: string, subcategoria: string): Observable<Producto[]> {
+    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorMarcaCategoriaSubcategoria+'/'+marca+'/'+categoria+'/'+subcategoria, util.options).pipe(
       map(response => response as Producto[]),
       catchError(err => {
         return throwError(err);

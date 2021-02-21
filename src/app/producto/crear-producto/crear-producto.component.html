@@ -66,6 +66,7 @@
                 <div class="col-sm-9">
                     <div class="input-group">
                         <select class="form-control form-control-sm" [(ngModel)]="producto.categoria" (change)="seleccionarCategoria()">
+                            <option value=""></option>
                             <option *ngFor="let categoria of categorias; let i=index" [value]=categoria.valor>{{categoria.valor}}</option>
                         </select>
                         <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
@@ -76,8 +77,9 @@
                 <label class="col-sm-3 col-form-label font-weight-bold">Estilo:</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <select class="form-control form-control-sm" [(ngModel)]="producto.estilo">
-                            <option *ngFor="let estilo of estilos; let i=index" [value]=estilo.valor>{{estilo.valor}}</option>
+                        <select class="form-control form-control-sm" [(ngModel)]="producto.subcategoria">
+                            <option value=""></option>
+                            <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>{{subcategoria.valor}}</option>
                         </select>
                         <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
                     </div>
@@ -109,6 +111,7 @@
                 <div class="col-sm">
                     <div class="input-group">
                         <select [(ngModel)]="tallaForm" (change)="crearTalla()" class="form-control form-control-sm">
+                            <option value=""></option>
                             <option *ngFor="let talla of tallas; let i=index" [value]=talla.valor>{{talla.valor}}</option>
                         </select>
                         <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
@@ -144,6 +147,7 @@
                 <div class="col-sm">
                     <div class="input-group">
                         <select [(ngModel)]="colorForm" (change)="crearColor()" class="form-control form-control-sm">
+                            <option value=""></option>
                             <option *ngFor="let color of colores; let i=index" [value]=color.valor>{{color.valor}}</option>
                         </select>
                         <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>

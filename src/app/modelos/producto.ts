@@ -7,7 +7,7 @@ export class Producto {
     descripcion: string; 
     material: string;
     marca: string;
-    estilo: string;
+    subcategoria: string;
     categoria: string;
     precio: number;
     descuento: number;
@@ -22,7 +22,7 @@ export class Producto {
         this.descripcion="";
         this.material="";
         this.marca="";
-        this.estilo="";
+        this.subcategoria="";
         this.categoria="";
         this.precio=0;
         this.descuento=0;

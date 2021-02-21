@@ -23,7 +23,7 @@ export class LeerProductoComponent implements OnInit {
   colorForm: string="";
   imagen: any= null as any;
   categorias: Parametro[]=[];
-  estilos: Parametro[]=[];
+  subcategorias: Parametro[]=[];
   tallas: Parametro[]=[];
   colores: Parametro[]=[];
 
@@ -43,7 +43,7 @@ export class LeerProductoComponent implements OnInit {
     this.validarSesion();
     this.consultarProductos();
     this.consultarCategorias();
-    this.consultarEstilos();
+    this.consultarSubcategorias();
     this.consultarTallas();
     this.consultarColores();
     
@@ -71,13 +71,13 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  consultarEstilos(){
-    this.parametroService.consultarPorTipo(constantes.parametroEstilo).subscribe(
+  consultarSubcategorias(){
+    this.parametroService.consultarPorTipo(constantes.parametroSubcategoria).subscribe(
       res => {
-        this.estilos = res
+        this.subcategorias = res
       },
       err => {
-        Swal.fire(constantes.error, constantes.error_consultar_estilos, constantes.error_swal)
+        Swal.fire(constantes.error, constantes.error_consultar_subcategorias, constantes.error_swal)
       }
     );
   }

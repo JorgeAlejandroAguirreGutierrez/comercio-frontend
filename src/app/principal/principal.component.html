@@ -12,13 +12,13 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/index?producto={{tipo_zapatos}}">ZAPATOS</a>
+                            <a class="nav-link" href="/index?producto={{categoria_zapatos}}">ZAPATOS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/index?producto={{tipo_bolsos}}">BOLSOS</a>
+                            <a class="nav-link" href="/index?producto={{categoria_bolsos}}">BOLSOS</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/index?producto={{tipo_trajes_deportivos}}">TRAJES DEPORTIVOS</a>
+                            <a class="nav-link" href="/index?producto={{categoria_trajes_deportivos}}">TRAJES DEPORTIVOS</a>
                         </li>
                     </ul>
                     <div class="d-flex">
@@ -62,7 +62,7 @@
     <br>
     <div class="row">
         <div class="col-sm" align="center">
-            <h1>{{titulo}}</h1>
+            <h1>{{categoria}}</h1>
             <hr>
         </div>
     </div>
@@ -72,6 +72,25 @@
                 NO EXISTEN ACTUALMENTE PRODUCTOS
             </div>
         </div>
+    </ng-container>
+    <ng-container *ngIf="productosEnc.length!=0">
+        <div class="row">
+            <label align="center" class="col-sm-1 col-form-label font-weight-bold">Marca:</label>
+            <div class="col-sm-4">
+                <input type="text" [(ngModel)]="marca"
+                            oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+            <label align="center" class="col-sm-1 col-form-label font-weight-bold">Estilo:</label>
+            <div class="col-sm-4">
+                <select class="form-control form-control-sm" [(ngModel)]="subcategoria">
+                    <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>{{subcategoria.valor}}</option>
+                </select>
+            </div>
+            <div class="col-sm-2">
+                <button class="btn btn-sm btn-block btn-primary" (click)="consultarPorMarcaCategoriaSubcategoria()">Buscar</button>
+            </div>
+        </div>
+        <hr>
     </ng-container>
     <ng-container *ngFor="let producto of productosEnc">
         <div class="row">

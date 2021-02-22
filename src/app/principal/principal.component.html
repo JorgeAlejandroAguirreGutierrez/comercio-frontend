@@ -61,22 +61,21 @@
             <hr>
         </div>
     </div>
-    <div class="row">
+    <div class="form-row">
         <label align="center" class="col-sm-1 col-form-label font-weight-bold">Marca:</label>
-        <div class="col-sm-4">
+        <div class="form-group col-sm-4">
             <input type="text" [(ngModel)]="marca" oninput="this.value = this.value.toUpperCase()"
                 class="form-control form-control-sm">
         </div>
         <label align="center" class="col-sm-1 col-form-label font-weight-bold">Estilo:</label>
-        <div class="col-sm-4">
+        <div class="form-group col-sm-4">
             <select class="form-control form-control-sm" [(ngModel)]="subcategoria">
                 <option value=""></option>
                 <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>
                     {{subcategoria.valor}}</option>
             </select>
         </div>
-        <br>
-        <div class="col-sm-2">
+        <div class="form-group col-sm-2">
             <button class="btn btn-sm btn-block btn-primary"
                 (click)="consultarPorMarcaCategoriaSubcategoria()">Buscar</button>
         </div>

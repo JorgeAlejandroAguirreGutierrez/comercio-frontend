@@ -132,6 +132,7 @@ export class PrincipalComponent implements OnInit {
     this.lineaPedido.producto = this.productoPedido;
     this.lineaPedido.talla = this.productoPedido.tallas[this.tallaPedido];
     this.lineaPedido.color = this.productoPedido.colores[this.colorPedido];
+    this.lineaPedido.total= this.productoPedido.precio-(this.productoPedido.precio*this.productoPedido.descuento)/100;
     this.lineasPedido.push({ ... this.lineaPedido});
     this.lineaPedido = new LineaPedido();
     this.productoPedido=new Producto();

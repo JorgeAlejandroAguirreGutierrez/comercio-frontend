@@ -55,7 +55,7 @@ export class ResumenPedidoComponent implements OnInit {
                 this.sesionService.eliminarLineasPedido();
                 let total: number = 0;
                 for (let i = 0; i < this.pedido.lineasPedido.length; i++) {
-                  total = total + Number(this.pedido.lineasPedido[i].producto.precio);
+                  total = total + Number(this.pedido.lineasPedido[i].total);
                 }
                 this.pedido.total = total;
                 this.sesionService.setCodigo(this.pedido.codigo);
@@ -93,7 +93,7 @@ export class ResumenPedidoComponent implements OnInit {
           this.sesionService.eliminarLineasPedido();
           let total: number = 0;
           for (let i = 0; i < this.pedido.lineasPedido.length; i++) {
-            total = total + Number(this.pedido.lineasPedido[i].producto.precio);
+            total = total + Number(this.pedido.lineasPedido[i].total);
           }
           this.pedido.total = total;
           this.sesionService.setCodigo(this.pedido.codigo);
@@ -131,7 +131,7 @@ export class ResumenPedidoComponent implements OnInit {
     this.pedido.lineasPedido.splice(i, 1);
     let total: number = 0;
     for (let i = 0; i < this.pedido.lineasPedido.length; i++) {
-      total = total + Number(this.pedido.lineasPedido[i].producto.precio);
+      total = total + Number(this.pedido.lineasPedido[i].total);
     }
     this.pedido.total = total;
     this.pedidoService.actualizar(this.pedido).subscribe(

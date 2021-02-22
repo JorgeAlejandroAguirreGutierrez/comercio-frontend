@@ -117,7 +117,7 @@
                             <td>{{lineaPedido.producto.marca}}</td>
                             <td>{{lineaPedido.talla.descripcion}}</td>
                             <td>{{lineaPedido.color.descripcion}}</td>
-                            <td>{{lineaPedido.producto.precio - lineaPedido.producto.descuento | currency}}</td>
+                            <td>{{lineaPedido.total | currency}}</td>
                         </tr>
                     </tbody>
                 </table>

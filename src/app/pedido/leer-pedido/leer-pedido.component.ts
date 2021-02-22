@@ -18,6 +18,7 @@ import { Parametro } from 'src/app/modelos/parametro';
 })
 export class LeerPedidoComponent implements OnInit {
 
+  pagina=constantes.pagina;
   pedidoActualizar: Pedido= null as any;
   pedidos: Pedido[]=[];
   qr: any= null as any;

@@ -18,38 +18,42 @@ import { Parametro } from 'src/app/modelos/parametro';
 })
 export class LeerProductoComponent implements OnInit {
 
-  productoActualizar: Producto=new Producto();
-  tallaForm: string="";
-  colorForm: string="";
-  imagen: any= null as any;
-  categorias: Parametro[]=[];
-  subcategorias: Parametro[]=[];
-  tallas: Parametro[]=[];
-  colores: Parametro[]=[];
+  pagina = constantes.pagina;
+  productoActualizar: Producto = new Producto();
+  tallaForm: string = "";
+  colorForm: string = "";
+  imagen: any = null as any;
+  categorias: Parametro[] = [];
+  subcategorias: Parametro[] = [];
+  tallas: Parametro[] = [];
+  colores: Parametro[] = [];
+
+  marca: string = "";
+  categoria: string = "";
+  subcategoria: string = "";
 
 
-  cerrarModal: string="";
+  cerrarModal: string = "";
 
   @ViewChild('modalProductoActualizar', { static: false }) private modalProductoActualizar: any;
   @ViewChild('modalProductoDescuento', { static: false }) private modalProductoDescuento: any;
 
-  constructor(private sesionService: SesionService, private productoService : ProductoService,
-    private parametroService: ParametroService, private modalService: NgbModal, private router: Router ) { }
+  constructor(private sesionService: SesionService, private productoService: ProductoService,
+    private parametroService: ParametroService, private modalService: NgbModal, private router: Router) { }
 
-  productos: Producto[]=[];
-  productoBuscar: Producto=new Producto();
+  productos: Producto[] = [];
+  productoBuscar: Producto = new Producto();
 
   ngOnInit(): void {
     this.validarSesion();
     this.consultarProductos();
     this.consultarCategorias();
-    this.consultarSubcategorias();
     this.consultarTallas();
     this.consultarColores();
-    
+
   }
 
-  consultarProductos(){
+  consultarProductos() {
     this.productoService.consultar().subscribe(
       res => {
         this.productos = res
@@ -60,7 +64,7 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  consultarCategorias(){
+  consultarCategorias() {
     this.parametroService.consultarPorTipo(constantes.parametroCategoria).subscribe(
       res => {
         this.categorias = res
@@ -71,18 +75,22 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  consultarSubcategorias(){
-    this.parametroService.consultarPorTipo(constantes.parametroSubcategoria).subscribe(
+  consultarSubcategorias() {
+    this.parametroService.consultarPorTituloTipo(this.categoria, constantes.parametroSubcategoria).subscribe(
       res => {
         this.subcategorias = res
       },
       err => {
-        Swal.fire(constantes.error, constantes.error_consultar_subcategorias, constantes.error_swal)
+        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
       }
     );
   }
 
-  consultarTallas(){
+  seleccionarCategoria() {
+    this.consultarSubcategorias();
+  }
+
+  consultarTallas() {
     this.parametroService.consultarPorTipo(constantes.parametroTalla).subscribe(
       res => {
         this.tallas = res
@@ -93,7 +101,7 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  consultarColores(){
+  consultarColores() {
     this.parametroService.consultarPorTipo(constantes.parametroColor).subscribe(
       res => {
         this.colores = res
@@ -104,11 +112,10 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  buscar(){
-    console.log(this.productoBuscar);
-    this.productoService.buscar(this.productoBuscar).subscribe(
+  consultarPorMarcaCategoriaSubcategoria() {
+    this.productoService.consultarPorMarcaCategoriaSubcategoria(this.marca, this.categoria, this.subcategoria).subscribe(
       res => {
-        this.productos=res;
+        this.productos = res;
       },
       err => {
         Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
@@ -116,24 +123,24 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  validarSesion(){
-    let usuarioActivo=this.sesionService.adminLogueado();
-    if(!usuarioActivo){
+  validarSesion() {
+    let usuarioActivo = this.sesionService.adminLogueado();
+    if (!usuarioActivo) {
       this.navegarIndex();
     }
   }
 
-  disponible(i: number){
-    this.productoActualizar=this.productos[i];
+  disponible(i: number) {
+    this.productoActualizar = this.productos[i];
     this.productoService.disponible(this.productoActualizar).subscribe(
       res => {
-          Swal.fire(constantes.exito, constantes.exito_disponible_producto, constantes.exito_swal);
-          this.modalService.dismissAll();
-          if(this.imagen!=null){
-            this.crearImagen(res.id);
-          } else{
-            this.consultarProductos();
-          }
+        Swal.fire(constantes.exito, constantes.exito_disponible_producto, constantes.exito_swal);
+        this.modalService.dismissAll();
+        if (this.imagen != null) {
+          this.crearImagen(res.id);
+        } else {
+          this.consultarProductos();
+        }
       },
       err => {
         Swal.fire(constantes.error, constantes.error_disponible_producto, constantes.error_swal)
@@ -141,58 +148,58 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  editar(i: number){
-    this.productoActualizar= {... this.productos[i]};
+  editar(i: number) {
+    this.productoActualizar = { ... this.productos[i] };
     this.open(this.modalProductoActualizar);
   }
 
-  crearTalla(){
-    for(let i=0; i<this.productoActualizar.tallas.length; i++){
-      if (this.tallaForm==this.productoActualizar.tallas[i].descripcion){
+  crearTalla() {
+    for (let i = 0; i < this.productoActualizar.tallas.length; i++) {
+      if (this.tallaForm == this.productoActualizar.tallas[i].descripcion) {
         Swal.fire(constantes.error, constantes.error_talla_existente, constantes.error_swal);
         return;
       }
     }
-    let talla: Talla=new Talla();
-    talla.descripcion=this.tallaForm;
+    let talla: Talla = new Talla();
+    talla.descripcion = this.tallaForm;
     this.productoActualizar.tallas.push(talla);
   }
 
-  eliminarTalla(i: number){
+  eliminarTalla(i: number) {
     this.productoActualizar.tallas.splice(i, 1);
   }
 
-  crearColor(){
-    for(let i=0; i<this.productoActualizar.colores.length; i++){
-      if (this.colorForm==this.productoActualizar.colores[i].descripcion){
+  crearColor() {
+    for (let i = 0; i < this.productoActualizar.colores.length; i++) {
+      if (this.colorForm == this.productoActualizar.colores[i].descripcion) {
         Swal.fire(constantes.error, constantes.error_color_existente, constantes.error_swal);
         return;
       }
     }
-    let color: Color=new Color();
-    color.descripcion=this.colorForm;
+    let color: Color = new Color();
+    color.descripcion = this.colorForm;
     this.productoActualizar.colores.push(color);
   }
 
-  eliminarColor(i: number){
+  eliminarColor(i: number) {
     this.productoActualizar.colores.splice(i, 1);
   }
 
-  eliminarImagen(i: number){
+  eliminarImagen(i: number) {
     this.productoActualizar.imagenes.splice(i, 1);
   }
 
-  actualizar(){
+  actualizar() {
     console.log(this.productoActualizar);
     this.productoService.crear(this.productoActualizar).subscribe(
       res => {
-          Swal.fire(constantes.exito, constantes.exito_actualizar_producto, constantes.exito_swal);
-          this.modalService.dismissAll();
-          if(this.imagen!=null){
-            this.crearImagen(res.id);
-          } else{
-            this.consultarProductos();
-          }
+        Swal.fire(constantes.exito, constantes.exito_actualizar_producto, constantes.exito_swal);
+        this.modalService.dismissAll();
+        if (this.imagen != null) {
+          this.crearImagen(res.id);
+        } else {
+          this.consultarProductos();
+        }
       },
       err => {
         Swal.fire(constantes.error, constantes.error_actualizar_producto, constantes.error_swal)
@@ -200,16 +207,16 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  cargarImagen(event: any){
-    let imagenes: FileList=event.target.files;
-    this.imagen=imagenes.item(0);
+  cargarImagen(event: any) {
+    let imagenes: FileList = event.target.files;
+    this.imagen = imagenes.item(0);
   }
 
-  crearImagen(id: number){
+  crearImagen(id: number) {
     this.productoService.crearImagen(this.imagen, id).subscribe(
       res => {
         this.consultarProductos();
-        this.imagen=null as any;
+        this.imagen = null as any;
       },
       err => {
         Swal.fire(constantes.error, constantes.error_crear_imagen, constantes.error_swal)
@@ -217,13 +224,13 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  descuento(i: number){
-    this.productoActualizar= {... this.productos[i]};
+  descuento(i: number) {
+    this.productoActualizar = { ... this.productos[i] };
     this.open(this.modalProductoDescuento);
   }
 
   open(content: any) {
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title', centered: true}).result.then((result) => {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
       this.cerrarModal = `Closed with: ${result}`;
     }, (reason) => {
       this.cerrarModal = `Dismissed ${this.getDismissReason(reason)}`;
@@ -244,8 +251,8 @@ export class LeerProductoComponent implements OnInit {
     this.router.navigate(['/index']);
   }
 
-  cerrarSesion(event:any){
-    if (event!=null)
+  cerrarSesion(event: any) {
+    if (event != null)
       event.preventDefault();
     this.sesionService.cerrarSesion();
   }

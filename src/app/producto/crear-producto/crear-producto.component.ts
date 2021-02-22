@@ -17,6 +17,7 @@ import * as constantes from '../../constantes';
 })
 export class CrearProductoComponent implements OnInit {
 
+  pagina=constantes.pagina;
   producto: Producto=new Producto();
   tallaForm: string="";
   colorForm: string="";

@@ -20,6 +20,7 @@ import { Parametro } from '../modelos/parametro';
 })
 export class PrincipalComponent implements OnInit {
 
+  pagina=constantes.pagina;
   marca: string="";
   categoria: string="";
   subcategoria: string="";

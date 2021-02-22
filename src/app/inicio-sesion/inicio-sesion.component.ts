@@ -14,6 +14,7 @@ import { Sesion } from '../modelos/sesion';
 })
 export class InicioSesionComponent implements OnInit {
 
+  pagina=constantes.pagina;
   sesion: Sesion=new Sesion();
   identificacion: string="";
   contrasena: string="";

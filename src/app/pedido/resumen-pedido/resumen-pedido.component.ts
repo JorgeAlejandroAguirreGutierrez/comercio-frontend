@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 })
 export class ResumenPedidoComponent implements OnInit {
 
+  pagina=constantes.pagina;
   pedido: Pedido = new Pedido();
   codigo: string = null as any;
   lineasPedido: LineaPedido[] = [];

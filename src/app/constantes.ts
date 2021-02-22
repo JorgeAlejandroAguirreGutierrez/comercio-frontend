@@ -54,3 +54,5 @@ export const parametroColor="COLOR";
 export const parametroMedioPago="MEDIO_PAGO";
 
 export const estado_pedido='ESTADO_PEDIDO';
+
+export const pagina="CIUDAD VICTORIA";

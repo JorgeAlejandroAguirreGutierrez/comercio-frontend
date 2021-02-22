@@ -17,6 +17,7 @@ import { ParametroService } from 'src/app/servicios/parametro.service';
 })
 export class LeerPedidoClienteComponent implements OnInit {
 
+  pagina=constantes.pagina;
   pedidos: Pedido[]=[];
   prefijoUrlImagenes = environment.prefijo_url_imagenes;
   mediosPago: Parametro[]=[];

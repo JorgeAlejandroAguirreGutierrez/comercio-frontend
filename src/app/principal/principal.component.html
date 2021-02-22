@@ -1,39 +1,34 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-                <a class="navbar-brand" href="#">CIUDAD VICTORIA</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <a class="navbar-brand" href="#">{{pagina}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/index?producto={{categoria_zapatos}}">ZAPATOS</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/index?producto={{categoria_bolsos}}">BOLSOS</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/index?producto={{categoria_trajes_deportivos}}">TRAJES DEPORTIVOS</a>
-                        </li>
-                    </ul>
-                    <div class="d-flex">
-                        <a class="nav-link" type="button" href="/resumen-pedido">
-                            <li class="fa fa-cart-plus separate"></li>VER PEDIDO
-                        </a>
-                    </div>
-                    <div class="d-flex">
-                        <a class="nav-link" type="button" href="/iniciar-sesion">INICIAR SESION</a>
-                    </div>
-                </div>
-            </nav>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/index?producto={{categoria_zapatos}}">ZAPATOS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/index?producto={{categoria_bolsos}}">BOLSOS</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/index?producto={{categoria_trajes_deportivos}}">TRAJES DEPORTIVOS</a>
+            </li>
+        </ul>
+        <div class="d-flex">
+            <a class="nav-link" type="button" href="/resumen-pedido">
+                <li class="fa fa-cart-plus separate"></li>VER PEDIDO
+            </a>
+        </div>
+        <div class="d-flex">
+            <a class="nav-link" type="button" href="/iniciar-sesion">INICIAR SESION</a>
         </div>
     </div>
-    <br><br><br>
+</nav>
+<br><br><br>
+<div class="container-fluid">
     <div class="row">
         <div class="col-sm">
             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -69,19 +64,21 @@
     <div class="row">
         <label align="center" class="col-sm-1 col-form-label font-weight-bold">Marca:</label>
         <div class="col-sm-4">
-            <input type="text" [(ngModel)]="marca"
-                        oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            <input type="text" [(ngModel)]="marca" oninput="this.value = this.value.toUpperCase()"
+                class="form-control form-control-sm">
         </div>
         <label align="center" class="col-sm-1 col-form-label font-weight-bold">Estilo:</label>
         <div class="col-sm-4">
             <select class="form-control form-control-sm" [(ngModel)]="subcategoria">
                 <option value=""></option>
-                <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>{{subcategoria.valor}}</option>
+                <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>
+                    {{subcategoria.valor}}</option>
             </select>
         </div>
         <br>
         <div class="col-sm-2">
-            <button class="btn btn-sm btn-block btn-primary" (click)="consultarPorMarcaCategoriaSubcategoria()">Buscar</button>
+            <button class="btn btn-sm btn-block btn-primary"
+                (click)="consultarPorMarcaCategoriaSubcategoria()">Buscar</button>
         </div>
     </div>
     <hr>

@@ -138,7 +138,7 @@ export class PrincipalComponent implements OnInit {
     this.tallaPedido=-1;
     this.colorPedido=-1;
     console.log(this.lineasPedido);
-    this.sesionService.setLineasPedido({ ... this.lineasPedido});
+    this.sesionService.setLineasPedido(this.lineasPedido);
     Swal.fire(constantes.exito, constantes.exito_agregar_producto, constantes.exito_swal);
   }
 

@@ -27,15 +27,15 @@
 <br>
 <br>
 <div class="container-fluid">
-    <div class="form-group row">
+    <div class="form-row">
         <div class="col-sm-1"></div>
         <label class="col-sm-1 col-form-label font-weight-bold">Marca:</label>
-        <div class="col-sm-2">
+        <div class="form-group col-sm-2">
             <input type="text" [(ngModel)]="marca" class="form-control form-control-sm"
                 oninput="this.value = this.value.toUpperCase()">
         </div>
         <label class="col-sm-1 col-form-label font-weight-bold">Categoria:</label>
-        <div class="col-sm-2">
+        <div class="form-group col-sm-2">
             <select class="form-control form-control-sm" [(ngModel)]="categoria"
                 (change)="seleccionarCategoria()">
                 <option value=""></option>
@@ -44,14 +44,14 @@
             </select>
         </div>
         <label class="col-sm-1 col-form-label font-weight-bold">Subcategoria:</label>
-        <div class="col-sm-2">
+        <div class="form-group col-sm-2">
             <select class="form-control form-control-sm" [(ngModel)]="subcategoria">
                 <option value=""></option>
                 <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>
                     {{subcategoria.valor}}</option>
             </select>
         </div>
-        <div class="col-sm-1">
+        <div class="form-group col-sm-1">
             <button class="btn btn-sm btn-block btn-primary" (click)="consultarPorMarcaCategoriaSubcategoria()">Buscar</button>
         </div>
         <div class="col-sm-1"></div>

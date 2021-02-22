@@ -35,6 +35,7 @@ export class ResumenPedidoComponent implements OnInit {
   construirPedido() {
     this.codigo = this.sesionService.getCodigo();
     this.lineasPedido = this.sesionService.getLineasPedido();
+    console.log(this.lineasPedido);
     if (this.lineasPedido == null) {
       this.lineasPedido = [];
     }

@@ -100,6 +100,9 @@ export class CrearProductoComponent implements OnInit {
   }
 
   crear(){
+    if (this.producto.precio==0){
+      Swal.fire(constantes.error, constantes.error_precio_producto, constantes.error_swal);
+    }
     console.log(this.producto);
     this.productoService.crear(this.producto).subscribe(
       res => {

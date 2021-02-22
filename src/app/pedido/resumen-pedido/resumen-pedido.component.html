@@ -16,6 +16,7 @@
         </ul>
     </div>
 </nav>
+<br><br><br>
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm" align="center">
@@ -24,37 +25,39 @@
         </div>
     </div>
     <br>
-    <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10 table-responsive">
-            <table class="table table-sm table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col">MARCA</th>
-                        <th scope="col">TALLA</th>
-                        <th scope="col">COLOR</th>
-                        <th scope="col">VALOR</th>
-                        <th scope="col">OPCIONES</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let lineaPedido of pedido.lineasPedido; let i=index">
-                        <td>{{lineaPedido.producto.marca}}</td>
-                        <td>{{lineaPedido.talla.descripcion}}</td>
-                        <td>{{lineaPedido.color.descripcion}}</td>
-                        <td>{{lineaPedido.producto.precio | currency}}</td>
-                        <td>
-                            <button type="button" (click)="eliminarLineaPedido(i)" [disabled]="pedido.generar"
-                                class="btn btn-sm btn-primary separate">
-                                <i class="fa fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <ng-container *ngIf="lineasPedido.length>0">
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10 table-responsive">
+                <table class="table table-sm table-hover table-bordered">
+                    <thead>
+                        <tr>
+                            <th scope="col">MARCA</th>
+                            <th scope="col">TALLA</th>
+                            <th scope="col">COLOR</th>
+                            <th scope="col">VALOR</th>
+                            <th scope="col">OPCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let lineaPedido of pedido.lineasPedido; let i=index">
+                            <td>{{lineaPedido.producto.marca}}</td>
+                            <td>{{lineaPedido.talla.descripcion}}</td>
+                            <td>{{lineaPedido.color.descripcion}}</td>
+                            <td>{{lineaPedido.producto.precio | currency}}</td>
+                            <td>
+                                <button type="button" (click)="eliminarLineaPedido(i)" [disabled]="pedido.generar"
+                                    class="btn btn-sm btn-primary separate">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-sm-1"></div>
         </div>
-        <div class="col-sm-1"></div>
-    </div>
+    </ng-container>
     <br>
     <div class="row">
         <div class="col-sm-1"></div>

@@ -97,7 +97,6 @@ export class ProductoService {
     let params = new HttpParams().set("marca", marca)
                                  .set("categoria", categoria)
                                  .set("subcategoria", subcategoria);
-    console.log(params);
     return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorMarcaCategoriaSubcategoria, {params: params, headers: util.options.headers}).pipe(
       map(response => response as Producto[]),
       catchError(err => {

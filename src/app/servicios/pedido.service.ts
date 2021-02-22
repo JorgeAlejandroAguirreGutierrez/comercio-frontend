@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { of, Observable, throwError, BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
@@ -108,8 +108,10 @@ export class PedidoService {
       }));
   }
 
-  consultarPorCelularEstadoPedido(celular: string, estado: string): Observable<Pedido[]> {
-    return this.http.get<Pedido[]>(environment.host + util.ruta + util.pedido + util.consultarPorCelularEstadoPedido+'/'+celular + '/'+estado, util.options).pipe(
+  consultarPorCelularEstadoPedido(celular: string, estadoPedido: string): Observable<Pedido[]> {
+    let params = new HttpParams().set("celular", celular)
+                                 .set("estadopedido", estadoPedido);
+    return this.http.get<Pedido[]>(environment.host + util.ruta + util.pedido + util.consultarPorCelularEstadoPedido, {params: params, headers: util.options.headers}).pipe(
       map(response => response as Pedido[]),
       catchError(err => {
         return throwError(err);

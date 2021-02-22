@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { of, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -84,7 +84,8 @@ export class ParametroService {
   }
 
   consultarPorTipo(tipo: string): Observable<Parametro[]> {
-    return this.http.get<Parametro[]>(environment.host + util.ruta + util.parametro+util.consultarPorTipo+'/'+tipo, util.options).pipe(
+    let params = new HttpParams().set("tipo", tipo);
+    return this.http.get<Parametro[]>(environment.host + util.ruta + util.parametro+util.consultarPorTipo, {params: params, headers: util.options.headers}).pipe(
       map(response => response as Parametro[]),
       catchError(err => {
         return throwError(err);
@@ -93,7 +94,8 @@ export class ParametroService {
   }
 
   consultarPorTituloTipo(titulo: string, tipo: string): Observable<Parametro[]> {
-    return this.http.get<Parametro[]>(environment.host + util.ruta + util.parametro+util.consultarPorTituloTipo+'/'+titulo+'/'+tipo, util.options).pipe(
+    let params = new HttpParams().set("titulo", titulo).set("tipo", tipo);
+    return this.http.get<Parametro[]>(environment.host + util.ruta + util.parametro+util.consultarPorTituloTipo, {params: params, headers: util.options.headers}).pipe(
       map(response => response as Parametro[]),
       catchError(err => {
         return throwError(err);

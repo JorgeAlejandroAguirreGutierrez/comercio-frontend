@@ -100,7 +100,9 @@ export class PrincipalComponent implements OnInit {
   consultarPorMarcaCategoriaSubcategoria(){
     this.productoService.consultarPorMarcaCategoriaSubcategoria(this.marca, this.categoria, this.subcategoria).subscribe(
       res => {
-        this.productos = res
+        this.productos = res;
+        this.productosEnc = [];
+        console.log(this.productos);
         let productosRec: Producto[] = [];
         for (let i = 0; i < this.productos.length; i++) {
           productosRec.push(this.productos[i]);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Producto } from '../modelos/producto';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
 import { of, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
@@ -84,7 +84,8 @@ export class ProductoService {
   }
 
   consultarPorCategoria(categoria: string): Observable<Producto[]> {
-    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorCategoria+'/'+categoria, util.options).pipe(
+    let params = new HttpParams().set('categoria', categoria);
+    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorCategoria,{params: params, headers: util.options.headers}).pipe(
       map(response => response as Producto[]),
       catchError(err => {
         return throwError(err);
@@ -93,7 +94,11 @@ export class ProductoService {
   }
 
   consultarPorMarcaCategoriaSubcategoria(marca: string, categoria: string, subcategoria: string): Observable<Producto[]> {
-    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorMarcaCategoriaSubcategoria+'/'+marca+'/'+categoria+'/'+subcategoria, util.options).pipe(
+    let params = new HttpParams().set("marca", marca)
+                                 .set("categoria", categoria)
+                                 .set("subcategoria", subcategoria);
+    console.log(params);
+    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorMarcaCategoriaSubcategoria, {params: params, headers: util.options.headers}).pipe(
       map(response => response as Producto[]),
       catchError(err => {
         return throwError(err);

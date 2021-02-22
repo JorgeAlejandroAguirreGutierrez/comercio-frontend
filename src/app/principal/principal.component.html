@@ -83,6 +83,7 @@
             <label align="center" class="col-sm-1 col-form-label font-weight-bold">Estilo:</label>
             <div class="col-sm-4">
                 <select class="form-control form-control-sm" [(ngModel)]="subcategoria">
+                    <option value=""></option>
                     <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>{{subcategoria.valor}}</option>
                 </select>
             </div>

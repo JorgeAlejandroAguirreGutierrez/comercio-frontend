@@ -6,7 +6,6 @@ import * as constantes from '../constantes';
 import { environment } from './../../environments/environment';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LineaPedido } from '../modelos/linea-pedido';
-import { PedidoService } from '../servicios/pedido.service';
 import { SesionService } from '../servicios/sesion.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Imagen } from '../modelos/imagen';
@@ -93,7 +92,7 @@ export class PrincipalComponent implements OnInit {
         this.subcategorias = res
       },
       err => {
-        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
+        Swal.fire(constantes.error, constantes.error_consultar_subcategorias, constantes.error_swal)
       }
     );
   }

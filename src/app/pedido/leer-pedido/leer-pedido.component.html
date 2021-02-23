@@ -132,24 +132,22 @@
         </ng-container>
         <div class="row">
             <div class="col-sm-4"></div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 form-group">
                 <button class="btn btn-sm btn-block btn-primary separate" (click)="editar(i)">
                     SEGUIMIENTO
                 </button>
             </div>
             <div class="col-sm-4"></div>
         </div>
-        <br>
         <div class="row">
             <div class="col-sm-4"></div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 form-group">
                 <button class="btn btn-sm btn-block btn-primary separate" (click)="verQr(i)">
                     VER QR
                 </button>
             </div>
             <div class="col-sm-4"></div>
         </div>
-        <br><br>
     </ng-container>
 </div>
 <ng-template #modalActualizarPedido let-modal>
@@ -165,28 +163,28 @@
                 <div class="form-row">
                     <label align="center" class="col-sm-5 col-form-label font-weight-bold">Confirmacion del
                         Pedido</label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-7 form-group">
                         <input type="checkbox" [(ngModel)]="pedidoActualizar.confirmar"
                             class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="form-row">
                     <label align="center" class="col-sm-5 col-form-label font-weight-bold">Pagado</label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-7 form-group">
                         <input type="checkbox" [(ngModel)]="pedidoActualizar.pagado"
                             class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="form-row">
                     <label align="center" class="col-sm-5 col-form-label font-weight-bold">Fecha Entrega</label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-7 form-group">
                         <input type="date" [(ngModel)]="pedidoActualizar.fechaEntrega"
                             class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="form-row">
                     <label align="center" class="col-sm-5 col-form-label font-weight-bold">Enviado</label>
-                    <div class="col-sm-7">
+                    <div class="col-sm-7 form-group">
                         <input type="checkbox" [(ngModel)]="pedidoActualizar.enviado"
                             class="form-control form-control-sm">
                     </div>
@@ -209,7 +207,7 @@
     <div class="modal-body">
         <div class="form-group row">
             <label align="center" class="col-sm-3 col-form-label font-weight-bold">Subir QR:</label>
-            <div class="col-sm-5">
+            <div class="col-sm-5 form-group">
                 <input hidden type="file" #botonImagen id="imagen" name="imagen" (change)="cargarQr($event)">
                 <button (click)="botonImagen.click()" class="btn btn-sm btn-block btn-primary">Cargar</button>
             </div>

@@ -1,23 +1,36 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Producto } from '../modelos/producto';
-import { ProductoService } from '../servicios/producto.service';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
+import {MediaMatcher} from '@angular/cdk/layout';
+import { Producto } from '../../modelos/producto';
+import { ProductoService } from '../../servicios/producto.service';
 import Swal from 'sweetalert2';
-import * as constantes from '../constantes';
-import { environment } from './../../environments/environment';
+import * as constantes from '../../constantes';
+import { environment } from '../../../environments/environment';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LineaPedido } from '../modelos/linea-pedido';
-import { SesionService } from '../servicios/sesion.service';
+import { LineaPedido } from '../../modelos/linea-pedido';
+import { SesionService } from '../../servicios/sesion.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Imagen } from '../modelos/imagen';
-import { ParametroService } from '../servicios/parametro.service';
-import { Parametro } from '../modelos/parametro';
+import { Imagen } from '../../modelos/imagen';
+import { ParametroService } from '../../servicios/parametro.service';
+import { Parametro } from '../../modelos/parametro';
 
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.css']
+  styleUrls: ['./principal.component.scss']
 })
-export class PrincipalComponent implements OnInit {
+export class PrincipalComponent implements OnInit, OnDestroy {
+
+  @Input() cantidadAgregados:Number;
+
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private productoService: ProductoService, private parametroService: ParametroService, private sesionService: SesionService,
+    private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
+      this.cantidadAgregados=0;
+      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+      this.mobileQuery.addEventListener("change", this._mobileQueryListener);
+  }
+
+  mobileQuery: MediaQueryList;
 
   pagina=constantes.pagina;
   marca: string="";
@@ -44,15 +57,27 @@ export class PrincipalComponent implements OnInit {
 
   imagenesModal: Imagen[]=[];
 
+  categorias: Parametro[]=[
+    {id:1, activo:true, tipo:'CATEGORIA',titulo:'', valor:'PROMOCIONES', enlace:'categoria_zapatos'},
+    {id:1, activo:true, tipo:'CATEGORIA',titulo:'', valor:'ZAPATOS', enlace:'categoria_zapatos'},
+    {id:1, activo:true, tipo:'CATEGORIA',titulo:'', valor:'BOLSOS', enlace:'categoria_bolsos'},
+    {id:1, activo:true, tipo:'CATEGORIA',titulo:'', valor:'TRAJES DEPOSTIVOS', enlace:'categoria_trajes_deportivos'},
+  ];
+
+
   subcategorias: Parametro[]=[];
+
+  //filasNav = Array.from({length: 20}, (_, i) => `Nav Item ${i + 1}`);
+  filasNav = this.categorias;
+
+  //fillerContent = Array.from({length: 20}, () =>
+  //    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+  //     labore et dolore magna aliqua.`);
 
   @ViewChild('modalAgregarLineaPedido', { static: false }) private modalAgregarLineaPedido: any;
   @ViewChild('modalLeerImagen', { static: false }) private modalLeerImagen: any;
 
   cerrarModal: string = "";
-
-  constructor(private productoService: ProductoService, private parametroService: ParametroService, private sesionService: SesionService,
-    private router: Router, private modalService: NgbModal, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.categoria=this.route.snapshot.queryParamMap.get('producto') || null as any;
@@ -61,8 +86,16 @@ export class PrincipalComponent implements OnInit {
       this.categoria=this.categoria_zapatos;
     }
     this.consultarPorCategoria();
+    //this.consultarCategorias(); //Revisar para traer todas las categorias al menu
+    console.log(this.categorias);
     this.consultarSubcategorias();
   }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeEventListener("change", this._mobileQueryListener);
+  }
+
+  private _mobileQueryListener: () => void;
 
   consultarPorCategoria(){
     this.productoService.consultarPorCategoria(this.categoria).subscribe(
@@ -82,6 +115,17 @@ export class PrincipalComponent implements OnInit {
       },
       err => {
         Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
+      }
+    );
+  }
+//Revisar Jorge, creo que falta en el back
+  consultarCategorias(){
+    this.parametroService.consultarCategorias().subscribe(
+      res => {
+        this.categorias = res
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_categorias, constantes.error_swal)
       }
     );
   }

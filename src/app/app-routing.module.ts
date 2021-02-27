@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LeerProductoComponent } from './producto/leer-producto/leer-producto.component';
-import { CrearProductoComponent } from './producto/crear-producto/crear-producto.component';
-import { InicioSesionComponent } from './inicio-sesion/inicio-sesion.component';
-import { PrincipalComponent } from './principal/principal.component';
-import { ResumenPedidoComponent } from './pedido/resumen-pedido/resumen-pedido.component';
-import { LeerPedidoComponent } from './pedido/leer-pedido/leer-pedido.component';
-import { LeerPedidoClienteComponent } from './pedido/leer-pedido-cliente/leer-pedido-cliente.component';
+import { LeerProductoComponent } from './administrador/producto/leer-producto/leer-producto.component';
+import { CrearProductoComponent } from './administrador/producto/crear-producto/crear-producto.component';
+import { InicioSesionComponent } from './administrador/inicio-sesion/inicio-sesion.component';
+import { PrincipalComponent } from './usuario/principal/principal.component';
+import { ResumenPedidoComponent } from './usuario/pedido/resumen-pedido/resumen-pedido.component';
+import { LeerPedidoComponent } from './usuario/pedido/leer-pedido/leer-pedido.component';
+import { LeerPedidoClienteComponent } from './usuario/pedido/leer-pedido-cliente/leer-pedido-cliente.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/index', pathMatch: 'full' },

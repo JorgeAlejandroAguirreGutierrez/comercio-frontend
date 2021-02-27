@@ -31,17 +31,17 @@ import {MatNativeDateModule} from '@angular/material/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PrincipalComponent } from './principal/principal.component';
-import { InicioSesionComponent } from './inicio-sesion/inicio-sesion.component';
+import { PrincipalComponent } from './usuario/principal/principal.component';
+import { InicioSesionComponent } from './administrador/inicio-sesion/inicio-sesion.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LeerProductoComponent } from './producto/leer-producto/leer-producto.component';
-import { CrearProductoComponent } from './producto/crear-producto/crear-producto.component';
-import { ResumenPedidoComponent } from './pedido/resumen-pedido/resumen-pedido.component';
+import { LeerProductoComponent } from './administrador/producto/leer-producto/leer-producto.component';
+import { CrearProductoComponent } from './administrador/producto/crear-producto/crear-producto.component';
+import { ResumenPedidoComponent } from './usuario/pedido/resumen-pedido/resumen-pedido.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PedidoService } from './servicios/pedido.service';
 import { LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { LeerPedidoComponent } from './pedido/leer-pedido/leer-pedido.component';
-import { LeerPedidoClienteComponent } from './pedido/leer-pedido-cliente/leer-pedido-cliente.component';
+import { LeerPedidoComponent } from './usuario/pedido/leer-pedido/leer-pedido.component';
+import { LeerPedidoClienteComponent } from './usuario/pedido/leer-pedido-cliente/leer-pedido-cliente.component';
 import { DateShortPipe } from './pipes/date-short-pipe';
 
 @NgModule({

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Pedido } from '../../modelos/pedido';
-import { PedidoService } from '../../servicios/pedido.service';
+import { Pedido } from '../../../modelos/pedido';
+import { PedidoService } from '../../../servicios/pedido.service';
 import Swal from 'sweetalert2';
-import * as constantes from '../../constantes';
-import { SesionService } from '../../servicios/sesion.service';
-import { Cliente } from '../../modelos/cliente';
-import { LineaPedido } from '../../modelos/linea-pedido';
+import * as constantes from '../../../constantes';
+import { SesionService } from '../../../servicios/sesion.service';
+import { Cliente } from '../../../modelos/cliente';
+import { LineaPedido } from '../../../modelos/linea-pedido';
 import { ClienteService } from 'src/app/servicios/cliente.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';

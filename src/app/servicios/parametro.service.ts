@@ -83,6 +83,16 @@ export class ParametroService {
     );
   }
 
+  consultarCategorias(): Observable<Parametro[]> {
+    let params = new HttpParams()
+    return this.http.get<Parametro[]>(environment.host + util.ruta + util.parametro+util.consultarPorTipo, {params: params, headers: util.options.headers}).pipe(
+      map(response => response as Parametro[]),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
+  }
+
   consultarPorTipo(tipo: string): Observable<Parametro[]> {
     let params = new HttpParams().set("tipo", tipo);
     return this.http.get<Parametro[]>(environment.host + util.ruta + util.parametro+util.consultarPorTipo, {params: params, headers: util.options.headers}).pipe(

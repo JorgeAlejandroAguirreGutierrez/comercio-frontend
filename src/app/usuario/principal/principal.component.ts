@@ -20,7 +20,12 @@ import { Parametro } from '../../modelos/parametro';
 })
 export class PrincipalComponent implements OnInit, OnDestroy {
 
-  @Input() cantidadAgregados:Number;
+  prefijoUrlImg = environment.prefijo_url_img;
+  prefijoUrlImgFront = environment.prefijo_url_imgfront;
+
+  sliders: string[]=["slider1.png", "slider2.jpeg", "slider3.jpg"];
+
+  @Input() cantidadAgregados:number;
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private productoService: ProductoService, private parametroService: ParametroService, private sesionService: SesionService,
     private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
@@ -49,30 +54,13 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   lineaPedido: LineaPedido = new LineaPedido();
 
-  prefijoUrlImagenes = environment.prefijo_url_imagenes;
-
   categoria_zapatos: string=constantes.categoria_zapatos;
   categoria_bolsos: string=constantes.categoria_bolsos;
   categoria_trajes_deportivos: string=constantes.categoria_trajes_deportivos;
 
   imagenesModal: Imagen[]=[];
-
-  categorias: Parametro[]=[
-    {id:1, activo:true, tipo:'CATEGORIA',titulo:'', valor:'PROMOCIONES', enlace:'categoria_zapatos'},
-    {id:1, activo:true, tipo:'CATEGORIA',titulo:'', valor:'ZAPATOS', enlace:'categoria_zapatos'},
-    {id:1, activo:true, tipo:'CATEGORIA',titulo:'', valor:'BOLSOS', enlace:'categoria_bolsos'},
-    {id:1, activo:true, tipo:'CATEGORIA',titulo:'', valor:'TRAJES DEPOSTIVOS', enlace:'categoria_trajes_deportivos'},
-  ];
-
-
+  categorias: Parametro[]=[];
   subcategorias: Parametro[]=[];
-
-  //filasNav = Array.from({length: 20}, (_, i) => `Nav Item ${i + 1}`);
-  filasNav = this.categorias;
-
-  //fillerContent = Array.from({length: 20}, () =>
-  //    `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-  //     labore et dolore magna aliqua.`);
 
   @ViewChild('modalAgregarLineaPedido', { static: false }) private modalAgregarLineaPedido: any;
   @ViewChild('modalLeerImagen', { static: false }) private modalLeerImagen: any;
@@ -85,10 +73,11 @@ export class PrincipalComponent implements OnInit, OnDestroy {
     if(this.categoria==null){
       this.categoria=this.categoria_zapatos;
     }
-    this.consultarPorCategoria();
-    //this.consultarCategorias(); //Revisar para traer todas las categorias al menu
+    this.consultarCategorias();
     console.log(this.categorias);
     this.consultarSubcategorias();
+    this.consultarPorCategoria();
+    
   }
 
   ngOnDestroy(): void {
@@ -118,9 +107,9 @@ export class PrincipalComponent implements OnInit, OnDestroy {
       }
     );
   }
-//Revisar Jorge, creo que falta en el back
+
   consultarCategorias(){
-    this.parametroService.consultarCategorias().subscribe(
+    this.parametroService.consultarPorTipo(constantes.parametroCategoria).subscribe(
       res => {
         this.categorias = res
       },
@@ -183,6 +172,7 @@ export class PrincipalComponent implements OnInit, OnDestroy {
     this.colorPedido=-1;
     console.log(this.lineasPedido);
     this.sesionService.setLineasPedido(this.lineasPedido);
+    this.cantidadAgregados=this.cantidadAgregados+1;
     Swal.fire(constantes.exito, constantes.exito_agregar_producto, constantes.exito_swal);
   }
 

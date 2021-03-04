@@ -19,7 +19,7 @@ export class LeerPedidoClienteComponent implements OnInit {
 
   pagina=constantes.pagina;
   pedidos: Pedido[]=[];
-  prefijoUrlImagenes = environment.prefijo_url_imagenes;
+  prefijoUrlImgqr = environment.prefijo_url_imgqr;
   mediosPago: Parametro[]=[];
 
   pedidoActualizar: Pedido= null as any;
@@ -86,7 +86,7 @@ export class LeerPedidoClienteComponent implements OnInit {
   }
 
   descargarQr(path: string): void {
-    let url=this.prefijoUrlImagenes+path;
+    let url=this.prefijoUrlImgqr+path;
     this.pedidoService
       .descargarQr(url)
       .subscribe(blob => {

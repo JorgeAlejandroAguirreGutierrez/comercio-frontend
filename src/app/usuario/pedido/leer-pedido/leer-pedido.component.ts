@@ -22,7 +22,7 @@ export class LeerPedidoComponent implements OnInit {
   pedidoActualizar: Pedido= null as any;
   pedidos: Pedido[]=[];
   qr: any= null as any;
-  prefijoUrlImagenes = environment.prefijo_url_imagenes;
+  prefijoUrlImagenes = environment.prefijo_url_imgqr;
 
   estadosPedido: Parametro[]=[];
   estadoPedido: string="";

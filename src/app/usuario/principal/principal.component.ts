@@ -1,23 +1,41 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Producto } from '../modelos/producto';
-import { ProductoService } from '../servicios/producto.service';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
+import {MediaMatcher} from '@angular/cdk/layout';
+import { Producto } from '../../modelos/producto';
+import { ProductoService } from '../../servicios/producto.service';
 import Swal from 'sweetalert2';
-import * as constantes from '../constantes';
-import { environment } from './../../environments/environment';
+import * as constantes from '../../constantes';
+import { environment } from '../../../environments/environment';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LineaPedido } from '../modelos/linea-pedido';
-import { SesionService } from '../servicios/sesion.service';
+import { LineaPedido } from '../../modelos/linea-pedido';
+import { SesionService } from '../../servicios/sesion.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Imagen } from '../modelos/imagen';
-import { ParametroService } from '../servicios/parametro.service';
-import { Parametro } from '../modelos/parametro';
+import { Imagen } from '../../modelos/imagen';
+import { ParametroService } from '../../servicios/parametro.service';
+import { Parametro } from '../../modelos/parametro';
 
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.css']
+  styleUrls: ['./principal.component.scss']
 })
-export class PrincipalComponent implements OnInit {
+export class PrincipalComponent implements OnInit, OnDestroy {
+
+  prefijoUrlImg = environment.prefijo_url_img;
+  prefijoUrlImgFront = environment.prefijo_url_imgfront;
+
+  sliders: string[]=["slider1.png", "slider2.jpeg", "slider3.jpg"];
+
+  @Input() cantidadAgregados:number;
+
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private productoService: ProductoService, private parametroService: ParametroService, private sesionService: SesionService,
+    private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
+      this.cantidadAgregados=0;
+      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+      this.mobileQuery.addEventListener("change", this._mobileQueryListener);
+  }
+
+  mobileQuery: MediaQueryList;
 
   pagina=constantes.pagina;
   marca: string="";
@@ -36,14 +54,12 @@ export class PrincipalComponent implements OnInit {
 
   lineaPedido: LineaPedido = new LineaPedido();
 
-  prefijoUrlImagenes = environment.prefijo_url_imagenes;
-
   categoria_zapatos: string=constantes.categoria_zapatos;
   categoria_bolsos: string=constantes.categoria_bolsos;
   categoria_trajes_deportivos: string=constantes.categoria_trajes_deportivos;
 
   imagenesModal: Imagen[]=[];
-
+  categorias: Parametro[]=[];
   subcategorias: Parametro[]=[];
 
   @ViewChild('modalAgregarLineaPedido', { static: false }) private modalAgregarLineaPedido: any;
@@ -51,18 +67,24 @@ export class PrincipalComponent implements OnInit {
 
   cerrarModal: string = "";
 
-  constructor(private productoService: ProductoService, private parametroService: ParametroService, private sesionService: SesionService,
-    private router: Router, private modalService: NgbModal, private route: ActivatedRoute) { }
-
   ngOnInit(): void {
     this.categoria=this.route.snapshot.queryParamMap.get('producto') || null as any;
     console.log(this.categoria);
     if(this.categoria==null){
       this.categoria=this.categoria_zapatos;
     }
-    this.consultarPorCategoria();
+    this.consultarCategorias();
+    console.log(this.categorias);
     this.consultarSubcategorias();
+    this.consultarPorCategoria();
+    
   }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeEventListener("change", this._mobileQueryListener);
+  }
+
+  private _mobileQueryListener: () => void;
 
   consultarPorCategoria(){
     this.productoService.consultarPorCategoria(this.categoria).subscribe(
@@ -82,6 +104,17 @@ export class PrincipalComponent implements OnInit {
       },
       err => {
         Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
+      }
+    );
+  }
+
+  consultarCategorias(){
+    this.parametroService.consultarPorTipo(constantes.parametroCategoria).subscribe(
+      res => {
+        this.categorias = res
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_categorias, constantes.error_swal)
       }
     );
   }
@@ -139,6 +172,7 @@ export class PrincipalComponent implements OnInit {
     this.colorPedido=-1;
     console.log(this.lineasPedido);
     this.sesionService.setLineasPedido(this.lineasPedido);
+    this.cantidadAgregados=this.cantidadAgregados+1;
     Swal.fire(constantes.exito, constantes.exito_agregar_producto, constantes.exito_swal);
   }
 

@@ -4,9 +4,9 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pedido } from 'src/app/modelos/pedido';
 import { PedidoService } from 'src/app/servicios/pedido.service';
 import { SesionService } from 'src/app/servicios/sesion.service';
-import { environment } from './../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import Swal from 'sweetalert2';
-import * as constantes from '../../constantes';
+import * as constantes from '../../../constantes';
 import { DOCUMENT } from '@angular/common';
 import { ParametroService } from 'src/app/servicios/parametro.service';
 import { Parametro } from 'src/app/modelos/parametro';
@@ -22,7 +22,7 @@ export class LeerPedidoComponent implements OnInit {
   pedidoActualizar: Pedido= null as any;
   pedidos: Pedido[]=[];
   qr: any= null as any;
-  prefijoUrlImagenes = environment.prefijo_url_imagenes;
+  prefijoUrlImagenes = environment.prefijo_url_imgqr;
 
   estadosPedido: Parametro[]=[];
   estadoPedido: string="";

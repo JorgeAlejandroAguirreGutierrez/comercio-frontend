@@ -1,0 +1,163 @@
+@media only screen and (max-width: 600px) {
+    .imgslider {
+      height: 200px;
+    }
+  }
+/* Estilo General*/
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0px;
+}
+
+/* Estilo del Toolbar*/
+.is-mobile .toolbar {
+    position: fixed;
+    /* Se Asegura que la barra de herramientas permanezca encima del contenido a medida que pasa. */
+    z-index: 2;
+}
+
+.toolbar{
+    background-color:deeppink    /*darkslateblue*/
+}
+
+h1.app-name {
+    margin-left: 8px;
+}
+
+/* Estilo del SideNav*/  
+.sidenav-container {
+    /* Cuando el sidenav no está fijo, estire el contenedor de sidenav para llenar el espacio disponible. Esta
+    hace que `<mat-sidenav-content>` actúe como nuestro elemento de desplazamiento para diseños de escritorio. */
+    flex: 1;
+}
+
+.is-mobile .sidenav-container {
+    /* Cuando la navegación lateral está fija, no restrinja la altura del contenedor de navegación lateral. Esto permite
+    `<body>` para ser nuestro elemento de desplazamiento para diseños móviles. */
+    flex: 1 0 auto;
+}
+
+.is-mobile .sidenav {
+    width: 80%;
+}
+
+.sidenav {
+    width: 200px;
+} 
+
+h5{
+    text-transform: uppercase;
+    color: #bababa;
+    font-size: 0.9em;
+    font-weight: 600;
+    margin-top: 1em;
+    margin-left: 1em;
+    margin-bottom: 0;
+    &:after{
+        content: "";
+        display: block;
+        width: 90%;
+        height: 1px;
+        margin-top: 2px;
+        background-color: #e8e8e8;
+    }
+}
+.separate{
+    margin-right: 5px;
+    //margin-left: 10px;
+}
+
+.espacio{
+    flex: 1 1 auto;
+}
+
+.centrar{
+text-align:center;
+}
+
+.text-color{
+    color: #ef8b3c;
+    font-weight: bold;
+    font-size: 15px;
+    margin-right: 7px;
+}
+    
+.tachado{
+    display: inline-block;
+    text-decoration: line-through;
+    font-size: 17px;
+    margin-right: 7px;
+}
+.precio-descuento{
+    display: inline-block;
+    font-size: 17px;
+    padding: 0px 5px;
+    font-weight: 600;
+    color: #ff0006;
+}
+.badge-color-NEGRO {
+    background-color: black;  
+}
+.badge-color-ROJO {
+    background-color: red;  
+}
+.badge-color-BLANCO {
+    background-color: white;  
+}
+.badge-color-AZUL {
+    background-color: darkblue;  
+}
+.badge-color-GRIS {
+    background-color: gray;  
+}
+.badge-color-BEIGE {
+    background-color: beige;  
+}
+.badge-color-VERDE {
+    background-color: green;  
+}
+.badge-color-AMARILLO {
+    background-color: yellow;  
+}
+.badge-color-NARANJA {
+    background-color: orange;  
+}
+.badge-color-CAFE {
+    background-color: brown;  
+}
+.badge-color-DORADO {
+    background-color: gold;  
+}
+.badge-color-PLATEADO {
+    background-color: silver;  
+}
+.badge-color-AGUAMARINA {
+    background-color: aquamarine;  
+}
+.badge-color-ROSADO {
+    background-color: pink;  
+}
+.badge-color-MORADO {
+    background-color: purple;  
+}
+.badge-color-FUCSIA {
+    background-color: fuchsia;  
+}
+.badge-color-VERDEFOSFORECENTE {
+    background-color: forestgreen;  
+}
+.badge-color-CIELO {
+    background-color: aqua;  
+}
+.badge-color-CHOCOLATE {
+    background-color: chocolate;  
+}
+.badge-color-SALMON {
+    background-color: darksalmon;  
+}

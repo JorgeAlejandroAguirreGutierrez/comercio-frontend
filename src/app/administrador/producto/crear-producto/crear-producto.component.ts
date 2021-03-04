@@ -8,7 +8,7 @@ import { ParametroService } from 'src/app/servicios/parametro.service';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { SesionService } from 'src/app/servicios/sesion.service';
 import Swal from 'sweetalert2';
-import * as constantes from '../../constantes';
+import * as constantes from '../../../constantes';
 
 @Component({
   selector: 'app-crear-producto',

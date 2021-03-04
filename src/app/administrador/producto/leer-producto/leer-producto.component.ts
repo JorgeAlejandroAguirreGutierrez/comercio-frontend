@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Producto } from '../../modelos/producto';
-import { ProductoService } from '../../servicios/producto.service';
+import { Producto } from '../../../modelos/producto';
+import { ProductoService } from '../../../servicios/producto.service';
 import Swal from 'sweetalert2';
-import * as constantes from '../../constantes';
+import * as constantes from '../../../constantes';
 import { SesionService } from 'src/app/servicios/sesion.service';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';

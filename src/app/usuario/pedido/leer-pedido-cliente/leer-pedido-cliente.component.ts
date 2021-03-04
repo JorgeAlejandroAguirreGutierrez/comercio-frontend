@@ -3,8 +3,8 @@ import { Cliente } from 'src/app/modelos/cliente';
 import { Pedido } from 'src/app/modelos/pedido';
 import { PedidoService } from 'src/app/servicios/pedido.service';
 import { SesionService } from 'src/app/servicios/sesion.service';
-import { environment } from './../../../environments/environment';
-import * as constantes from '../../constantes';
+import { environment } from '../../../../environments/environment';
+import * as constantes from '../../../constantes';
 import Swal from 'sweetalert2';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Parametro } from 'src/app/modelos/parametro';
@@ -19,7 +19,7 @@ export class LeerPedidoClienteComponent implements OnInit {
 
   pagina=constantes.pagina;
   pedidos: Pedido[]=[];
-  prefijoUrlImagenes = environment.prefijo_url_imagenes;
+  prefijoUrlImgqr = environment.prefijo_url_imgqr;
   mediosPago: Parametro[]=[];
 
   pedidoActualizar: Pedido= null as any;
@@ -86,7 +86,7 @@ export class LeerPedidoClienteComponent implements OnInit {
   }
 
   descargarQr(path: string): void {
-    let url=this.prefijoUrlImagenes+path;
+    let url=this.prefijoUrlImgqr+path;
     this.pedidoService
       .descargarQr(url)
       .subscribe(blob => {

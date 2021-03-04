@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../modelos/usuario';
-import { UsuarioService } from '../servicios/usuario.service';
-import * as constantes from '../constantes';
+import { Usuario } from '../../modelos/usuario';
+import { UsuarioService } from '../../servicios/usuario.service';
+import * as constantes from '../../constantes';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { SesionService } from '../servicios/sesion.service';
-import { Sesion } from '../modelos/sesion';
+import { SesionService } from '../../servicios/sesion.service';
+import { Sesion } from '../../modelos/sesion';
 
 @Component({
   selector: 'app-inicio-sesion',

@@ -1,3 +1,8 @@
+.myfont {
+    font-family: 'Poppins', sans-serif;
+}
+
+
 @media only screen and (max-width: 600px) {
     .imgslider {
       height: 200px;
@@ -70,7 +75,6 @@ h5{
 }
 .separate{
     margin-right: 5px;
-    //margin-left: 10px;
 }
 
 .espacio{
@@ -78,7 +82,7 @@ h5{
 }
 
 .centrar{
-text-align:center;
+    text-align:center;
 }
 
 .text-color{

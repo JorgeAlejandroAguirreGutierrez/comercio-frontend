@@ -104,6 +104,9 @@ export class CrearProductoComponent implements OnInit {
     if (this.producto.precio==0){
       Swal.fire(constantes.error, constantes.error_precio_producto, constantes.error_swal);
     }
+    if (this.producto.descuento==0){
+      Swal.fire(constantes.error, constantes.error_descuento_producto, constantes.error_swal);
+    }
     console.log(this.producto);
     this.productoService.crear(this.producto).subscribe(
       res => {

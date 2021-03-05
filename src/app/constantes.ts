@@ -34,6 +34,7 @@ export const error_consultar_tallas='Error al consultar las tallas';
 export const error_consultar_colores='Error al consultar los colores';
 export const error_disponible_producto='Error al actualizar la disponibilidad del producto';
 export const error_precio_producto='Error en el precio del producto';
+export const error_descuento_producto='Error en el descuento del producto';
 
 export const exito_consultar_por_estado_pedido='Exito al consultar por estado del pedido';
 export const error_consultar_por_estado_pedido='Error al consultar por estado del pedido';

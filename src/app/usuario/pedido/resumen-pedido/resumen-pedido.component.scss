@@ -4,7 +4,7 @@
     }
   }
 /* Estilo General*/
-.container-fluid {
+.contenedor-fluid {
     display: flex;
     flex-direction: column;
     position: absolute;
@@ -13,6 +13,10 @@
     left: 0;
     right: 0;
     padding: 0px;
+}
+
+.myfont {
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Estilo del Toolbar*/
@@ -78,5 +82,8 @@ h5{
 }
 
 .centrar{
-text-align:center;
+    text-align:center;
+}
+.texto-negro{
+    color: black;
 }

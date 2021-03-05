@@ -23,7 +23,7 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   prefijoUrlImg = environment.prefijo_url_img;
   prefijoUrlImgFront = environment.prefijo_url_imgfront;
 
-  sliders: string[]=["slider1.png", "slider2.jpeg", "slider3.jpg"];
+  sliders: string[]=["slider1.jpg", "slider2.jpeg", "slider3.jpg"];
 
   @Input() cantidadAgregados:number;
 

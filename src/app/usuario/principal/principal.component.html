@@ -1,4 +1,4 @@
-<div class="container-fluid" [class.is-mobile]="mobileQuery.matches">
+<div class="container-fluid myfont" [class.is-mobile]="mobileQuery.matches">
     <mat-toolbar color="primary" class="toolbar">
         <button mat-icon-button (click)="snav.toggle()">
             <mat-icon>menu</mat-icon>
@@ -66,7 +66,7 @@
             <br>
             <div class="row">
                 <div class="col-sm centrar">
-                    <h1>{{categoria}}</h1>
+                    <h1 class="myfont font-weight-bold">{{categoria}}</h1>
                     <hr>
                 </div>
             </div>
@@ -106,7 +106,7 @@
                                             <span class="justify-content-around ml-auto tachado">
                                                 {{producto.precio | currency}}
                                             </span>
-                                            <span class="justify-content-end ml-auto badge bg-success text-white"
+                                            <span class="justify-content-end ml-auto precio-descuento"
                                                 style="font-size: medium;">{{producto.precio - producto.descuento |
                                                 currency}}
                                             </span>
@@ -137,7 +137,7 @@
                                         <li class="list-group-item">
                                             <div class="row">
                                                 <div class="col-sm-12" style="text-align: center;">
-                                                    <button class="btn btn-block btn-success"
+                                                    <button class="btn btn-block btn-warning"
                                                         (click)="agregarLineaPedido(producto)">Agregar al carrito <i
                                                             class="fa fa-shopping-cart"></i></button>
                                                 </div>

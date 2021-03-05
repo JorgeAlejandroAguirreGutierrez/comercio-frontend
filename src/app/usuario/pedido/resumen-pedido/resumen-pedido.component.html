@@ -1,157 +1,162 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <a class="navbar-brand" href="#">{{pagina}}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<div class="container-fluid" [class.is-mobile]="mobileQuery.matches">
+    <mat-toolbar color="primary" class="toolbar">
+        <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h1 class="app-name">{{pagina}}</h1>
+        <span class="espacio"></span>
+        <button mat-icon-button class="icon favorite-icon" aria-label="icon-button with heart icon">
+            <mat-icon>search</mat-icon>
+        </button>
+    </mat-toolbar>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/index">Pagina Web</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" (click)="leerPedidoCliente($event)">Tus Pedidos</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-<br><br><br>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm" align="center">
-            <h2>RESUMEN PEDIDO</h2>
-            <hr>
-        </div>
-    </div>
-    <br>
-    <ng-container *ngIf="lineasPedido.length>0">
-        <div class="row">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-10 table-responsive">
-                <table class="table table-sm table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">MARCA</th>
-                            <th scope="col">TALLA</th>
-                            <th scope="col">COLOR</th>
-                            <th scope="col">VALOR</th>
-                            <th scope="col">OPCIONES</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let lineaPedido of pedido.lineasPedido; let i=index">
-                            <td>{{lineaPedido.producto.marca}}</td>
-                            <td>{{lineaPedido.talla.descripcion}}</td>
-                            <td>{{lineaPedido.color.descripcion}}</td>
-                            <td>{{lineaPedido.total | currency}}</td>
-                            <td>
-                                <button type="button" (click)="eliminarLineaPedido(i)" [disabled]="pedido.generar"
-                                    class="btn btn-sm btn-primary separate">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        <mat-sidenav class="sidenav" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+            [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+            <div class="filters">
+                <h5>ATRAS</h5>
             </div>
-            <div class="col-sm-1"></div>
-        </div>
-    </ng-container>
-    <br>
-    <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-            <ng-container *ngIf="pedido.codigo!=null">
-                <div class="alert alert-success" role="alert">
-                    EL CODIGO DEL PEDIDO ES : {{pedido.codigo}}
+            <mat-nav-list>
+                <a mat-list-item href="/index">VOLVER A COMPRAR</a>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="row">
+                <div class="col-sm" align="center">
+                    <h2>RESUMEN PEDIDO</h2>
+                    <hr>
+                </div>
+            </div>
+            <br>
+            <ng-container *ngIf="pedido.lineasPedido.length>0">
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10 table-responsive">
+                        <table class="table table-sm table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">MARCA</th>
+                                    <th scope="col">TALLA</th>
+                                    <th scope="col">COLOR</th>
+                                    <th scope="col">VALOR</th>
+                                    <th scope="col">OPCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let lineaPedido of pedido.lineasPedido; let i=index">
+                                    <td>{{lineaPedido.producto.marca}}</td>
+                                    <td>{{lineaPedido.talla.descripcion}}</td>
+                                    <td>{{lineaPedido.color.descripcion}}</td>
+                                    <td>{{lineaPedido.total | currency}}</td>
+                                    <td>
+                                        <button type="button" (click)="eliminarLineaPedido(i)"
+                                            [disabled]="pedido.generar" class="btn btn-sm btn-primary separate">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-sm-1"></div>
                 </div>
             </ng-container>
-        </div>
-        <div class="col-sm-1"></div>
-    </div>
-    <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10">
-            <ng-container *ngIf="pedido.total!=0">
-                <div class="alert alert-success" role="alert">
-                    EL TOTAL DEL PEDIDO ES DE : {{pedido.total | currency}}
+            <br>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <ng-container *ngIf="pedido.codigo!=null">
+                        <div class="alert alert-success" role="alert">
+                            EL CODIGO DEL PEDIDO ES : {{pedido.codigo}}
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10">
+                    <ng-container *ngIf="pedido.total!=0">
+                        <div class="alert alert-success" role="alert">
+                            EL TOTAL DEL PEDIDO ES DE : {{pedido.total | currency}}
+                        </div>
+                    </ng-container>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <br>
+            <ng-container *ngIf="habilitarConfirmarPedido">
+                <div class="form-row">
+                    <div class="col-sm-1"></div>
+                    <label class="col-sm-3 col-form-label font-weight-bold">Nombre:</label>
+                    <div class="col-sm-7">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-append">
+                                <span class="input-group-text font-weight-bold"><i class="fa fa-user"></i></span>
+                            </div>
+                            <input type="text" [(ngModel)]="pedido.cliente.nombre" [disabled]="pedido.generar"
+                                oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-1"></div>
+                    <label class="col-sm-3 col-form-label font-weight-bold">Celular:</label>
+                    <div class="col-sm-7">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-append">
+                                <span class="input-group-text font-weight-bold">+57</span>
+                            </div>
+                            <input type="text" [(ngModel)]="pedido.cliente.celular" [disabled]="pedido.generar"
+                                oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+                <div class="form-row">
+                    <div class="col-sm-1"></div>
+                    <label class="col-sm-3 col-form-label font-weight-bold">Direccion (Ciudad y Barrio):</label>
+                    <div class="col-sm-7">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-append">
+                                <div class="input-group-text"><i class="fa fa-home"></i></div>
+                            </div>
+                            <input type="text" [(ngModel)]="pedido.cliente.direccion" [disabled]="pedido.generar"
+                                oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="col-sm-1"></div>
                 </div>
             </ng-container>
-        </div>
-        <div class="col-sm-1"></div>
-    </div>
-    <br>
-    <ng-container *ngIf="habilitarConfirmarPedido">
-        <div class="form-row">
-            <div class="col-sm-1"></div>
-            <label class="col-sm-3 col-form-label font-weight-bold">Nombre:</label>
-            <div class="col-sm-7">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-append">
-                        <span class="input-group-text font-weight-bold"><i class="fa fa-user"></i></span>
+            <br>
+            <br>
+            <ng-container *ngIf="habilitarConfirmarPedido">
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <button (click)="generarPedido()" class="btn btn-sm btn-success btn-block"
+                            [disabled]="pedido.generar">Generar Pedido</button>
                     </div>
-                    <input type="text" [(ngModel)]="pedido.cliente.nombre" [disabled]="pedido.generar"
-                        oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                    <div class="col-sm-1"></div>
+                </div>
+            </ng-container>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm">
+                    <footer class="text-muted">
+                        <div class="container">
+                            <p class="float-right">
+                                <a href="#">Back to top</a>
+                            </p>
+                            <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
+                            <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
+                                    href="../../getting-started/">Contactenos</a>.</p>
+                        </div>
+                    </footer>
                 </div>
             </div>
-            <div class="col-sm-1"></div>
-        </div>
-        <div class="form-row">
-            <div class="col-sm-1"></div>
-            <label class="col-sm-3 col-form-label font-weight-bold">Celular:</label>
-            <div class="col-sm-7">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-append">
-                        <span class="input-group-text font-weight-bold">+57</span>
-                    </div>
-                    <input type="text" [(ngModel)]="pedido.cliente.celular" [disabled]="pedido.generar"
-                        oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
-                </div>
-            </div>
-            <div class="col-sm-1"></div>
-        </div>
-        <div class="form-row">
-            <div class="col-sm-1"></div>
-            <label class="col-sm-3 col-form-label font-weight-bold">Direccion (Ciudad y Barrio):</label>
-            <div class="col-sm-7">
-                <div class="input-group input-group-sm">
-                    <div class="input-group-append">
-                        <div class="input-group-text"><i class="fa fa-home"></i></div>
-                    </div>
-                    <input type="text" [(ngModel)]="pedido.cliente.direccion" [disabled]="pedido.generar"
-                        oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
-                </div>
-            </div>
-            <div class="col-sm-1"></div>
-        </div>
-    </ng-container>
-    <br>
-    <br>
-    <ng-container *ngIf="habilitarConfirmarPedido">
-        <div class="row">
-            <div class="col-sm-1"></div>
-            <div class="col-sm-10">
-                <button (click)="generarPedido()" class="btn btn-sm btn-success btn-block"
-                    [disabled]="pedido.generar">Generar Pedido</button>
-            </div>
-            <div class="col-sm-1"></div>
-        </div>
-    </ng-container>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-sm">
-            <footer class="text-muted">
-                <div class="container">
-                    <p class="float-right">
-                        <a href="#">Back to top</a>
-                    </p>
-                    <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
-                    <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
-                            href="../../getting-started/">Contactenos</a>.</p>
-                </div>
-            </footer>
-        </div>
-    </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
 </div>

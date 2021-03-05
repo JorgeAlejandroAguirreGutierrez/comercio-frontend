@@ -27,7 +27,9 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   @Input() cantidadAgregados:number;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private productoService: ProductoService, private parametroService: ParametroService, private sesionService: SesionService,
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, 
+    private productoService: ProductoService, private parametroService: ParametroService, 
+    private sesionService: SesionService,
     private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
       this.cantidadAgregados=0;
       this.mobileQuery = media.matchMedia('(max-width: 600px)');

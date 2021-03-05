@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Pedido } from '../../../modelos/pedido';
 import { PedidoService } from '../../../servicios/pedido.service';
 import Swal from 'sweetalert2';
@@ -9,11 +9,12 @@ import { LineaPedido } from '../../../modelos/linea-pedido';
 import { ClienteService } from 'src/app/servicios/cliente.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Router } from '@angular/router';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-resumen-pedido',
   templateUrl: './resumen-pedido.component.html',
-  styleUrls: ['./resumen-pedido.component.css']
+  styleUrls: ['./resumen-pedido.component.scss']
 })
 export class ResumenPedidoComponent implements OnInit {
 
@@ -24,12 +25,24 @@ export class ResumenPedidoComponent implements OnInit {
   habilitarConfirmarPedido: boolean = false;
 
 
-  constructor(private pedidoService: PedidoService, private sesionService: SesionService,
-    private clienteService: ClienteService, private router: Router, private modalService: NgbModal) { }
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private pedidoService: PedidoService, private sesionService: SesionService,
+    private clienteService: ClienteService, private router: Router, private modalService: NgbModal) {
+      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+      this.mobileQuery.addEventListener("change", this._mobileQueryListener);
+     }
 
   ngOnInit(): void {
     this.construirPedido();
   }
+
+  mobileQuery: MediaQueryList;
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeEventListener("change", this._mobileQueryListener);
+  }
+
+  private _mobileQueryListener: () => void;
 
 
   construirPedido() {

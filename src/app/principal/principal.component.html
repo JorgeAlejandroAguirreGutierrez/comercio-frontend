@@ -5,7 +5,10 @@
         </button>
         <h1 class="app-name">{{pagina}}</h1>
         <span class="espacio"></span>
-        <button mat-icon-button class="icon favorite-icon" aria-label="icon-button with heart icon">
+        <mat-form-field class="form-material">
+            <input matInput [(ngModel)]="marca">
+        </mat-form-field>
+        <button mat-icon-button (click)="consultarPorMarcaCategoria()" class="icon favorite-icon" aria-label="icon-button with heart icon">
             <mat-icon>search</mat-icon>
         </button>
         <button mat-icon-button class="example-icon" routerLink="/resumen-pedido"
@@ -66,6 +69,7 @@
             <br>
             <div class="row">
                 <div class="col-sm centrar">
+                    <hr>
                     <h1 class="myfont font-weight-bold">{{categoria}}</h1>
                     <hr>
                 </div>
@@ -90,11 +94,23 @@
                                             alt="Card image cap">
                                     </ng-container>
                                     <ng-container *ngIf="producto.imagenes.length>0">
-                                        <img class="card-img-top" height="400px" (click)="leerImagen(producto)"
+                                        <img class="card-img-top img-sombra" height="400px"
                                             src="{{prefijoUrlImg+producto.imagenes[0].ruta}}" alt="Card image cap">
                                     </ng-container>
                                     <div class="card-body">
-                                        <h2 class="card-title">{{producto.marca}}</h2>
+                                        <div class="card-title d-flex">
+                                            <span class="justify-content-start font-weight-bold">
+                                                <h2>{{producto.marca}}</h2>
+                                            </span>
+                                            <span class="justify-content-end ml-auto" style="font-size: medium;">
+                                                <ng-container *ngIf="producto.imagenes.length>1">
+                                                    <button (click)="leerImagen(producto)"
+                                                        class="btn btn-sm btn-warning">VER IMAGENES
+                                                        <i class="fa fa-picture-o"></i>
+                                                    </button>
+                                                </ng-container>
+                                            </span>
+                                        </div>
                                         <p class="card-text">{{producto.descripcion}}</p>
                                         <p class="card-text"><small class="text-muted">*incluye envío</small></p>
                                     </div>
@@ -151,7 +167,6 @@
                 </div>
                 <hr>
             </ng-container>
-            <br>
             <br>
             <div class="row">
                 <div class="col-sm">

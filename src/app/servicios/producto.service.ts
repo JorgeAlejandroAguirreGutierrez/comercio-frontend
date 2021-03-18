@@ -93,6 +93,17 @@ export class ProductoService {
     );
   }
 
+  consultarPorMarcaCategoria(marca: string, categoria: string): Observable<Producto[]> {
+    let params = new HttpParams().set("marca", marca)
+                                 .set("categoria", categoria)
+    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorMarcaCategoria, {params: params, headers: util.options.headers}).pipe(
+      map(response => response as Producto[]),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
+  }
+
   consultarPorMarcaCategoriaSubcategoria(marca: string, categoria: string, subcategoria: string): Observable<Producto[]> {
     let params = new HttpParams().set("marca", marca)
                                  .set("categoria", categoria)

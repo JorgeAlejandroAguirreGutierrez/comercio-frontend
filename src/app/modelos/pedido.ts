@@ -15,6 +15,8 @@ export class Pedido {
     pagado: boolean;
     cliente: Cliente;
     lineasPedido: LineaPedido[];
+
+    show: string;
     
     constructor(){
         this.id=0;
@@ -30,5 +32,7 @@ export class Pedido {
         this.pagado=false;
         this.lineasPedido=[];
         this.cliente=new Cliente();
+
+        this.show="";
     }
 }

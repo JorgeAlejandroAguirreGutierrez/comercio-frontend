@@ -4,12 +4,13 @@ import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Pedido } from 'src/app/modelos/pedido';
 import { PedidoService } from 'src/app/servicios/pedido.service';
 import { SesionService } from 'src/app/servicios/sesion.service';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../environments/environment';
 import Swal from 'sweetalert2';
-import * as constantes from '../../../constantes';
+import * as constantes from '../../constantes';
 import { DOCUMENT } from '@angular/common';
 import { ParametroService } from 'src/app/servicios/parametro.service';
 import { Parametro } from 'src/app/modelos/parametro';
+import { Sesion } from 'src/app/modelos/sesion';
 
 @Component({
   selector: 'app-leer-pedido',
@@ -27,6 +28,8 @@ export class LeerPedidoComponent implements OnInit {
   estadosPedido: Parametro[]=[];
   estadoPedido: string="";
   celular: string="";
+
+  sesion: Sesion=null as any;
   
 
   cerrarModal: string="";
@@ -38,8 +41,28 @@ export class LeerPedidoComponent implements OnInit {
     @Inject(DOCUMENT) private _document: Document) { }
 
   ngOnInit(): void {
+    this.validarSesion();
     this.consultarPedidos();
     this.consultarEstadosPedido();
+  }
+
+  validarSesion(){
+    this.sesion=this.sesionService.getSesion();
+    this.sesionService.validar(this.sesion.id).subscribe(
+      res => {
+        this.sesion=res;
+      },
+      err => {
+        if(err.error.message==constantes.error_codigo_sesion_invalida){
+          this.sesionService.cerrarSesion();
+          this.navegarIndex();
+        }
+        if(err.error.message==constantes.error_codigo_modelo_no_existente){
+          this.sesionService.cerrarSesion();
+          this.navegarIndex();
+        }
+      }
+    );
   }
 
   consultarPedidos(){

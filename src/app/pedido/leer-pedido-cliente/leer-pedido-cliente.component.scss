@@ -1,6 +1,16 @@
+.myfont {
+    font-family: 'Poppins', sans-serif;
+}
+
 @media only screen and (max-width: 600px) {
     .imgslider {
       height: 200px;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+    .centrar{
+        text-align:center;
     }
   }
 /* Estilo General*/
@@ -13,10 +23,6 @@
     left: 0;
     right: 0;
     padding: 0px;
-}
-
-.myfont {
-    font-family: 'Poppins', sans-serif;
 }
 
 /* Estilo del Toolbar*/
@@ -81,9 +87,6 @@ h5{
     flex: 1 1 auto;
 }
 
-.centrar{
-    text-align:center;
-}
 .texto-negro{
     color: black;
 }

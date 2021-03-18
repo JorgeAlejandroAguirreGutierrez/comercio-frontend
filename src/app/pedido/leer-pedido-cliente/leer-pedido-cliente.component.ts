@@ -1,19 +1,20 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Cliente } from 'src/app/modelos/cliente';
 import { Pedido } from 'src/app/modelos/pedido';
 import { PedidoService } from 'src/app/servicios/pedido.service';
 import { SesionService } from 'src/app/servicios/sesion.service';
-import { environment } from '../../../../environments/environment';
-import * as constantes from '../../../constantes';
+import { environment } from '../../../environments/environment';
+import * as constantes from '../../constantes';
 import Swal from 'sweetalert2';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Parametro } from 'src/app/modelos/parametro';
 import { ParametroService } from 'src/app/servicios/parametro.service';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-leer-pedido-cliente',
   templateUrl: './leer-pedido-cliente.component.html',
-  styleUrls: ['./leer-pedido-cliente.component.css']
+  styleUrls: ['./leer-pedido-cliente.component.scss']
 })
 export class LeerPedidoClienteComponent implements OnInit {
 
@@ -31,14 +32,27 @@ export class LeerPedidoClienteComponent implements OnInit {
   @ViewChild('modalVerQr', { static: false }) private modalVerQr: any;
   @ViewChild('modalLeerMediosPago', { static: false }) private modalLeerMediosPago: any;
 
-  constructor(private pedidoService: PedidoService, private parametroService: ParametroService,
-    private modalService: NgbModal, private sesionService: SesionService) { }
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher,
+    private pedidoService: PedidoService, private parametroService: ParametroService,
+    private modalService: NgbModal, private sesionService: SesionService) {
+      this.mobileQuery = media.matchMedia('(max-width: 600px)');
+      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+      this.mobileQuery.addEventListener("change", this._mobileQueryListener);
+     }
 
   ngOnInit(): void {
     this.consultarPedidos();
     this.consultarEstadosPedido();
     this.consultarMediosPago();
   }
+
+  mobileQuery: MediaQueryList;
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeEventListener("change", this._mobileQueryListener);
+  }
+
+  private _mobileQueryListener: () => void;
 
   consultarPedidos(){
     let cliente: Cliente=this.sesionService.getCliente();

@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { Color } from 'src/app/modelos/color';
 import { Parametro } from 'src/app/modelos/parametro';
 import { Producto } from 'src/app/modelos/producto';
+import { Sesion } from 'src/app/modelos/sesion';
 import { Talla } from 'src/app/modelos/talla';
 import { ParametroService } from 'src/app/servicios/parametro.service';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { SesionService } from 'src/app/servicios/sesion.service';
 import Swal from 'sweetalert2';
-import * as constantes from '../../../constantes';
+import * as constantes from '../../constantes';
 
 @Component({
   selector: 'app-crear-producto',
@@ -22,12 +23,14 @@ export class CrearProductoComponent implements OnInit {
   tallaForm: string="";
   colorForm: string="";
   color: string="";
-  imagen: any= null as any;
+  imagenes: any[]= [];
 
   categorias: Parametro[]=[];
   subcategorias: Parametro[]=[];
   tallas: Parametro[]=[];
   colores: Parametro[]=[];
+
+  sesion: Sesion=null as any;
   
 
   constructor(private productoService : ProductoService, private parametroService: ParametroService,
@@ -94,10 +97,22 @@ export class CrearProductoComponent implements OnInit {
   }
 
   validarSesion(){
-    let usuarioActivo=this.sesionService.adminLogueado();
-    if(!usuarioActivo){
-      this.navegarIndex();
-    }
+    this.sesion=this.sesionService.getSesion();
+    this.sesionService.validar(this.sesion.id).subscribe(
+      res => {
+        this.sesion=res;
+      },
+      err => {
+        if(err.error.message==constantes.error_codigo_sesion_invalida){
+          this.sesionService.cerrarSesion();
+          this.navegarIndex();
+        }
+        if(err.error.message==constantes.error_codigo_modelo_no_existente){
+          this.sesionService.cerrarSesion();
+          this.navegarIndex();
+        }
+      }
+    );
   }
 
   crear(){
@@ -111,7 +126,7 @@ export class CrearProductoComponent implements OnInit {
     this.productoService.crear(this.producto).subscribe(
       res => {
           Swal.fire(constantes.exito, constantes.exito_crear_producto, constantes.exito_swal);
-          if(this.imagen!=null){
+          if(this.imagenes.length>0){
             this.crearImagen(res.id);
           }
           this.navegarLeerProducto();
@@ -156,17 +171,23 @@ export class CrearProductoComponent implements OnInit {
 
   cargarImagen(event: any){
     let imagenes: FileList=event.target.files;
-    this.imagen=imagenes.item(0);
+    this.imagenes.push(imagenes.item(0));
   }
 
   crearImagen(id: number){
-    this.productoService.crearImagen(this.imagen, id).subscribe(
-      res => {
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_crear_imagen, constantes.error_swal)
-      }
-    );
+    for(let i=0; i<this.imagenes.length; i++){
+      this.productoService.crearImagen(this.imagenes[i], id).subscribe(
+        res => {
+        },
+        err => {
+          Swal.fire(constantes.error, constantes.error_crear_imagen, constantes.error_swal)
+        }
+      );
+    }
+  }
+
+  eliminarImagen(i: number){
+    this.imagenes.splice(i, 1);
   }
 
   navegarIndex() {

@@ -57,3 +57,9 @@ export const parametroMedioPago="MEDIO_PAGO";
 export const estado_pedido='ESTADO_PEDIDO';
 
 export const pagina="CIUDAD VICTORIA";
+
+//CODIGOS DE ERROR
+export const error_codigo_modelo_existente="4001";
+export const error_codigo_modelo_no_existente="4002";
+export const error_codigo_suscripcion_invalida="4003";
+export const error_codigo_sesion_invalida="4004";

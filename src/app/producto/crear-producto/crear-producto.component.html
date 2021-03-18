@@ -86,6 +86,15 @@
                 </div>
             </div>
             <div class="form-row">
+                <label class="col-sm-3 col-form-label font-weight-bold">Compra:</label>
+                <div class="col-sm-9 form-group">
+                    <div class="input-group">
+                        <input type="text" [(ngModel)]="producto.compra" class="form-control form-control-sm">
+                        <div class="input-group-text"><i class="fa fa-usd"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
                 <label class="col-sm-3 col-form-label font-weight-bold">Precio:</label>
                 <div class="col-sm-9 form-group">
                     <div class="input-group">
@@ -188,16 +197,41 @@
             </div>
             <div class="form-row">
                 <label class="col-sm-3 col-form-label font-weight-bold">Imagenes:</label>
-                <div class="col-sm-5 form-group">
-                    <input hidden type="file" #botonImagen id="qr" name="qr" (change)="cargarImagen($event)">
+                <div class="col-sm-5">
+                    <input hidden type="file" #botonImagen id="imagen" name="imagen" (change)="cargarImagen($event)">
                     <button (click)="botonImagen.click()" class="btn btn-sm btn-block btn-primary">Cargar</button>
                 </div>
                 <div class="col-sm-4">
-                    <ng-container *ngIf="imagen!=null">
-                        <p>{{imagen.name}}</p>
+                    <ng-container *ngIf="imagenes.length>0">
+                        <p>{{imagenes[imagenes.length-1].name}}</p>
                     </ng-container>
                 </div>
             </div>
+            
+            <div class="form-group row">
+                <div class="col-sm">
+                    <table class="table table-hover table-bordered" style="font-size: 0.7rem">
+                        <thead class="table-active">
+                            <tr>
+                                <th>No.</th>
+                                <th>IMAGEN</th>
+                                <th>OPC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let imagen of imagenes; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{imagen.name}}</td>
+                                <td>
+                                    <button (click)="eliminarImagen(i)" class="btn btn-primary form-control-sm"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div class="form-row">
                 <div class="col-sm form-group">
                     <button class="btn btn-sm btn-block btn-success" (click)="crear()">Crear Producto</button>
@@ -214,9 +248,9 @@
                     <p class="float-right">
                         <a href="#">Back to top</a>
                     </p>
-                    <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-                    <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a
-                            href="../../getting-started/">getting started guide</a>.</p>
+                    <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
+                    <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
+                            href="../../getting-started/">Contactenos</a>.</p>
                 </div>
             </footer>
         </div>

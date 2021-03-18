@@ -2,7 +2,6 @@
     font-family: 'Poppins', sans-serif;
 }
 
-
 @media only screen and (max-width: 600px) {
     .imgslider {
       height: 200px;
@@ -105,6 +104,19 @@ h5{
     font-weight: 600;
     color: #ff0006;
 }
+
+.img-sombra {
+    border:2px solid #fff;
+    box-shadow: 10px 10px 5px #ccc;
+    -moz-box-shadow: 10px 10px 5px #ccc;
+    -webkit-box-shadow: 10px 10px 5px #ccc;
+    -khtml-box-shadow: 10px 10px 5px #ccc;
+}
+
+.form-material{
+    width: 25%;
+}
+
 .badge-color-NEGRO {
     background-color: black;  
 }

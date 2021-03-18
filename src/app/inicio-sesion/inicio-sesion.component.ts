@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Usuario } from '../../modelos/usuario';
-import { UsuarioService } from '../../servicios/usuario.service';
-import * as constantes from '../../constantes';
+import { UsuarioService } from '../servicios/usuario.service';
+import * as constantes from '../constantes';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
-import { SesionService } from '../../servicios/sesion.service';
-import { Sesion } from '../../modelos/sesion';
+import { SesionService } from '../servicios/sesion.service';
+import { Sesion } from '../modelos/sesion';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -19,7 +18,7 @@ export class InicioSesionComponent implements OnInit {
   identificacion: string="";
   contrasena: string="";
 
-  constructor(private usuarioService: UsuarioService, private sesionService: SesionService, private router: Router) { }
+  constructor(private sesionService: SesionService, private router: Router) { }
 
   ngOnInit(): void {
   }

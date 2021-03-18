@@ -9,6 +9,7 @@ export class Producto {
     marca: string;
     subcategoria: string;
     categoria: string;
+    compra: number;
     precio: number;
     descuento: number;
     garantia: string;
@@ -24,6 +25,7 @@ export class Producto {
         this.marca="";
         this.subcategoria="";
         this.categoria="";
+        this.compra=0;
         this.precio=0;
         this.descuento=0;
         this.garantia="";

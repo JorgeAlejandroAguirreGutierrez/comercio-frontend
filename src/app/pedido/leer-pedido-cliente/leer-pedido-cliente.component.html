@@ -1,0 +1,256 @@
+<div class="contenedor-fluid myfont" [class.is-mobile]="mobileQuery.matches">
+    <mat-toolbar color="primary" class="toolbar">
+        <button mat-icon-button (click)="snav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <h1 class="app-name">{{pagina}}</h1>
+    </mat-toolbar>
+
+    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
+        <mat-sidenav class="sidenav" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
+            [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+            <div class="filters">
+                <h5>ATRAS</h5>
+            </div>
+            <mat-nav-list>
+                <a mat-list-item href="/index">VOLVER A COMPRAR</a>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm" align="center">
+                        <hr>
+                        <h2>TUS PEDIDOS</h2>
+                        <hr>
+                    </div>
+                </div>
+                <br>
+                <div class="form-row">
+                    <div class="col-sm-1"></div>
+                    <label class="col-sm-2 col-form-label font-weight-bold">Estado del Pedido:</label>
+                    <div class="form-group col-sm-6">
+                        <select class="form-control form-control-sm" [(ngModel)]="estadoPedido">
+                            <option *ngFor="let estadoPedido of estadosPedido; let i=index" [value]=estadoPedido.valor>
+                                {{estadoPedido.valor}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-sm-2">
+                        <button class="btn btn-sm btn-block btn-primary"
+                            (click)="consultarPorEstadoPedido()">Buscar</button>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+                <br>
+                <ng-container *ngIf="pedidos.length==0">
+                    <div class="row">
+                        <div class="col-sm">
+                            <div align="center" class="alert alert-warning font-weight-bold" role="alert">
+                                NO EXISTEN PEDIDOS
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="pedidos.length!=0">
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm">
+                            <div id="accordion">
+                                <ng-container *ngFor="let pedido of pedidos; let i=index">
+                                    <div class="card">
+                                        <div class="card-header" id="heading{{i+1}}">
+                                            <h4 class="mb-0">
+                                                <button class="btn btn-link" data-toggle="collapse"
+                                                    attr.data-target="#collapse{{i+1}}" aria-expanded="true"
+                                                    attr.aria-controls="collapse{{i+1}}">
+                                                    FECHA DE PEDIDO {{pedido.fecha | DateShortPipe}}
+                                                </button>
+                                            </h4>
+                                        </div>
+
+                                        <div id="collapse{{i+1}}" class="collapse {{pedido.show}}"
+                                            attr.aria-labelledby="heading{{i+1}}" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <div class="alert alert-primary form-row" role="alert">
+                                                            <label
+                                                                class="col-sm-4 col-form-label font-weight-bold">Codigo
+                                                                del
+                                                                Pedido</label>
+                                                            <div class="col-sm-8 form-group">
+                                                                <input type="text" value="{{pedido.codigo}}" readonly
+                                                                    class="form-control form-control-sm">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <div class="alert alert-primary form-row" role="alert">
+                                                            <label class="centrar col-sm-auto col-form-label font-weight-bold">Confirmado</label>
+                                                            <div class="col-sm-1 form-group">
+                                                                <input type="checkbox" [(ngModel)]="pedido.confirmar"
+                                                                    onclick="return false;"
+                                                                    class="form-control form-control-sm">
+                                                            </div>
+                                                            <div class="col-sm-4 form-group">
+                                                                <button class="btn btn-sm btn-block btn-warning" (click)="verQr(i)">VER PAGO QR</button>
+                                                            </div>
+                                                            <label class="centrar col-sm-auto col-form-label font-weight-bold">Entrega</label>
+                                                            <div class="col-sm-3 form-group">
+                                                                <input type="text" value="{{pedido.fechaEntrega}}"
+                                                                    readonly class="form-control form-control-sm">
+                                                            </div>
+                                                            <label class="centrar col-sm-auto col-form-label font-weight-bold">Enviado</label>
+                                                            <div class="col-sm-1 form-group">
+                                                                <input type="checkbox" [(ngModel)]="pedido.enviado"
+                                                                    onclick="return false;"
+                                                                    class="form-control form-control-sm">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-4"></div>
+                                                    <div class="col-sm-4 form-group">
+                                                        <button class="btn btn-sm btn-block btn-warning"
+                                                            (click)="leerMediosPago()">VER OTROS MEDIOS DE
+                                                            PAGO</button>
+                                                    </div>
+                                                    <div class="col-sm-4"></div>
+                                                </div>
+                                                <br>
+                                                <div class="row">
+                                                    <div class="col-sm table-responsive">
+                                                        <table class="table table-hover table-bordered"
+                                                            style="font-size: 0.7rem">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">MARCA</th>
+                                                                    <th scope="col">TALLA</th>
+                                                                    <th scope="col">COLOR</th>
+                                                                    <th scope="col">VALOR</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr *ngFor="let lineaPedido of pedido.lineasPedido">
+                                                                    <td>{{lineaPedido.producto.marca}}</td>
+                                                                    <td>{{lineaPedido.talla.descripcion}}</td>
+                                                                    <td>{{lineaPedido.color.descripcion}}</td>
+                                                                    <td>{{lineaPedido.total | currency}}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                                <ng-container *ngIf="pedido.total!=0">
+                                                    <div class="row">
+                                                        <div class="col-sm">
+                                                            <div class="alert alert-primary font-weight-bold" role="alert">
+                                                                EL TOTAL DEL PEDIDO ES DE : {{pedido.total | currency}}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                </ng-container>
+                <br>
+                <br>
+                <div class="row">
+                    <div class="col-sm">
+                        <footer class="text-muted">
+                            <div class="container">
+                                <p class="float-right">
+                                    <a href="#">Back to top</a>
+                                </p>
+                                <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
+                                <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
+                                        href="../../getting-started/">Contactenos</a>.</p>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+            </div>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
+
+<ng-template #modalVerQr let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">VER QR</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <ng-container *ngIf="pedidoActualizar.qr!=''">
+            <div class="row">
+                <div class="col-sm">
+                    <img class="card-img-top" height="400px" src="{{prefijoUrlImgqr+pedidoActualizar.qr}}"
+                        alt="Imagen QR">
+                    <div class="card-body">
+                        <h2 class="card-title" align="center">QR DE PAGO BANCOLOMBIA</h2>
+                        <p class="card-text"><button class="btn btn-sm btn-block btn-success"
+                                (click)="descargarQr(pedidoActualizar.qr)">Descargar</button></p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="pedidoActualizar.qr==''">
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+                    <div class="alert alert-warnning" role="alert">
+                        NO EXISTE QR DE PAGO BANCOLOMBIA
+                    </div>
+                </div>
+                <div class="col-sm-4"></div>
+            </div>
+        </ng-container>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #modalLeerMediosPago let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">LEER MEDIOS DE PAGO</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm">
+                <table class="table table-hover table-bordered" style="font-size: 0.7rem">
+                    <thead class="table-active">
+                        <tr>
+                            <th>No.</th>
+                            <th>ENTIDAD</th>
+                            <th>DESCRIPCION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let medioPago of mediosPago; let i=index">
+                            <td>{{i+1}}</td>
+                            <td>{{medioPago.titulo}}</td>
+                            <td>{{medioPago.valor}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>

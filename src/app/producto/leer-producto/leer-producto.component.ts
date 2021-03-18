@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Producto } from '../../../modelos/producto';
-import { ProductoService } from '../../../servicios/producto.service';
+import { Producto } from '../../modelos/producto';
+import { ProductoService } from '../../servicios/producto.service';
 import Swal from 'sweetalert2';
-import * as constantes from '../../../constantes';
+import * as constantes from '../../constantes';
 import { SesionService } from 'src/app/servicios/sesion.service';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -10,6 +10,7 @@ import { Color } from 'src/app/modelos/color';
 import { Talla } from 'src/app/modelos/talla';
 import { ParametroService } from 'src/app/servicios/parametro.service';
 import { Parametro } from 'src/app/modelos/parametro';
+import { Sesion } from 'src/app/modelos/sesion';
 
 @Component({
   selector: 'app-leer-producto',
@@ -32,6 +33,7 @@ export class LeerProductoComponent implements OnInit {
   categoria: string = "";
   subcategoria: string = "";
 
+  sesion: Sesion=null as any;
 
   cerrarModal: string = "";
 
@@ -123,11 +125,23 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  validarSesion() {
-    let usuarioActivo = this.sesionService.adminLogueado();
-    if (!usuarioActivo) {
-      this.navegarIndex();
-    }
+  validarSesion(){
+    this.sesion=this.sesionService.getSesion();
+    this.sesionService.validar(this.sesion.id).subscribe(
+      res => {
+        this.sesion=res;
+      },
+      err => {
+        if(err.error.message==constantes.error_codigo_sesion_invalida){
+          this.sesionService.cerrarSesion();
+          this.navegarIndex();
+        }
+        if(err.error.message==constantes.error_codigo_modelo_no_existente){
+          this.sesionService.cerrarSesion();
+          this.navegarIndex();
+        }
+      }
+    );
   }
 
   disponible(i: number) {
@@ -227,6 +241,10 @@ export class LeerProductoComponent implements OnInit {
   descuento(i: number) {
     this.productoActualizar = { ... this.productos[i] };
     this.open(this.modalProductoDescuento);
+  }
+
+  compareFn(a:any, b:any) {
+    return a && b && a.id == b.id;
   }
 
   open(content: any) {

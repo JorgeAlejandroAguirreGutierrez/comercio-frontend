@@ -25,6 +25,14 @@ export class SesionService {
     );
   }
 
+  validar(id: number): Observable<Sesion> {
+    return this.http.get<Sesion>(environment.host + util.ruta + util.sesion+util.validar + '/' + id, util.options).pipe(
+      map(response => response as Sesion),
+      catchError(err => {
+        return throwError(err);
+      }));
+  }
+
   setSesion(sesion: Sesion) {
     sessionStorage.setItem("sesion", JSON.stringify(sesion));
   }

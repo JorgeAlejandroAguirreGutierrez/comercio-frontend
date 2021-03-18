@@ -4,10 +4,6 @@
             <mat-icon>menu</mat-icon>
         </button>
         <h1 class="app-name">{{pagina}}</h1>
-        <span class="espacio"></span>
-        <button mat-icon-button class="icon favorite-icon" aria-label="icon-button with heart icon">
-            <mat-icon>search</mat-icon>
-        </button>
     </mat-toolbar>
 
     <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
@@ -19,11 +15,18 @@
             <mat-nav-list>
                 <a mat-list-item href="/index">VOLVER A COMPRAR</a>
             </mat-nav-list>
+            <div class="filters">
+                <h5>VER</h5>
+            </div>
+            <mat-nav-list>
+                <a mat-list-item href="#" (click)="leerPedidoCliente($event)">TUS PEDIDOS</a>
+            </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
             <div class="container-fluid">
                 <div class="form-row">
                     <div class="col-sm" align="center">
+                        <hr>
                         <h2>RESUMEN PEDIDO</h2>
                         <hr>
                     </div>
@@ -142,6 +145,21 @@
                 </ng-container>
                 <div class="form-row">
                     <div class="col-sm form-group">
+                        <footer class="text-muted">
+                            <div class="container">
+                                <p class="float-right">
+                                    <a href="#">Back to top</a>
+                                </p>
+                                <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
+                                <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
+                                        href="../../getting-started/">Contactenos</a>.</p>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm">
                         <footer class="text-muted">
                             <div class="container">
                                 <p class="float-right">

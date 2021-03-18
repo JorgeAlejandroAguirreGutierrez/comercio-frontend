@@ -1,17 +1,18 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
 import {MediaMatcher} from '@angular/cdk/layout';
-import { Producto } from '../../modelos/producto';
-import { ProductoService } from '../../servicios/producto.service';
+import { Producto } from '../modelos/producto';
+import { ProductoService } from '../servicios/producto.service';
 import Swal from 'sweetalert2';
-import * as constantes from '../../constantes';
-import { environment } from '../../../environments/environment';
+import * as constantes from '../constantes';
+import { environment } from '../../environments/environment';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LineaPedido } from '../../modelos/linea-pedido';
-import { SesionService } from '../../servicios/sesion.service';
+import { LineaPedido } from '../modelos/linea-pedido';
+import { SesionService } from '../servicios/sesion.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Imagen } from '../../modelos/imagen';
-import { ParametroService } from '../../servicios/parametro.service';
-import { Parametro } from '../../modelos/parametro';
+import { Imagen } from '../modelos/imagen';
+import { ParametroService } from '../servicios/parametro.service';
+import { Parametro } from '../modelos/parametro';
+import { PedidoService } from 'src/app/servicios/pedido.service';
 
 @Component({
   selector: 'app-principal',
@@ -29,7 +30,7 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, 
     private productoService: ProductoService, private parametroService: ParametroService, 
-    private sesionService: SesionService,
+    private sesionService: SesionService, private pedidoService: PedidoService,
     private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
       this.cantidadAgregados=0;
       this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -76,10 +77,24 @@ export class PrincipalComponent implements OnInit, OnDestroy {
       this.categoria=this.categoria_zapatos;
     }
     this.consultarCategorias();
-    console.log(this.categorias);
     this.consultarSubcategorias();
     this.consultarPorCategoria();
+    this.construirPedido();
     
+  }
+
+  construirPedido(){
+    let codigo = this.sesionService.getCodigo();
+    if (codigo != null) {
+      this.pedidoService.obtenerPorCodigo(codigo).subscribe(
+        res => {
+          this.cantidadAgregados=res.lineasPedido.length;
+        },
+        err => {
+          Swal.fire(constantes.error, constantes.error_obtener_pedido, constantes.error_swal)
+        }
+      );
+    }
   }
 
   ngOnDestroy(): void {
@@ -128,6 +143,30 @@ export class PrincipalComponent implements OnInit, OnDestroy {
       },
       err => {
         Swal.fire(constantes.error, constantes.error_consultar_subcategorias, constantes.error_swal)
+      }
+    );
+  }
+
+  consultarPorMarcaCategoria(){
+    this.productoService.consultarPorMarcaCategoria(this.marca, this.categoria).subscribe(
+      res => {
+        this.productos = res;
+        this.productosEnc = [];
+        console.log(this.productos);
+        let productosRec: Producto[] = [];
+        for (let i = 0; i < this.productos.length; i++) {
+          productosRec.push(this.productos[i]);
+          if (productosRec.length == 3) {
+            this.productosEnc.push(productosRec);
+            productosRec = [];
+          }
+        }
+        if (productosRec.length > 0) {
+          this.productosEnc.push(productosRec);
+        }
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
       }
     );
   }
@@ -181,7 +220,6 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   leerImagen(producto: Producto){
     if(producto.imagenes.length>1){
       this.imagenesModal=producto.imagenes;
-      console.log(this.imagenesModal);
       this.open(this.modalLeerImagen);
     }
   }

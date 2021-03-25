@@ -29,6 +29,7 @@
     <div class="form-row">
         <div class="col-sm-3"></div>
         <div class="col-sm">
+            <hr>
             <h2 class="font-weight-bold" align="center">CREAR PRODUCTO</h2>
             <hr>
             <div class="form-row">
@@ -197,7 +198,7 @@
             </div>
             <div class="form-row">
                 <label class="col-sm-3 col-form-label font-weight-bold">Imagenes:</label>
-                <div class="col-sm-5">
+                <div class="col-sm-5 form-group">
                     <input hidden type="file" #botonImagen id="imagen" name="imagen" (change)="cargarImagen($event)">
                     <button (click)="botonImagen.click()" class="btn btn-sm btn-block btn-primary">Cargar</button>
                 </div>

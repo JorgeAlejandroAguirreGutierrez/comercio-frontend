@@ -29,6 +29,7 @@ export class LeerProductoComponent implements OnInit {
   tallas: Parametro[] = [];
   colores: Parametro[] = [];
 
+  //BUSCAR
   marca: string = "";
   categoria: string = "";
   subcategoria: string = "";
@@ -77,8 +78,8 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  consultarSubcategorias() {
-    this.parametroService.consultarPorTituloTipo(this.categoria, constantes.parametroSubcategoria).subscribe(
+  consultarSubcategorias(categoria: string) {
+    this.parametroService.consultarPorTituloTipo(categoria, constantes.parametroSubcategoria).subscribe(
       res => {
         this.subcategorias = res
       },
@@ -89,7 +90,7 @@ export class LeerProductoComponent implements OnInit {
   }
 
   seleccionarCategoria() {
-    this.consultarSubcategorias();
+    this.consultarSubcategorias(this.categoria);
   }
 
   consultarTallas() {
@@ -164,6 +165,7 @@ export class LeerProductoComponent implements OnInit {
 
   editar(i: number) {
     this.productoActualizar = { ... this.productos[i] };
+    this.consultarSubcategorias(this.productoActualizar.categoria);
     this.open(this.modalProductoActualizar);
   }
 

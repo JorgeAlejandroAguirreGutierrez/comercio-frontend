@@ -18,7 +18,7 @@ import { MediaMatcher } from '@angular/cdk/layout';
 })
 export class ResumenPedidoComponent implements OnInit {
 
-  pagina=constantes.pagina;
+  pagina = constantes.pagina;
   pedido: Pedido = new Pedido();
   codigo: string = null as any;
   lineasPedido: LineaPedido[] = [];
@@ -27,10 +27,10 @@ export class ResumenPedidoComponent implements OnInit {
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, private pedidoService: PedidoService, private sesionService: SesionService,
     private clienteService: ClienteService, private router: Router, private modalService: NgbModal) {
-      this.mobileQuery = media.matchMedia('(max-width: 600px)');
-      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-      this.mobileQuery.addEventListener("change", this._mobileQueryListener);
-     }
+    this.mobileQuery = media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+    this.mobileQuery.addEventListener("change", this._mobileQueryListener);
+  }
 
   ngOnInit(): void {
     this.construirPedido();
@@ -55,41 +55,38 @@ export class ResumenPedidoComponent implements OnInit {
     if (this.codigo != null) {
       this.pedidoService.obtenerPorCodigo(this.codigo).subscribe(
         res => {
-          if (res != null) {
-            this.pedido = res;
+          this.pedido = res;
+          this.pedido.cliente = new Cliente();
+          console.log(this.pedido);
+          if (this.pedido.lineasPedido.length > 0) {
+            this.habilitarConfirmarPedido = true;
+          }
+          if (this.lineasPedido.length != 0) {
             for (let i = 0; i < this.lineasPedido.length; i++) {
               this.pedido.lineasPedido.push(this.lineasPedido[i]);
             }
-            console.log("actualizar pedido");
+            let total: number = 0;
+            for (let i = 0; i < this.pedido.lineasPedido.length; i++) {
+              total = total + Number(this.pedido.lineasPedido[i].total);
+            }
+            this.pedido.total = total;
             console.log(this.pedido);
             this.pedidoService.actualizar(this.pedido).subscribe(
               res => {
                 this.pedido = res;
                 this.sesionService.eliminarLineasPedido();
-                let total: number = 0;
-                for (let i = 0; i < this.pedido.lineasPedido.length; i++) {
-                  total = total + Number(this.pedido.lineasPedido[i].total);
-                }
-                this.pedido.total = total;
                 this.sesionService.setCodigo(this.pedido.codigo);
-                if (this.pedido.lineasPedido.length > 0) {
-                  this.pedido.cliente = new Cliente();
-                  this.habilitarConfirmarPedido = true;
-
-                }
               },
               err => {
-                Swal.fire(constantes.error, constantes.error_actualizar_pedido, constantes.error_swal)
+                Swal.fire(constantes.error, constantes.error_actualizar_pedido, constantes.error_swal);
               }
             );
-          } else{
-            this.sesionService.eliminarCodigo();
-            this.sesionService.eliminarLineasPedido();
           }
-
         },
         err => {
-          Swal.fire(constantes.error, constantes.error_obtener_pedido, constantes.error_swal)
+          this.sesionService.eliminarCodigo();
+          this.sesionService.eliminarLineasPedido();
+          Swal.fire(constantes.error, constantes.error_obtener_pedido, constantes.error_swal);
         }
       );
     }
@@ -98,22 +95,21 @@ export class ResumenPedidoComponent implements OnInit {
       for (let i = 0; i < this.lineasPedido.length; i++) {
         this.pedido.lineasPedido.push(this.lineasPedido[i]);
       }
+      let total: number = 0;
+      for (let i = 0; i < this.pedido.lineasPedido.length; i++) {
+        total = total + Number(this.pedido.lineasPedido[i].total);
+      }
+      this.pedido.total = total;
       console.log("crear pedido");
       console.log(this.pedido);
       this.pedidoService.crear(this.pedido).subscribe(
         res => {
           this.pedido = res;
           this.sesionService.eliminarLineasPedido();
-          let total: number = 0;
-          for (let i = 0; i < this.pedido.lineasPedido.length; i++) {
-            total = total + Number(this.pedido.lineasPedido[i].total);
-          }
-          this.pedido.total = total;
           this.sesionService.setCodigo(this.pedido.codigo);
           if (this.pedido.lineasPedido.length > 0) {
             this.pedido.cliente = new Cliente();
             this.habilitarConfirmarPedido = true;
-
           }
         },
         err => {
@@ -147,12 +143,13 @@ export class ResumenPedidoComponent implements OnInit {
       total = total + Number(this.pedido.lineasPedido[i].total);
     }
     this.pedido.total = total;
+    console.log(this.pedido);
     this.pedidoService.actualizar(this.pedido).subscribe(
       res => {
         this.pedido = res;
       },
       err => {
-        Swal.fire(constantes.error, constantes.error_actualizar_pedido, constantes.error_swal)
+        Swal.fire(constantes.error, constantes.error_actualizar_pedido, constantes.error_swal);
       }
     );
   }

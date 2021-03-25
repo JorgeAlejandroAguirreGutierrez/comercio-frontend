@@ -168,12 +168,12 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label font-weight-bold">Estilo:</label>
+            <label class="col-sm-3 col-form-label font-weight-bold">Categoria:</label>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <select [(ngModel)]="productoActualizar.subcategoria" [compareWith]="compareFn" class="form-control form-control-sm">
-                        <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria>
-                            {{subcategoria.valor}}
+                    <select [(ngModel)]="productoActualizar.categoria" class="form-control form-control-sm">
+                        <option *ngFor="let categoria of categorias; let i=index" [value]=categoria.valor>
+                            {{categoria.valor}}
                         </option>
                     </select>
                     <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
@@ -181,12 +181,12 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label font-weight-bold">Categoria:</label>
+            <label class="col-sm-3 col-form-label font-weight-bold">Estilo:</label>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <select [(ngModel)]="productoActualizar.categoria" [compareWith]="compareFn" class="form-control form-control-sm">
-                        <option *ngFor="let categoria of categorias; let i=index" [value]=categoria>
-                            {{categoria.valor}}
+                    <select [(ngModel)]="productoActualizar.subcategoria" class="form-control form-control-sm">
+                        <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>
+                            {{subcategoria.valor}}
                         </option>
                     </select>
                     <div class="input-group-text"><i class="fa fa-tumblr"></i></div>

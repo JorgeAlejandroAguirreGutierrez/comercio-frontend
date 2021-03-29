@@ -1,6 +1,5 @@
-import { Color } from "./color";
+import { Presentacion } from "./presentacion";
 import { Imagen } from "./imagen";
-import { Talla } from "./talla";
 
 export class Producto {
     id: number;
@@ -13,9 +12,8 @@ export class Producto {
     precio: number;
     descuento: number;
     garantia: string;
-    tallas: Talla[];
+    presentaciones: Presentacion[];
     imagenes: Imagen[];
-    colores: Color[];
     disponible: boolean;
 
     constructor(){
@@ -29,8 +27,7 @@ export class Producto {
         this.precio=0;
         this.descuento=0;
         this.garantia="";
-        this.tallas=[];
-        this.colores=[];
+        this.presentaciones=[];
         this.imagenes=[];
         this.disponible=false;
     }

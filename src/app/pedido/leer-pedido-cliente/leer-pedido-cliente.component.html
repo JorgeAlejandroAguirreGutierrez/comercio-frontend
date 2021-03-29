@@ -136,8 +136,8 @@
                                                             <tbody>
                                                                 <tr *ngFor="let lineaPedido of pedido.lineasPedido">
                                                                     <td>{{lineaPedido.producto.marca}}</td>
-                                                                    <td>{{lineaPedido.talla.descripcion}}</td>
-                                                                    <td>{{lineaPedido.color.descripcion}}</td>
+                                                                    <td>{{lineaPedido.presentacion.talla.descripcion}}</td>
+                                                                    <td>{{lineaPedido.presentacion.color.descripcion}}</td>
                                                                     <td>{{lineaPedido.total | currency}}</td>
                                                                 </tr>
                                                             </tbody>

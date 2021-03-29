@@ -125,10 +125,10 @@
                 </div>
             </div>
             <div class="form-row">
-                <label class="col-sm-3 col-form-label font-weight-bold">Talla:</label>
+                <label class="col-sm-3 col-form-label font-weight-bold">Tallas:</label>
                 <div class="col-sm form-group">
                     <div class="input-group">
-                        <select [(ngModel)]="tallaForm" (change)="crearTalla()" class="form-control form-control-sm">
+                        <select [(ngModel)]="tallaForm" class="form-control form-control-sm">
                             <option value=""></option>
                             <option *ngFor="let talla of tallas; let i=index" [value]=talla.valor>{{talla.valor}}</option>
                         </select>
@@ -138,33 +138,10 @@
                 <br>
             </div>
             <div class="form-row">
-                <div class="col-sm form-group">
-                    <table class="table table-hover table-bordered" style="font-size: 0.7rem">
-                        <thead class="table-active">
-                            <tr>
-                                <th>No.</th>
-                                <th>TALLA</th>
-                                <th>OPC</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let talla of this.producto.tallas; let i=index">
-                                <td>{{i+1}}</td>
-                                <td>{{talla.descripcion}}</td>
-                                <td>
-                                    <button (click)="eliminarTalla(i)" class="btn btn-primary form-control-sm"><i
-                                            class="fa fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="form-row">
                 <label class="col-sm-3 col-form-label font-weight-bold">Colores:</label>
                 <div class="col-sm form-group">
                     <div class="input-group">
-                        <select [(ngModel)]="colorForm" (change)="crearColor()" class="form-control form-control-sm">
+                        <select [(ngModel)]="colorForm" class="form-control form-control-sm">
                             <option value=""></option>
                             <option *ngFor="let color of colores; let i=index" [value]=color.valor>{{color.valor}}</option>
                         </select>
@@ -175,20 +152,27 @@
             </div>
             <div class="form-row">
                 <div class="col-sm form-group">
+                    <button class="btn btn-sm btn-block btn-primary" (click)="crearPresentacion()">Agregar Presentacion</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm form-group">
                     <table class="table table-hover table-bordered" style="font-size: 0.7rem">
                         <thead class="table-active">
                             <tr>
                                 <th>No.</th>
+                                <th>TALLA</th>
                                 <th>COLOR</th>
                                 <th>OPC</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="let color of producto.colores; let i=index">
+                            <tr *ngFor="let presentacion of this.producto.presentaciones; let i=index">
                                 <td>{{i+1}}</td>
-                                <td>{{color.descripcion}}</td>
+                                <td>{{presentacion.talla.descripcion}}</td>
+                                <td>{{presentacion.color.descripcion}}</td>
                                 <td>
-                                    <button (click)="eliminarColor(i)" class="btn btn-primary form-control-sm"><i
+                                    <button (click)="eliminarPresentacion(i)" class="btn btn-primary form-control-sm"><i
                                             class="fa fa-trash"></i></button>
                                 </td>
                             </tr>

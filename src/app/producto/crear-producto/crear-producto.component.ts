@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Color } from 'src/app/modelos/color';
 import { Parametro } from 'src/app/modelos/parametro';
+import { Presentacion } from 'src/app/modelos/presentacion';
 import { Producto } from 'src/app/modelos/producto';
 import { Sesion } from 'src/app/modelos/sesion';
 import { Talla } from 'src/app/modelos/talla';
@@ -20,8 +21,8 @@ export class CrearProductoComponent implements OnInit {
 
   pagina=constantes.pagina;
   producto: Producto=new Producto();
-  tallaForm: string="";
-  colorForm: string="";
+  tallaForm: string= "";
+  colorForm: string= "";
   color: string="";
   imagenes: any[]= [];
 
@@ -41,6 +42,7 @@ export class CrearProductoComponent implements OnInit {
     this.validarSesion();
     this.consultarCategorias();
     this.consultarColores();
+    
   }
 
   consultarCategorias(){
@@ -66,7 +68,7 @@ export class CrearProductoComponent implements OnInit {
   }
 
   seleccionarCategoria(){
-    this.producto.tallas=[];
+    this.producto.presentaciones=[];
     if (this.producto.categoria != ""){
       this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroSubcategoria).subscribe(
         res => {
@@ -85,7 +87,7 @@ export class CrearProductoComponent implements OnInit {
       this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroTalla).subscribe(
         res => {
           this.tallas = res;
-          this.tallaForm = "";
+          this.tallaForm = null as any;
         },
         err => {
           Swal.fire(constantes.error, constantes.error_consultar_tallas, constantes.error_swal)
@@ -137,36 +139,19 @@ export class CrearProductoComponent implements OnInit {
     );
   }
 
-  crearTalla(){
-    for(let i=0; i<this.producto.tallas.length; i++){
-      if (this.tallaForm==this.producto.tallas[i].descripcion){
-        Swal.fire(constantes.error, constantes.error_talla_existente, constantes.error_swal);
-        return;
-      }
-    }
+  crearPresentacion(){
     let talla: Talla=new Talla();
     talla.descripcion=this.tallaForm;
-    this.producto.tallas.push(talla);
-  }
-
-  eliminarTalla(i: number){
-    this.producto.tallas.splice(i, 1);
-  }
-
-  crearColor(){
-    for(let i=0; i<this.producto.colores.length; i++){
-      if (this.colorForm==this.producto.colores[i].descripcion){
-        Swal.fire(constantes.error, constantes.error_color_existente, constantes.error_swal);
-        return;
-      }
-    }
     let color: Color=new Color();
     color.descripcion=this.colorForm;
-    this.producto.colores.push(color);
+    let presentacion: Presentacion=new Presentacion();
+    presentacion.talla=talla;
+    presentacion.color=color;
+    this.producto.presentaciones.push(presentacion);
   }
 
-  eliminarColor(i: number){
-    this.producto.colores.splice(i, 1);
+  eliminarPresentacion(i: number){
+    this.producto.presentaciones.splice(i, 1);
   }
 
   cargarImagen(event: any){

@@ -50,8 +50,7 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   productosEnc: any[] = [];
 
   productoPedido: Producto = null as any;
-  tallaPedido: number = -1;
-  colorPedido: number = -1;
+  presentacionPedido: number = -1;
 
   lineasPedido: LineaPedido[] = [];
 
@@ -203,14 +202,12 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   crearLineaPedido() {
     this.modalService.dismissAll();
     this.lineaPedido.producto = this.productoPedido;
-    this.lineaPedido.talla = this.productoPedido.tallas[this.tallaPedido];
-    this.lineaPedido.color = this.productoPedido.colores[this.colorPedido];
+    this.lineaPedido.presentacion = this.productoPedido.presentaciones[this.presentacionPedido];
     this.lineaPedido.total= Number(this.productoPedido.precio)- Number(this.productoPedido.descuento);
     this.lineasPedido.push({ ... this.lineaPedido});
     this.lineaPedido = new LineaPedido();
     this.productoPedido=new Producto();
-    this.tallaPedido=-1;
-    this.colorPedido=-1;
+    this.presentacionPedido=-1;
     console.log(this.lineasPedido);
     this.sesionService.setLineasPedido(this.lineasPedido);
     this.cantidadAgregados=this.cantidadAgregados+1;

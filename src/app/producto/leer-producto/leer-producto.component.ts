@@ -6,11 +6,10 @@ import * as constantes from '../../constantes';
 import { SesionService } from 'src/app/servicios/sesion.service';
 import { Router } from '@angular/router';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Color } from 'src/app/modelos/color';
-import { Talla } from 'src/app/modelos/talla';
 import { ParametroService } from 'src/app/servicios/parametro.service';
 import { Parametro } from 'src/app/modelos/parametro';
 import { Sesion } from 'src/app/modelos/sesion';
+import { Presentacion } from 'src/app/modelos/presentacion';
 
 @Component({
   selector: 'app-leer-producto',
@@ -21,8 +20,8 @@ export class LeerProductoComponent implements OnInit {
 
   pagina = constantes.pagina;
   productoActualizar: Producto = new Producto();
-  tallaForm: string = "";
-  colorForm: string = "";
+  presentacionForm: Presentacion = new Presentacion();
+
   imagen: any = null as any;
   categorias: Parametro[] = [];
   subcategorias: Parametro[] = [];
@@ -40,6 +39,7 @@ export class LeerProductoComponent implements OnInit {
 
   @ViewChild('modalProductoActualizar', { static: false }) private modalProductoActualizar: any;
   @ViewChild('modalProductoDescuento', { static: false }) private modalProductoDescuento: any;
+  @ViewChild('modalPresentacionesLeer', { static: false }) private modalPresentacionesLeer: any;
 
   constructor(private sesionService: SesionService, private productoService: ProductoService,
     private parametroService: ParametroService, private modalService: NgbModal, private router: Router) { }
@@ -51,7 +51,6 @@ export class LeerProductoComponent implements OnInit {
     this.validarSesion();
     this.consultarProductos();
     this.consultarCategorias();
-    this.consultarTallas();
     this.consultarColores();
 
   }
@@ -94,7 +93,7 @@ export class LeerProductoComponent implements OnInit {
   }
 
   consultarTallas() {
-    this.parametroService.consultarPorTipo(constantes.parametroTalla).subscribe(
+    this.parametroService.consultarPorTituloTipo(this.productoActualizar.categoria, constantes.parametroTalla).subscribe(
       res => {
         this.tallas = res
       },
@@ -169,36 +168,32 @@ export class LeerProductoComponent implements OnInit {
     this.open(this.modalProductoActualizar);
   }
 
-  crearTalla() {
-    for (let i = 0; i < this.productoActualizar.tallas.length; i++) {
-      if (this.tallaForm == this.productoActualizar.tallas[i].descripcion) {
-        Swal.fire(constantes.error, constantes.error_talla_existente, constantes.error_swal);
+  leerPresentaciones(i: number){
+    this.productoActualizar = { ... this.productos[i] };
+    console.log(this.productoActualizar);
+    this.consultarTallas();
+    this.open(this.modalPresentacionesLeer);
+  }
+
+  crearPresentacion() {
+    if (this.presentacionForm.talla.descripcion==constantes.vacio){
+      Swal.fire(constantes.error, constantes.error_talla_no_existente, constantes.error_swal);
+    }
+    if (this.presentacionForm.color.descripcion==constantes.vacio){
+      Swal.fire(constantes.error, constantes.error_color_no_existente, constantes.error_swal);
+    }
+    for (let i = 0; i < this.productoActualizar.presentaciones.length; i++) {
+      if (this.presentacionForm.talla.descripcion == this.productoActualizar.presentaciones[i].talla.descripcion
+        && this.presentacionForm.color.descripcion == this.productoActualizar.presentaciones[i].color.descripcion) {
+        Swal.fire(constantes.error, constantes.error_presentacion_existente, constantes.error_swal);
         return;
       }
     }
-    let talla: Talla = new Talla();
-    talla.descripcion = this.tallaForm;
-    this.productoActualizar.tallas.push(talla);
+    this.productoActualizar.presentaciones.push(this.presentacionForm);
   }
 
-  eliminarTalla(i: number) {
-    this.productoActualizar.tallas.splice(i, 1);
-  }
-
-  crearColor() {
-    for (let i = 0; i < this.productoActualizar.colores.length; i++) {
-      if (this.colorForm == this.productoActualizar.colores[i].descripcion) {
-        Swal.fire(constantes.error, constantes.error_color_existente, constantes.error_swal);
-        return;
-      }
-    }
-    let color: Color = new Color();
-    color.descripcion = this.colorForm;
-    this.productoActualizar.colores.push(color);
-  }
-
-  eliminarColor(i: number) {
-    this.productoActualizar.colores.splice(i, 1);
+  eliminarPresentacion(i: number) {
+    this.productoActualizar.presentaciones.splice(i, 1);
   }
 
   eliminarImagen(i: number) {

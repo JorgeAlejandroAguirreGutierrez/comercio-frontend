@@ -93,9 +93,7 @@ export class LeerPedidoComponent implements OnInit {
       res => {
           this.pedidoActualizar=res;
           Swal.fire(constantes.exito, constantes.exito_actualizar_producto, constantes.exito_swal);
-          console.log(this.qr);
           this.modalService.dismissAll();
-          this.consultarPedidos();
       },
       err => {
         Swal.fire(constantes.error, err.error.mensaje, constantes.error_swal)
@@ -109,7 +107,6 @@ export class LeerPedidoComponent implements OnInit {
         this.pedidoActualizar=res;
         Swal.fire(constantes.exito, constantes.exito_actualizar_qr, constantes.exito_swal);
         this.modalService.dismissAll();
-        this.consultarPedidos();
       },
       err => {
         Swal.fire(constantes.error, err.error.mensaje, constantes.error_swal)
@@ -119,7 +116,7 @@ export class LeerPedidoComponent implements OnInit {
 
   editar(i: number){
     this.qr=null;
-    this.pedidoActualizar= {... this.pedidos[i]};
+    this.pedidoActualizar= this.pedidos[i];
     this.open(this.modalActualizarPedido);
   }
 

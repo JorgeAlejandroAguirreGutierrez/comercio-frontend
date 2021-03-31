@@ -12,6 +12,10 @@
             aria-label="icon-button with heart icon">
             <mat-icon>search</mat-icon>
         </button>
+        <button mat-icon-button class="example-icon" (click)="leerPedidoCliente($event)"
+            aria-label="icon-button with share icon">
+            <mat-icon matBadgeColor="primary">local_shipping</mat-icon>
+        </button>
         <button mat-icon-button class="example-icon" routerLink="/resumen-pedido"
             aria-label="icon-button with share icon">
             <mat-icon matBadge="{{cantidadAgregados}}" matBadgeColor="primary">shopping_cart</mat-icon>

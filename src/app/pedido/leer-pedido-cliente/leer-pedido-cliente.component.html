@@ -72,87 +72,100 @@
                                             attr.aria-labelledby="heading{{i+1}}" data-parent="#accordion">
                                             <div class="card-body">
                                                 <div class="row">
-                                                    <div class="col-sm">
-                                                        <div class="alert alert-primary form-row" role="alert">
-                                                            <label
-                                                                class="col-sm-4 col-form-label font-weight-bold">Codigo
-                                                                del
-                                                                Pedido</label>
-                                                            <div class="col-sm-8 form-group">
-                                                                <input type="text" value="{{pedido.codigo}}" readonly
-                                                                    class="form-control form-control-sm">
+                                                    <div class="col-sm-8">
+                                                        <div class="row">
+                                                            <div class="col-sm table-responsive">
+                                                                <table class="table table-hover"
+                                                                    style="font-size: 0.7rem">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col">PRODUCTO</th>
+                                                                            <th scope="col">MARCA</th>
+                                                                            <th scope="col">TALLA</th>
+                                                                            <th scope="col">COLOR</th>
+                                                                            <th scope="col">VALOR</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr
+                                                                            *ngFor="let lineaPedido of pedido.lineasPedido">
+                                                                            <td>
+                                                                                <img width="100px" height="150px"
+                                                                                    src="{{prefijoUrlImg+lineaPedido.producto.imagenes[0].ruta}}"
+                                                                                    alt="Imagen">
+                                                                            </td>
+                                                                            <td>{{lineaPedido.producto.marca}}</td>
+                                                                            <td>{{lineaPedido.presentacion.talla.descripcion}}
+                                                                            </td>
+                                                                            <td>{{lineaPedido.presentacion.color.descripcion}}
+                                                                            </td>
+                                                                            <td>{{lineaPedido.total | currency}}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm">
-                                                        <div class="alert alert-primary form-row" role="alert">
-                                                            <label class="centrar col-sm-auto col-form-label font-weight-bold">Confirmado</label>
-                                                            <div class="col-sm-1 form-group">
+                                                    <div class="col-sm-4">
+                                                        <div class="row">
+                                                            <div class="col-sm">
+                                                                <div class="centrar alert alert-primary font-weight-bold">Codigo
+                                                                    del Pedido: {{pedido.codigo}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <ng-container *ngIf="pedido.total!=0">
+                                                            <div class="row">
+                                                                <div class="col-sm">
+                                                                    <div class="centrar alert alert-primary font-weight-bold"
+                                                                        role="alert">
+                                                                        TOTAL : {{pedido.total |
+                                                                        currency}}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+                                                        <div class="row form-group">
+                                                            <label
+                                                                class="centrar col-sm-6 col-form-label font-weight-bold">Confirmado</label>
+                                                            <div class="col-sm">
                                                                 <input type="checkbox" [(ngModel)]="pedido.confirmar"
                                                                     onclick="return false;"
                                                                     class="form-control form-control-sm">
                                                             </div>
-                                                            <div class="col-sm-4 form-group">
-                                                                <button class="btn btn-sm btn-block btn-warning" (click)="verQr(i)">VER PAGO QR</button>
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <label
+                                                                class="centrar col-sm-6 col-form-label font-weight-bold">Pagado</label>
+                                                            <div class="col-sm">
+                                                                <input type="checkbox" [(ngModel)]="pedido.pagado"
+                                                                    onclick="return false;"
+                                                                    class="form-control form-control-sm">
                                                             </div>
-                                                            <label class="centrar col-sm-auto col-form-label font-weight-bold">Entrega</label>
-                                                            <div class="col-sm-3 form-group">
-                                                                <input type="text" value="{{pedido.fechaEntrega}}"
-                                                                    readonly class="form-control form-control-sm">
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <div class="col-sm">
+                                                                <button class="btn btn-sm btn-block btn-warning"
+                                                                    (click)="verQr(i)">VER PAGO QR</button>
                                                             </div>
-                                                            <label class="centrar col-sm-auto col-form-label font-weight-bold">Enviado</label>
-                                                            <div class="col-sm-1 form-group">
+                                                        </div>
+                                                        <div class="row form-group">
+                                                            <label
+                                                                class="centrar col-sm-6 col-form-label font-weight-bold">Enviado</label>
+                                                            <div class="col-sm">
                                                                 <input type="checkbox" [(ngModel)]="pedido.enviado"
                                                                     onclick="return false;"
                                                                     class="form-control form-control-sm">
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-sm-4"></div>
-                                                    <div class="col-sm-4 form-group">
-                                                        <button class="btn btn-sm btn-block btn-warning"
-                                                            (click)="leerMediosPago()">VER OTROS MEDIOS DE
-                                                            PAGO</button>
-                                                    </div>
-                                                    <div class="col-sm-4"></div>
-                                                </div>
-                                                <br>
-                                                <div class="row">
-                                                    <div class="col-sm table-responsive">
-                                                        <table class="table table-hover table-bordered"
-                                                            style="font-size: 0.7rem">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">MARCA</th>
-                                                                    <th scope="col">TALLA</th>
-                                                                    <th scope="col">COLOR</th>
-                                                                    <th scope="col">VALOR</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr *ngFor="let lineaPedido of pedido.lineasPedido">
-                                                                    <td>{{lineaPedido.producto.marca}}</td>
-                                                                    <td>{{lineaPedido.presentacion.talla.descripcion}}</td>
-                                                                    <td>{{lineaPedido.presentacion.color.descripcion}}</td>
-                                                                    <td>{{lineaPedido.total | currency}}</td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
-                                                </div>
-                                                <ng-container *ngIf="pedido.total!=0">
-                                                    <div class="row">
-                                                        <div class="col-sm">
-                                                            <div class="alert alert-primary font-weight-bold" role="alert">
-                                                                EL TOTAL DEL PEDIDO ES DE : {{pedido.total | currency}}
+                                                        <div class="row">
+                                                            <div class="col-sm">
+                                                                <button class="btn btn-sm btn-block btn-warning"
+                                                                    (click)="leerMediosPago()">VER OTROS MEDIOS DE
+                                                                    PAGO</button>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </ng-container>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

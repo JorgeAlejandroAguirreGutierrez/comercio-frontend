@@ -18,6 +18,8 @@ import { MediaMatcher } from '@angular/cdk/layout';
 })
 export class LeerPedidoClienteComponent implements OnInit {
 
+  prefijoUrlImg = environment.prefijo_url_img;
+  
   pagina=constantes.pagina;
   pedidos: Pedido[]=[];
   prefijoUrlImgqr = environment.prefijo_url_imgqr;

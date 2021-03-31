@@ -13,6 +13,8 @@ import { Imagen } from '../modelos/imagen';
 import { ParametroService } from '../servicios/parametro.service';
 import { Parametro } from '../modelos/parametro';
 import { PedidoService } from 'src/app/servicios/pedido.service';
+import { Cliente } from '../modelos/cliente';
+import { ClienteService } from '../servicios/cliente.service';
 
 @Component({
   selector: 'app-principal',
@@ -30,7 +32,7 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, 
     private productoService: ProductoService, private parametroService: ParametroService, 
-    private sesionService: SesionService, private pedidoService: PedidoService,
+    private sesionService: SesionService, private pedidoService: PedidoService, private clienteService: ClienteService,
     private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
       this.cantidadAgregados=0;
       this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -219,6 +221,41 @@ export class PrincipalComponent implements OnInit, OnDestroy {
       this.imagenesModal=producto.imagenes;
       this.open(this.modalLeerImagen);
     }
+  }
+
+  leerPedidoCliente(event: any) {
+    if (event != null)
+      event.preventDefault();
+    Swal.fire({
+      title: constantes.titulo_leer_pedido_cliente,
+      text: constantes.ingresar_numero_celular,
+      input: 'text',
+      showCancelButton: true
+    }).then((result) => {
+      if (result.value) {
+        let cliente: Cliente = new Cliente();
+        cliente.celular = result.value;
+        this.obtenerCliente(cliente);
+      }
+    });
+  }
+
+  obtenerCliente(cliente: Cliente) {
+    this.clienteService.obtenerPorCelular(cliente.celular).subscribe(
+      res => {
+        if (res != null) {
+          this.sesionService.setCliente(res);
+          this.navegarLeerPedidoCliente();
+        }
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_iniciar_sesion_cliente, constantes.error_swal)
+      }
+    );
+  }
+
+  navegarLeerPedidoCliente() {
+    this.router.navigate(['/leer-pedido-cliente']);
   }
 
   navegarPedido() {

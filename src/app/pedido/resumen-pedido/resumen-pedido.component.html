@@ -1,28 +1,21 @@
-<div class="contenedor-fluid myfont" [class.is-mobile]="mobileQuery.matches">
-    <mat-toolbar color="primary" class="toolbar">
-        <button mat-icon-button (click)="snav.toggle()">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <h1 class="app-name">{{pagina}}</h1>
-    </mat-toolbar>
-
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-        <mat-sidenav class="sidenav" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-            [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-            <div class="filters">
-                <h5>ATRAS</h5>
-            </div>
-            <mat-nav-list>
-                <a mat-list-item href="/index">VOLVER A COMPRAR</a>
-            </mat-nav-list>
-            <div class="filters">
-                <h5>VER</h5>
-            </div>
-            <mat-nav-list>
-                <a mat-list-item href="#" (click)="leerPedidoCliente($event)">TUS PEDIDOS</a>
-            </mat-nav-list>
-        </mat-sidenav>
-        <mat-sidenav-content>
+<div class="d-flex myfont" id="wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">MENU </div>
+        <hr>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action bg-light" href="/index">Pagina Web</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/crear-producto">Crear Producto</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/leer-producto">Ver Productos</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/leer-pedido">Ver Pedidos</a>
+        </div>
+    </div>
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom justify">
+            <button class="btn btn-ligth" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></button>
+            <span class="separate"></span>
+            <a class="navbar-brand" href="#">{{tienda}}</a>
+        </nav>
+        <div class="container-fluid">
             <div class="container-fluid">
                 <div class="form-row">
                     <div class="col-sm" align="center">
@@ -157,6 +150,6 @@
                     </div>
                 </div>
             </div>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+        </div>
+    </div>
 </div>

@@ -30,3 +30,17 @@ export const headers= new HttpHeaders({'Content-Type':'application/json'});
 export const options = {headers: headers};
 export const headersImagen= new HttpHeaders({});
 export const optionsImagen = {headers: headersImagen};
+
+export function loadScripts() {
+    const dynamicScripts = [
+     '../assets/tooglenavbar.js'
+    ];
+    for (let i = 0; i < dynamicScripts.length; i++) {
+      const node = document.createElement('script');
+      node.src = dynamicScripts[i];
+      node.type = 'text/javascript';
+      node.async = false;
+      node.charset = 'utf-8';
+      document.getElementsByTagName('head')[0].appendChild(node);
+    }
+  }

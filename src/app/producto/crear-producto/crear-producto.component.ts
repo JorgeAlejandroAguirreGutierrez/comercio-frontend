@@ -11,6 +11,8 @@ import { ProductoService } from 'src/app/servicios/producto.service';
 import { SesionService } from 'src/app/servicios/sesion.service';
 import Swal from 'sweetalert2';
 import * as constantes from '../../constantes';
+import * as util from '../../util';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-crear-producto',
@@ -19,7 +21,7 @@ import * as constantes from '../../constantes';
 })
 export class CrearProductoComponent implements OnInit {
 
-  pagina=constantes.pagina;
+  tienda=environment.tienda;
   producto: Producto=new Producto();
   tallaForm: string= "";
   colorForm: string= "";
@@ -39,6 +41,7 @@ export class CrearProductoComponent implements OnInit {
     private router: Router ) { }
 
   ngOnInit(): void {
+    util.loadScripts();
     this.validarSesion();
     this.consultarCategorias();
     this.consultarColores();

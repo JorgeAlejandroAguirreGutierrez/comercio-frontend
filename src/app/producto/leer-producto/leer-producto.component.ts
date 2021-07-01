@@ -10,6 +10,7 @@ import { ParametroService } from 'src/app/servicios/parametro.service';
 import { Parametro } from 'src/app/modelos/parametro';
 import { Sesion } from 'src/app/modelos/sesion';
 import { Presentacion } from 'src/app/modelos/presentacion';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-leer-producto',
@@ -18,7 +19,7 @@ import { Presentacion } from 'src/app/modelos/presentacion';
 })
 export class LeerProductoComponent implements OnInit {
 
-  pagina = constantes.pagina;
+  tienda=environment.tienda;
   productoActualizar: Producto = new Producto();
   presentacionForm: Presentacion = new Presentacion();
 

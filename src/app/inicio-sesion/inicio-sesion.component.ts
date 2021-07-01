@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from '../servicios/usuario.service';
 import * as constantes from '../constantes';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { SesionService } from '../servicios/sesion.service';
 import { Sesion } from '../modelos/sesion';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-inicio-sesion',
@@ -13,7 +13,9 @@ import { Sesion } from '../modelos/sesion';
 })
 export class InicioSesionComponent implements OnInit {
 
-  pagina=constantes.pagina;
+  tienda=environment.tienda;
+  prefijoUrlImg = environment.prefijo_url_img;
+  prefijoUrlImgFront = environment.prefijo_url_imgfront;
   sesion: Sesion=new Sesion();
   identificacion: string="";
   contrasena: string="";

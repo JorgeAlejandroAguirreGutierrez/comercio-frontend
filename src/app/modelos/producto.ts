@@ -3,6 +3,7 @@ import { Imagen } from "./imagen";
 
 export class Producto {
     id: number;
+    titulo: string;
     descripcion: string; 
     material: string;
     marca: string;
@@ -18,6 +19,7 @@ export class Producto {
 
     constructor(){
         this.id=0;
+        this.titulo="";
         this.descripcion="";
         this.material="";
         this.marca="";

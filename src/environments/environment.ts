@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  tienda: 'Tienda Virtual',
   host: 'http://localhost:5000',
   prefijo_url_img: 'http://localhost:5000/img/',
   prefijo_url_imgqr: 'http://localhost:5000/imgqr/',

@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
-import {MediaMatcher} from '@angular/cdk/layout';
 import { Producto } from '../modelos/producto';
 import { ProductoService } from '../servicios/producto.service';
 import Swal from 'sweetalert2';
 import * as constantes from '../constantes';
+import * as util from '../util';
 import { environment } from '../../environments/environment';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LineaPedido } from '../modelos/linea-pedido';
@@ -19,10 +19,11 @@ import { ClienteService } from '../servicios/cliente.service';
 @Component({
   selector: 'app-principal',
   templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.scss']
+  styleUrls: ['./principal.component.css']
 })
 export class PrincipalComponent implements OnInit, OnDestroy {
 
+  tienda=environment.tienda;
   prefijoUrlImg = environment.prefijo_url_img;
   prefijoUrlImgFront = environment.prefijo_url_imgfront;
 
@@ -30,19 +31,11 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   @Input() cantidadAgregados:number;
 
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher, 
-    private productoService: ProductoService, private parametroService: ParametroService, 
+  constructor(private productoService: ProductoService, private parametroService: ParametroService, 
     private sesionService: SesionService, private pedidoService: PedidoService, private clienteService: ClienteService,
     private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
       this.cantidadAgregados=0;
-      this.mobileQuery = media.matchMedia('(max-width: 600px)');
-      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-      this.mobileQuery.addEventListener("change", this._mobileQueryListener);
   }
-
-  mobileQuery: MediaQueryList;
-
-  pagina=constantes.pagina;
   marca: string="";
   categoria: string="";
   subcategoria: string="";
@@ -72,6 +65,7 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   cerrarModal: string = "";
 
   ngOnInit(): void {
+    util.loadScripts();
     this.categoria=this.route.snapshot.queryParamMap.get('producto') || null as any;
     console.log(this.categoria);
     if(this.categoria==null){
@@ -99,10 +93,7 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.mobileQuery.removeEventListener("change", this._mobileQueryListener);
   }
-
-  private _mobileQueryListener: () => void;
 
   consultarPorCategoria(){
     this.productoService.consultarPorCategoria(this.categoria).subscribe(

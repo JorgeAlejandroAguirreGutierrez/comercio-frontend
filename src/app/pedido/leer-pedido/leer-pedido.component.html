@@ -1,180 +1,174 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">{{pagina}}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<div class="d-flex myfont" id="wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">MENU </div>
+        <hr>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action bg-light" href="/index">Pagina Web</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/crear-producto">Crear Producto</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/leer-producto">Ver Productos</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/leer-pedido">Ver Pedidos</a>
+            <a class="list-group-item list-group-item-action bg-light" type="button" href="#"
+                (click)="cerrarSesion($event)">CERRAR SESION</a>
+        </div>
+    </div>
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom justify">
+            <button class="btn btn-ligth" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></button>
+            <span class="separate"></span>
+            <a class="navbar-brand" href="#">{{tienda}}</a>
+        </nav>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm">
+                    <hr>
+                    <h2 class="font-weight-bold" align="center">VER PEDIDOS</h2>
+                    <hr>
+                </div>
+            </div>
+            <br>
+            <div class="form-row">
+                <div class="col-sm-1"></div>
+                <label class="col-sm-3 col-form-label font-weight-bold">Buscar por Numero de Celular:</label>
+                <div class="form-group col-sm-7">
+                    <input type="text" [(ngModel)]="celular" oninput="this.value = this.value.toUpperCase()"
+                        class="form-control form-control-sm">
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-1"></div>
+                <label class="col-sm-3 col-form-label font-weight-bold">Buscar por Estado del Pedido:</label>
+                <div class="form-group col-sm-7">
+                    <select class="form-control form-control-sm" [(ngModel)]="estadoPedido">
+                        <option *ngFor="let estadoPedido of estadosPedido; let i=index" [value]=estadoPedido.valor>
+                            {{estadoPedido.valor}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <div class="form-row">
+                <div class="col-sm-1"></div>
+                <div class="form-group col-sm">
+                    <button class="btn btn-sm btn-block btn-primary"
+                        (click)="consultarPorCelularEstadoPedido()">Buscar</button>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/index">Pagina Web</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/crear-producto">Crear Producto</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/leer-producto">Ver Productos</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/leer-pedido">Ver Pedidos</a>
-            </li>
-        </ul>
-        <div class="d-flex">
-            <a class="nav-link" type="button" href="#" (click)="cerrarSesion($event)">CERRAR SESION</a>
-        </div>
-    </div>
-</nav>
-<br>
-<br>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm">
-            <hr>
-            <h2 class="font-weight-bold" align="center">VER PEDIDOS</h2>
-            <hr>
-        </div>
-    </div>
-    <br>
-    <div class="form-row">
-        <div class="col-sm-1"></div>
-        <label class="col-sm-3 col-form-label font-weight-bold">Buscar por Numero de Celular:</label>
-        <div class="form-group col-sm-7">
-            <input type="text" [(ngModel)]="celular" oninput="this.value = this.value.toUpperCase()"
-                class="form-control form-control-sm">
-        </div>
-        <div class="col-sm-1"></div>
-    </div>
-    <div class="form-row">
-        <div class="col-sm-1"></div>
-        <label class="col-sm-3 col-form-label font-weight-bold">Buscar por Estado del Pedido:</label>
-        <div class="form-group col-sm-7">
-            <select class="form-control form-control-sm" [(ngModel)]="estadoPedido">
-                <option *ngFor="let estadoPedido of estadosPedido; let i=index" [value]=estadoPedido.valor>
-                    {{estadoPedido.valor}}</option>
-            </select>
-        </div>
-        <div class="col-sm-1"></div>
-    </div>
-    <div class="form-row">
-        <div class="col-sm-1"></div>
-        <div class="form-group col-sm">
-            <button class="btn btn-sm btn-block btn-primary" (click)="consultarPorCelularEstadoPedido()">Buscar</button>
-        </div>
-        <div class="col-sm-1"></div>
-    </div>
+            <ng-container *ngIf="pedidos.length!=0">
+                <div class="row">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm">
+                        <div id="accordion">
+                            <ng-container *ngFor="let pedido of pedidos; let i=index">
+                                <div class="card">
+                                    <div class="card-header" id="heading{{i+1}}">
+                                        <h4 class="mb-0">
+                                            <button class="btn btn-link" data-toggle="collapse"
+                                                attr.data-target="#collapse{{i+1}}" aria-expanded="true"
+                                                attr.aria-controls="collapse{{i+1}}">
+                                                FECHA DE PEDIDO {{pedido.fecha | DateShortPipe}}
+                                            </button>
+                                        </h4>
+                                    </div>
 
-    <ng-container *ngIf="pedidos.length!=0">
-        <div class="row">
-            <div class="col-sm-1"></div>
-            <div class="col-sm">
-                <div id="accordion">
-                    <ng-container *ngFor="let pedido of pedidos; let i=index">
-                        <div class="card">
-                            <div class="card-header" id="heading{{i+1}}">
-                                <h4 class="mb-0">
-                                    <button class="btn btn-link" data-toggle="collapse"
-                                        attr.data-target="#collapse{{i+1}}" aria-expanded="true"
-                                        attr.aria-controls="collapse{{i+1}}">
-                                        FECHA DE PEDIDO {{pedido.fecha | DateShortPipe}}
-                                    </button>
-                                </h4>
-                            </div>
-
-                            <div id="collapse{{i+1}}" class="collapse {{pedido.show}}"
-                                attr.aria-labelledby="heading{{i+1}}" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="alert alert-primary" role="alert">
-                                                Nombre del cliente : {{pedido.cliente.nombre}}
+                                    <div id="collapse{{i+1}}" class="collapse {{pedido.show}}"
+                                        attr.aria-labelledby="heading{{i+1}}" data-parent="#accordion">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-sm">
+                                                    <div class="alert alert-primary" role="alert">
+                                                        Nombre del cliente : {{pedido.cliente.nombre}}
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="alert alert-primary" role="alert">
-                                                Numero de Contacto : {{pedido.cliente.celular}}
+                                            <div class="row">
+                                                <div class="col-sm">
+                                                    <div class="alert alert-primary" role="alert">
+                                                        Numero de Contacto : {{pedido.cliente.celular}}
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm">
-                                            <div class="alert alert-primary" role="alert">
-                                                Direccion del Cliente: {{pedido.cliente.direccion}}
+                                            <div class="row">
+                                                <div class="col-sm">
+                                                    <div class="alert alert-primary" role="alert">
+                                                        Direccion del Cliente: {{pedido.cliente.direccion}}
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm table-responsive">
-                                            <table class="table table-hover table-bordered" style="font-size: 0.7rem">
-                                                <thead>
-                                                    <tr>
-                                                        <th scope="col">MARCA</th>
-                                                        <th scope="col">TALLA</th>
-                                                        <th scope="col">COLOR</th>
-                                                        <th scope="col">VALOR</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr *ngFor="let lineaPedido of pedido.lineasPedido">
-                                                        <td>{{lineaPedido.producto.marca}}</td>
-                                                        <td>{{lineaPedido.presentacion.talla.descripcion}}</td>
-                                                        <td>{{lineaPedido.presentacion.color.descripcion}}</td>
-                                                        <td>{{lineaPedido.total | currency}}</td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <ng-container *ngIf="pedido.total!=0">
-                                        <div class="row">
-                                            <div class="col-sm">
-                                                <div class="alert alert-success" role="alert">
-                                                    EL TOTAL DEL PEDIDO ES DE : {{pedido.total | currency}}
+                                            <div class="row">
+                                                <div class="col-sm table-responsive">
+                                                    <table class="table table-hover table-bordered"
+                                                        style="font-size: 0.7rem">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">MARCA</th>
+                                                                <th scope="col">TALLA</th>
+                                                                <th scope="col">COLOR</th>
+                                                                <th scope="col">VALOR</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr *ngFor="let lineaPedido of pedido.lineasPedido">
+                                                                <td>{{lineaPedido.producto.marca}}</td>
+                                                                <td>{{lineaPedido.presentacion.talla.descripcion}}</td>
+                                                                <td>{{lineaPedido.presentacion.color.descripcion}}</td>
+                                                                <td>{{lineaPedido.total | currency}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <ng-container *ngIf="pedido.total!=0">
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <div class="alert alert-success" role="alert">
+                                                            EL TOTAL DEL PEDIDO ES DE : {{pedido.total | currency}}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <div class="row">
+                                                <div class="col-sm form-group">
+                                                    <button class="btn btn-sm btn-block btn-primary separate"
+                                                        (click)="editar(i)">
+                                                        SEGUIMIENTO
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm form-group">
+                                                    <button class="btn btn-sm btn-block btn-primary separate"
+                                                        (click)="verQr(i)">
+                                                        VER QR
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
-                                    </ng-container>
-                                    <div class="row">
-                                        <div class="col-sm form-group">
-                                            <button class="btn btn-sm btn-block btn-primary separate"
-                                                (click)="editar(i)">
-                                                SEGUIMIENTO
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm form-group">
-                                            <button class="btn btn-sm btn-block btn-primary separate"
-                                                (click)="verQr(i)">
-                                                VER QR
-                                            </button>
-                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </ng-container>
                         </div>
-                    </ng-container>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+            </ng-container>
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-sm">
+                    <footer class="text-muted">
+                        <div class="container">
+                            <p class="float-right">
+                                <a href="#">Back to top</a>
+                            </p>
+                            <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
+                            <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
+                                    href="../../getting-started/">Contactenos</a>.</p>
+                        </div>
+                    </footer>
                 </div>
             </div>
-            <div class="col-sm-1"></div>
-        </div>
-    </ng-container>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-sm">
-            <footer class="text-muted">
-                <div class="container">
-                    <p class="float-right">
-                        <a href="#">Back to top</a>
-                    </p>
-                    <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
-                    <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
-                            href="../../getting-started/">Contactenos</a>.</p>
-                </div>
-            </footer>
         </div>
     </div>
 </div>

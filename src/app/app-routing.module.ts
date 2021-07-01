@@ -7,10 +7,12 @@ import { PrincipalComponent } from './principal/principal.component';
 import { ResumenPedidoComponent } from './pedido/resumen-pedido/resumen-pedido.component';
 import { LeerPedidoComponent } from './pedido/leer-pedido/leer-pedido.component';
 import { LeerPedidoClienteComponent } from './pedido/leer-pedido-cliente/leer-pedido-cliente.component';
+import { CategoriaComponent } from './categoria/categoria.component';
 
 const routes: Routes = [
   { path: '',   redirectTo: '/index', pathMatch: 'full' },
   { path: 'index', component: PrincipalComponent},
+  { path: 'categoria', component: CategoriaComponent},
   { path: 'iniciar-sesion', component: InicioSesionComponent},
   { path: 'leer-producto', component: LeerProductoComponent},
   { path: 'crear-producto', component: CrearProductoComponent},

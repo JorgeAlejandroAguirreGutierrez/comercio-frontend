@@ -1,45 +1,19 @@
-<div class="container-fluid myfont" [class.is-mobile]="mobileQuery.matches">
-    <mat-toolbar color="primary" class="toolbar">
-        <button mat-icon-button (click)="snav.toggle()">
-            <mat-icon>menu</mat-icon>
-        </button>
-        <h1 class="app-name">{{pagina}}</h1>
-        <span class="espacio"></span>
-        <mat-form-field class="form-material">
-            <input matInput [(ngModel)]="marca">
-        </mat-form-field>
-        <button mat-icon-button (click)="consultarPorMarcaCategoria()" class="icon favorite-icon"
-            aria-label="icon-button with heart icon">
-            <mat-icon>search</mat-icon>
-        </button>
-        <button mat-icon-button class="example-icon" (click)="leerPedidoCliente($event)"
-            aria-label="icon-button with share icon">
-            <mat-icon matBadgeColor="primary">local_shipping</mat-icon>
-        </button>
-        <button mat-icon-button class="example-icon" routerLink="/resumen-pedido"
-            aria-label="icon-button with share icon">
-            <mat-icon matBadge="{{cantidadAgregados}}" matBadgeColor="primary">shopping_cart</mat-icon>
-        </button>
-    </mat-toolbar>
-
-    <mat-sidenav-container class="sidenav-container" [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-        <mat-sidenav class="sidenav" #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-            [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
-            <div class="filters">
-                <h5>CATEGORIAS</h5>
-            </div>
-            <mat-nav-list>
-                <a mat-list-item *ngFor="let categoria of categorias"
-                    href="/index?producto={{categoria.valor}}">{{categoria.valor}}</a>
-            </mat-nav-list>
-            <div class="filters">
-                <h5>USUARIO</h5>
-            </div>
-            <mat-nav-list>
-                <a mat-list-item href="/iniciar-sesion">INICIAR SESION</a>
-            </mat-nav-list>
-        </mat-sidenav>
-        <mat-sidenav-content>
+<div class="d-flex myfont" id="wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">MENU </div>
+        <hr>
+        <div class="list-group list-group-flush">
+            <a href="/categoria" class="list-group-item list-group-item-action bg-light">CATEGORIAS</a>
+            <a href="/iniciar-sesion" class="list-group-item list-group-item-action bg-light">INICIAR SESION</a>
+        </div>
+    </div>
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom justify">
+            <button class="btn btn-ligth" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></button>
+            <span class="separate"></span>
+            <a class="navbar-brand" href="#">{{tienda}}</a>
+        </nav>
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-sm">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
@@ -178,10 +152,9 @@
                     </footer>
                 </div>
             </div>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
+        </div>
+    </div>
 </div>
-
 
 <ng-template #modalAgregarLineaPedido let-modal>
     <div class="modal-header">
@@ -197,7 +170,8 @@
                 <div class="input-group">
                     <select [(ngModel)]="presentacionPedido" class="form-control form-control-sm">
                         <option [value]="i" *ngFor="let presentacion of productoPedido.presentaciones; let i=index">
-                            TALLA: {{presentacion.talla.descripcion}} COLOR: {{presentacion.color.descripcion}}</option>
+                            TALLA: {{presentacion.talla.descripcion}} COLOR: {{presentacion.color.descripcion}}
+                        </option>
                     </select>
                     <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
                 </div>

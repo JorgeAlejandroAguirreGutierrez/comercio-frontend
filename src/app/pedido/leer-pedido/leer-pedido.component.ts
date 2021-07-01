@@ -18,8 +18,7 @@ import { Sesion } from 'src/app/modelos/sesion';
   styleUrls: ['./leer-pedido.component.css']
 })
 export class LeerPedidoComponent implements OnInit {
-
-  pagina=constantes.pagina;
+  tienda=environment.tienda;
   pedidoActualizar: Pedido= null as any;
   pedidos: Pedido[]=[];
   qr: any= null as any;

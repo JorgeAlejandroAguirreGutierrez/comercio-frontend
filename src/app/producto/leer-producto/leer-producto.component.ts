@@ -11,6 +11,9 @@ import { Parametro } from 'src/app/modelos/parametro';
 import { Sesion } from 'src/app/modelos/sesion';
 import { Presentacion } from 'src/app/modelos/presentacion';
 import { environment } from '../../../environments/environment';
+import { Categoria } from 'src/app/modelos/categoria';
+import { Subcategoria } from 'src/app/modelos/subcategoria';
+import { CategoriaService } from 'src/app/servicios/categoria.service';
 
 @Component({
   selector: 'app-leer-producto',
@@ -24,15 +27,15 @@ export class LeerProductoComponent implements OnInit {
   presentacionForm: Presentacion = new Presentacion();
 
   imagen: any = null as any;
-  categorias: Parametro[] = [];
-  subcategorias: Parametro[] = [];
+  categorias: Categoria[] = [];
+  subcategorias: Subcategoria[] = [];
   tallas: Parametro[] = [];
   colores: Parametro[] = [];
 
   //BUSCAR
   marca: string = "";
-  categoria: string = "";
-  subcategoria: string = "";
+  categoria: Categoria = null as any;
+  subcategoria: Subcategoria = null as any;
 
   sesion: Sesion=null as any;
 
@@ -43,6 +46,7 @@ export class LeerProductoComponent implements OnInit {
   @ViewChild('modalPresentacionesLeer', { static: false }) private modalPresentacionesLeer: any;
 
   constructor(private sesionService: SesionService, private productoService: ProductoService,
+    private categoriaService: CategoriaService,
     private parametroService: ParametroService, private modalService: NgbModal, private router: Router) { }
 
   productos: Producto[] = [];
@@ -68,7 +72,7 @@ export class LeerProductoComponent implements OnInit {
   }
 
   consultarCategorias() {
-    this.parametroService.consultarPorTipo(constantes.parametroCategoria).subscribe(
+    this.categoriaService.consultar().subscribe(
       res => {
         this.categorias = res
       },
@@ -78,23 +82,15 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  consultarSubcategorias(categoria: string) {
-    this.parametroService.consultarPorTituloTipo(categoria, constantes.parametroSubcategoria).subscribe(
-      res => {
-        this.subcategorias = res
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
-      }
-    );
-  }
-
   seleccionarCategoria() {
-    this.consultarSubcategorias(this.categoria);
+    this.subcategorias=[];
+    if(this.productoActualizar.categoria!=null){
+      this.subcategorias=this.productoActualizar.categoria.subcategorias;
+    }
   }
 
   consultarTallas() {
-    this.parametroService.consultarPorTituloTipo(this.productoActualizar.categoria, constantes.parametroTalla).subscribe(
+    this.parametroService.consultarPorTituloTipo(this.productoActualizar.categoria.descripcion, constantes.parametroTalla).subscribe(
       res => {
         this.tallas = res
       },
@@ -115,8 +111,8 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  consultarPorMarcaCategoriaSubcategoria() {
-    this.productoService.consultarPorMarcaCategoriaSubcategoria(this.marca, this.categoria, this.subcategoria).subscribe(
+  consultarPorCategoriaYSubcategoria() {
+    this.productoService.consultarPorCategoriaYSubcategoria(this.categoria.descripcion, this.subcategoria.descripcion).subscribe(
       res => {
         this.productos = res;
       },
@@ -165,7 +161,10 @@ export class LeerProductoComponent implements OnInit {
 
   editar(i: number) {
     this.productoActualizar = { ... this.productos[i] };
-    this.consultarSubcategorias(this.productoActualizar.categoria);
+    this.subcategorias=[];
+    if(this.productoActualizar.categoria!=null){
+      this.subcategorias = this.productoActualizar.categoria.subcategorias;
+    }
     this.open(this.modalProductoActualizar);
   }
 

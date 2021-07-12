@@ -13,6 +13,9 @@ import Swal from 'sweetalert2';
 import * as constantes from '../../constantes';
 import * as util from '../../util';
 import { environment } from '../../../environments/environment';
+import { Categoria } from 'src/app/modelos/categoria';
+import { CategoriaService } from 'src/app/servicios/categoria.service';
+import { Subcategoria } from 'src/app/modelos/subcategoria';
 
 @Component({
   selector: 'app-crear-producto',
@@ -28,8 +31,8 @@ export class CrearProductoComponent implements OnInit {
   color: string="";
   imagenes: any[]= [];
 
-  categorias: Parametro[]=[];
-  subcategorias: Parametro[]=[];
+  categorias: Categoria[]=[];
+  subcategorias: Subcategoria[]=[];
   tallas: Parametro[]=[];
   colores: Parametro[]=[];
 
@@ -37,7 +40,7 @@ export class CrearProductoComponent implements OnInit {
   
 
   constructor(private productoService : ProductoService, private parametroService: ParametroService,
-    private sesionService: SesionService,
+    private categoriaService: CategoriaService, private sesionService: SesionService,
     private router: Router ) { }
 
   ngOnInit(): void {
@@ -49,7 +52,7 @@ export class CrearProductoComponent implements OnInit {
   }
 
   consultarCategorias(){
-    this.parametroService.consultarPorTipo(constantes.parametroCategoria).subscribe(
+    this.categoriaService.consultar().subscribe(
       res => {
         this.categorias = res
       },
@@ -72,22 +75,9 @@ export class CrearProductoComponent implements OnInit {
 
   seleccionarCategoria(){
     this.producto.presentaciones=[];
-    if (this.producto.categoria != ""){
-      this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroSubcategoria).subscribe(
-        res => {
-          this.subcategorias = res;
-          this.producto.subcategoria="";
-        },
-        err => {
-          Swal.fire(constantes.error, constantes.error_consultar_subcategorias, constantes.error_swal)
-        }
-      );
-    } else{
-      this.subcategorias=[];
-    }
-  
-    if (this.producto.categoria != ""){
-      this.parametroService.consultarPorTituloTipo(this.producto.categoria ,constantes.parametroTalla).subscribe(
+    if (this.producto.categoria!=null){
+      this.subcategorias=this.producto.categoria.subcategorias;
+      this.parametroService.consultarPorTituloTipo(this.producto.categoria.descripcion ,constantes.parametroTalla).subscribe(
         res => {
           this.tallas = res;
           this.tallaForm = null as any;
@@ -97,7 +87,7 @@ export class CrearProductoComponent implements OnInit {
         }
       );
     } else{
-      this.tallas=[];
+      this.subcategorias=[];
     }
   }
 
@@ -176,6 +166,10 @@ export class CrearProductoComponent implements OnInit {
 
   eliminarImagen(i: number){
     this.imagenes.splice(i, 1);
+  }
+
+  compareFn(a: any, b: any) {
+    return a && b && a.id == b.id;
   }
 
   navegarIndex() {

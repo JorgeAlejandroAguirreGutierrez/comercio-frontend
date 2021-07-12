@@ -112,7 +112,6 @@ export class ResumenPedidoComponent implements OnInit {
   }
 
   generarPedido() {
-    console.log(this.pedido);
     this.pedidoService.generar(this.pedido).subscribe(
       res => {
         if (res != null) {

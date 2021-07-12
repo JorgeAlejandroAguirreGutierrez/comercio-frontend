@@ -34,31 +34,25 @@
         </div>
     </div>
     <div class="form-row">
-        <div class="col-sm-1 form-group"></div>
-        <label class="col-sm-1 col-form-label font-weight-bold">Marca:</label>
-        <div class="col-sm-2 form-group">
-            <input type="text" [(ngModel)]="marca" class="form-control form-control-sm"
-                oninput="this.value = this.value.toUpperCase()">
-        </div>
         <label class="col-sm-1 col-form-label font-weight-bold">Categoria:</label>
-        <div class="col-sm-2 form-group">
-            <select class="form-control form-control-sm" [(ngModel)]="categoria" (change)="seleccionarCategoria()">
-                <option value=""></option>
-                <option *ngFor="let categoria of categorias; let i=index" [value]=categoria.valor>
-                    {{categoria.valor}}</option>
+        <div class="col-sm-4 form-group">
+            <select [compareWith]="compareFn" [(ngModel)]="categoria" class="form-control form-control-sm" (change)="seleccionarCategoria()">
+                <option [ngValue]="null"></option>
+                <option *ngFor="let categoria of categorias; let i=index" [ngValue]="categoria.descripcion">
+                    {{categoria.descripcion}}</option>
             </select>
         </div>
         <label class="col-sm-1 col-form-label font-weight-bold">Subcategoria:</label>
-        <div class="col-sm-2 form-group">
-            <select class="form-control form-control-sm" [(ngModel)]="subcategoria">
-                <option value=""></option>
-                <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>
-                    {{subcategoria.valor}}</option>
+        <div class="col-sm-4 form-group">
+            <select [(ngModel)]="subcategoria" [compareWith]="compareFn" class="form-control form-control-sm">
+                <option [ngValue]="null"></option>
+                <option *ngFor="let subcategoria of subcategorias; let i=index" [ngValue]="subcategoria">
+                    {{subcategoria.descripcion}}</option>
             </select>
         </div>
         <div class="col-sm-1 form-group">
             <button class="btn btn-sm btn-block btn-primary"
-                (click)="consultarPorMarcaCategoriaSubcategoria()">Buscar</button>
+                (click)="consultarPorCategoriaYSubcategoria()">Buscar</button>
         </div>
         <div class="col-sm-1 form-group"></div>
     </div>
@@ -135,6 +129,16 @@
     </div>
     <div class="modal-body">
         <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Titulo:</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" [(ngModel)]="productoActualizar.titulo"
+                        oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                    <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
             <label class="col-sm-3 col-form-label font-weight-bold">Marca:</label>
             <div class="col-sm-9">
                 <div class="input-group">
@@ -168,9 +172,10 @@
             <label class="col-sm-3 col-form-label font-weight-bold">Categoria:</label>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <select [(ngModel)]="productoActualizar.categoria" class="form-control form-control-sm">
-                        <option *ngFor="let categoria of categorias; let i=index" [value]=categoria.valor>
-                            {{categoria.valor}}
+                    <select [(ngModel)]="productoActualizar.categoria" (change)="seleccionarCategoria()" [compareWith]="compareFn" class="form-control form-control-sm">
+                        <option [ngValue]="null"></option>
+                        <option *ngFor="let categoria of categorias; let i=index" [ngValue]="categoria">
+                            {{categoria.descripcion}}
                         </option>
                     </select>
                     <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
@@ -178,12 +183,13 @@
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label font-weight-bold">Estilo:</label>
+            <label class="col-sm-3 col-form-label font-weight-bold">Subcategoria:</label>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <select [(ngModel)]="productoActualizar.subcategoria" class="form-control form-control-sm">
-                        <option *ngFor="let subcategoria of subcategorias; let i=index" [value]=subcategoria.valor>
-                            {{subcategoria.valor}}
+                    <select [(ngModel)]="productoActualizar.subcategoria" [compareWith]="compareFn" class="form-control form-control-sm">
+                        <option [ngValue]="null"></option>
+                        <option *ngFor="let subcategoria of subcategorias; let i=index" [ngValue]="subcategoria">
+                            {{subcategoria.descripcion}}
                         </option>
                     </select>
                     <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
@@ -282,8 +288,8 @@
             <label class="col-sm-3 col-form-label font-weight-bold">Talla:</label>
             <div class="col-sm">
                 <div class="input-group">
-                    <select [(ngModel)]="presentacionForm.talla.descripcion" class="form-control form-control-sm">
-                        <option></option>
+                    <select [(ngModel)]="presentacionForm.talla.descripcion" [compareWith]="compareFn" class="form-control form-control-sm">
+                        <option [ngValue]="null"></option>
                         <option *ngFor="let talla of tallas; let i=index" [value]=talla.valor>{{talla.valor}}</option>
                     </select>
                     <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
@@ -294,8 +300,8 @@
             <label class="col-sm-3 col-form-label font-weight-bold">Color:</label>
             <div class="col-sm">
                 <div class="input-group">
-                    <select [(ngModel)]="presentacionForm.color.descripcion" class="form-control form-control-sm">
-                        <option></option>
+                    <select [(ngModel)]="presentacionForm.color.descripcion" [compareWith]="compareFn" class="form-control form-control-sm">
+                        <option [ngValue]="null"></option>
                         <option *ngFor="let color of colores; let i=index" [value]=color.valor>{{color.valor}}</option>
                     </select>
                     <div class="input-group-text"><i class="fa fa-tumblr"></i></div>

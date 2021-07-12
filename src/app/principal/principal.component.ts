@@ -26,6 +26,9 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   tienda=environment.tienda;
   prefijoUrlImg = environment.prefijo_url_img;
   prefijoUrlImgFront = environment.prefijo_url_imgfront;
+  
+  categoria: string="";
+  subcategoria: string="";
 
   sliders: string[]=["slider1.jpg", "slider2.jpeg", "slider3.jpg"];
 
@@ -36,9 +39,6 @@ export class PrincipalComponent implements OnInit, OnDestroy {
     private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
       this.cantidadAgregados=0;
   }
-  marca: string="";
-  categoria: string="";
-  subcategoria: string="";
 
   productos: Producto[] = [];
   
@@ -56,8 +56,6 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   categoria_trajes_deportivos: string=constantes.categoria_trajes_deportivos;
 
   imagenesModal: Imagen[]=[];
-  categorias: Parametro[]=[];
-  subcategorias: Parametro[]=[];
 
   @ViewChild('modalAgregarLineaPedido', { static: false }) private modalAgregarLineaPedido: any;
   @ViewChild('modalLeerImagen', { static: false }) private modalLeerImagen: any;
@@ -66,14 +64,13 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     util.loadScripts();
-    this.categoria=this.route.snapshot.queryParamMap.get('producto') || null as any;
-    console.log(this.categoria);
-    if(this.categoria==null){
-      this.categoria=this.categoria_zapatos;
+    this.categoria=this.route.snapshot.queryParamMap.get('categoria') || null as any;
+    this.subcategoria=this.route.snapshot.queryParamMap.get('subcategoria') || null as any;
+    if (this.categoria==null){
+      this.categoria=constantes.categoria_zapatos;
+      this.subcategoria="";
     }
-    this.consultarCategorias();
-    this.consultarSubcategorias();
-    this.consultarPorCategoria();
+    this.consultarPorCategoriaYSubcategoria(this.categoria, this.subcategoria);    
     this.construirPedido();
     
   }
@@ -95,79 +92,10 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
-  consultarPorCategoria(){
-    this.productoService.consultarPorCategoria(this.categoria).subscribe(
+  consultarPorCategoriaYSubcategoria(categoria: string, subcategoria: string){
+    this.productoService.consultarPorCategoriaYSubcategoria(categoria, subcategoria).subscribe(
       res => {
         this.productos = res
-        let productosRec: Producto[] = [];
-        for (let i = 0; i < this.productos.length; i++) {
-          productosRec.push(this.productos[i]);
-          if (productosRec.length == 3) {
-            this.productosEnc.push(productosRec);
-            productosRec = [];
-          }
-        }
-        if (productosRec.length > 0) {
-          this.productosEnc.push(productosRec);
-        }
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
-      }
-    );
-  }
-
-  consultarCategorias(){
-    this.parametroService.consultarPorTipo(constantes.parametroCategoria).subscribe(
-      res => {
-        this.categorias = res
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_categorias, constantes.error_swal)
-      }
-    );
-  }
-
-  consultarSubcategorias(){
-    this.parametroService.consultarPorTituloTipo(this.categoria, constantes.parametroSubcategoria).subscribe(
-      res => {
-        this.subcategorias = res
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_subcategorias, constantes.error_swal)
-      }
-    );
-  }
-
-  consultarPorMarcaCategoria(){
-    this.productoService.consultarPorMarcaCategoria(this.marca, this.categoria).subscribe(
-      res => {
-        this.productos = res;
-        this.productosEnc = [];
-        console.log(this.productos);
-        let productosRec: Producto[] = [];
-        for (let i = 0; i < this.productos.length; i++) {
-          productosRec.push(this.productos[i]);
-          if (productosRec.length == 3) {
-            this.productosEnc.push(productosRec);
-            productosRec = [];
-          }
-        }
-        if (productosRec.length > 0) {
-          this.productosEnc.push(productosRec);
-        }
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
-      }
-    );
-  }
-
-  consultarPorMarcaCategoriaSubcategoria(){
-    this.productoService.consultarPorMarcaCategoriaSubcategoria(this.marca, this.categoria, this.subcategoria).subscribe(
-      res => {
-        this.productos = res;
-        this.productosEnc = [];
         console.log(this.productos);
         let productosRec: Producto[] = [];
         for (let i = 0; i < this.productos.length; i++) {

@@ -32,28 +32,12 @@ export class ProductoService {
     );
   }
 
-  async consultarAsync(): Promise<Producto[]> {
-    return await this.http.get<Producto[]>(environment.host + util.ruta + util.producto, util.options).pipe(
-      map(response => response as Producto[]),
-      catchError(err => {
-        return throwError(err);
-      })).toPromise();
-  }
-
   obtener(id: number): Observable<Producto> {
     return this.http.get<Producto>(environment.host + util.ruta + util.producto + '/' + id, util.options).pipe(
       map(response => response as Producto),
       catchError(err => {
         return throwError(err);
       }));
-  }
-
-  async obtenerAsync(id: number): Promise<Producto> {
-    return await this.http.get<Producto>(environment.host + util.ruta + util.producto + '/' + id, util.options).pipe(
-      map(response => response as Producto),
-      catchError(err => {
-        return throwError(err);
-      })).toPromise();
   }
 
   actualizar(producto: Producto): Observable<Producto> {
@@ -93,22 +77,10 @@ export class ProductoService {
     );
   }
 
-  consultarPorMarcaCategoria(marca: string, categoria: string): Observable<Producto[]> {
-    let params = new HttpParams().set("marca", marca)
-                                 .set("categoria", categoria)
-    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorMarcaCategoria, {params: params, headers: util.options.headers}).pipe(
-      map(response => response as Producto[]),
-      catchError(err => {
-        return throwError(err);
-      })
-    );
-  }
-
-  consultarPorMarcaCategoriaSubcategoria(marca: string, categoria: string, subcategoria: string): Observable<Producto[]> {
-    let params = new HttpParams().set("marca", marca)
-                                 .set("categoria", categoria)
+  consultarPorCategoriaYSubcategoria(categoria: string, subcategoria: string): Observable<Producto[]> {
+    let params = new HttpParams().set("categoria", categoria)
                                  .set("subcategoria", subcategoria);
-    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorMarcaCategoriaSubcategoria, {params: params, headers: util.options.headers}).pipe(
+    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorCategoriaYSubcategoria, {params: params, headers: util.options.headers}).pipe(
       map(response => response as Producto[]),
       catchError(err => {
         return throwError(err);

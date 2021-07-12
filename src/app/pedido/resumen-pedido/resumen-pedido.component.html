@@ -4,9 +4,7 @@
         <hr>
         <div class="list-group list-group-flush">
             <a class="list-group-item list-group-item-action bg-light" href="/index">Pagina Web</a>
-            <a class="list-group-item list-group-item-action bg-light" href="/crear-producto">Crear Producto</a>
-            <a class="list-group-item list-group-item-action bg-light" href="/leer-producto">Ver Productos</a>
-            <a class="list-group-item list-group-item-action bg-light" href="/leer-pedido">Ver Pedidos</a>
+            <a class="list-group-item list-group-item-action bg-light" href="#" (click)="leerPedidoCliente($event)">Ver Pedidos</a>
         </div>
     </div>
     <div id="page-content-wrapper">
@@ -101,7 +99,7 @@
                         <div class="col-sm-7 form-group">
                             <div class="input-group input-group-sm">
                                 <div class="input-group-append">
-                                    <span class="input-group-text font-weight-bold">+57</span>
+                                    <span class="input-group-text font-weight-bold">+59</span>
                                 </div>
                                 <input type="text" [(ngModel)]="pedido.cliente.celular" [disabled]="pedido.generar"
                                     oninput="this.value = this.value.toUpperCase()"

@@ -16,6 +16,9 @@ import { environment } from '../../../environments/environment';
 import { Categoria } from 'src/app/modelos/categoria';
 import { CategoriaService } from 'src/app/servicios/categoria.service';
 import { Subcategoria } from 'src/app/modelos/subcategoria';
+import { Subsubcategoria } from 'src/app/modelos/subsubcategoria';
+import { SubcategoriaService } from 'src/app/servicios/subcategoria.service';
+import { SubsubcategoriaService } from 'src/app/servicios/subsubcategoria.service';
 
 @Component({
   selector: 'app-crear-producto',
@@ -33,22 +36,46 @@ export class CrearProductoComponent implements OnInit {
 
   categorias: Categoria[]=[];
   subcategorias: Subcategoria[]=[];
+  subsubcategorias: Subsubcategoria[]=[];
   tallas: Parametro[]=[];
   colores: Parametro[]=[];
 
   sesion: Sesion=null as any;
+
+  /*CAMPOS*/
+  campoMarca: boolean = false;
+  campoMaterial: boolean = false;
+  campoCompra: boolean = false;
+  campoDescuento: boolean = false;
+  campoGarantia: boolean = false;
+  campoTalla: boolean = false;
+  campoColor: boolean = false;
+
+  campos: Parametro[]=[];
+  campo: Parametro=null as any;
   
 
   constructor(private productoService : ProductoService, private parametroService: ParametroService,
-    private categoriaService: CategoriaService, private sesionService: SesionService,
-    private router: Router ) { }
+    private categoriaService: CategoriaService, private subcategoriaService: SubcategoriaService, private subsubcategoriaService: SubsubcategoriaService,
+    private sesionService: SesionService, private router: Router ) { }
 
   ngOnInit(): void {
     util.loadScripts();
     this.validarSesion();
+    this.consultarCampos();
     this.consultarCategorias();
-    this.consultarColores();
     
+  }
+
+  consultarCampos(){
+    this.parametroService.consultarPorTipo(constantes.parametroCampo).subscribe(
+      res => {
+        this.campos = res
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_campos, constantes.error_swal)
+      }
+    );
   }
 
   consultarCategorias(){
@@ -62,32 +89,50 @@ export class CrearProductoComponent implements OnInit {
     );
   }
 
-  consultarColores(){
-    this.parametroService.consultarPorTipo(constantes.parametroColor).subscribe(
-      res => {
-        this.colores = res
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
-      }
-    );
+  agregarCampo(){
+    if(this.campo.valor == constantes.campoMarca)
+      this.campoMarca=true;
+    if(this.campo.valor == constantes.campoMaterial)
+      this.campoMaterial=true;
+    if(this.campo.valor == constantes.campoCompra)
+      this.campoCompra=true;
+    if(this.campo.valor == constantes.campoDescuento)
+      this.campoDescuento=true;
+    if(this.campo.valor == constantes.campoGarantia)
+      this.campoGarantia=true;
+    if(this.campo.valor == constantes.campoTalla)
+      this.campoTalla=true;
+    if(this.campo.valor == constantes.campoColor)
+      this.campoColor=true;
   }
 
   seleccionarCategoria(){
-    this.producto.presentaciones=[];
     if (this.producto.categoria!=null){
-      this.subcategorias=this.producto.categoria.subcategorias;
-      this.parametroService.consultarPorTituloTipo(this.producto.categoria.descripcion ,constantes.parametroTalla).subscribe(
+      this.subcategoriaService.consultarPorCategoria(this.producto.categoria.id).subscribe(
         res => {
-          this.tallas = res;
-          this.tallaForm = null as any;
+            this.subcategorias=res;
         },
         err => {
-          Swal.fire(constantes.error, constantes.error_consultar_tallas, constantes.error_swal)
+          Swal.fire(constantes.error, constantes.error_consultar_por_categoria, constantes.error_swal)
         }
       );
     } else{
       this.subcategorias=[];
+    }
+  }
+
+  seleccionarSubcategoria(){
+    if (this.producto.subcategoria!=null){
+      this.subsubcategoriaService.consultarPorSubcategoria(this.producto.subcategoria.id).subscribe(
+        res => {
+            this.subsubcategorias=res;
+        },
+        err => {
+          Swal.fire(constantes.error, constantes.error_consultar_por_subcategoria, constantes.error_swal)
+        }
+      );
+    } else {
+      this.subsubcategorias=[];
     }
   }
 

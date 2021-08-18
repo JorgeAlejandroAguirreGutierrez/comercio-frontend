@@ -3,8 +3,11 @@
         <div class="sidebar-heading">MENU </div>
         <hr>
         <div class="list-group list-group-flush">
-            <a href="/index" class="list-group-item list-group-item-action bg-light">VOLVER ATRAS</a>
-            <a href="/iniciar-sesion" class="list-group-item list-group-item-action bg-light">INICIAR SESION</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/index">INDEX</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/leer-producto">VER PRODUCTOS</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/leer-pedido">VER PEDIDOS</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/categoria">CATEGORIAS</a>
+            <a class="list-group-item list-group-item-action bg-light" type="button" href="#" (click)="cerrarSesion($event)">CERRAR SESION</a>
         </div>
     </div>
     <div id="page-content-wrapper">
@@ -14,40 +17,207 @@
             <a class="navbar-brand" href="#">{{tienda}}</a>
         </nav>
         <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm" align="center">
+                    <hr>
+                    <h2>CATEGORIAS REGISTRADAS</h2>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-3">
+                    <button class="btn btn-sm btn-primary btn-block separate" (click)="abrirModalCrearCategoria()">
+                        Crear Categoria
+                    </button>
+                </div>
+                <div class="col-sm-auto">
+                    &raquo;
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-sm btn-primary btn-block separate" (click)="abrirModalCrearSubcategoria()">
+                        Crear Subcategoria
+                    </button>
+                </div>
+                <div class="col-sm-auto">
+                    &raquo;
+                </div>
+                <div class="col-sm-3">
+                    <button class="btn btn-sm btn-primary btn-block separate" (click)="abrirModalCrearSubsubcategoria()">
+                        Crear Subsubcategoria
+                    </button>
+                </div>
+            </div>
+            <br>
+            <hr>
+            <div class="row">
+                <div class="col-sm-3">
+                    <label>Categoria:</label>
+                    <input type="text" [(ngModel)]="buscarCategoria" class="form-control form-control-sm"
+                        oninput="this.value = this.value.toUpperCase()">
+                </div>
+                <div class="col-sm-3">
+                    <label>Subcategoria:</label>
+                    <input type="text" [(ngModel)]="buscarSubcategoria" class="form-control form-control-sm"
+                        oninput="this.value = this.value.toUpperCase()">
+                </div>
+                <div class="col-sm-3">
+                    <label>Subsubcategoria:</label>
+                    <input type="text" [(ngModel)]="buscarSubsubcategoria" class="form-control form-control-sm"
+                        oninput="this.value = this.value.toUpperCase()">
+                </div>
+                <div class="col-sm-3">
+                    <label>&nbsp;</label>
+                    <button class="btn btn-sm btn-block btn-primary" (click)="buscar()">Buscar</button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-12 scrollcustom">
+                    <table class="table table-hover table-bordered" style="font-size: 0.7rem">
+                        <thead class="table-active">
+                            <tr>
+                                <th>No.</th>
+                                <th>CATEGORIA</th>
+                                <th>SUBCATEGORIA</th>
+                                <th>SUBSUBCATEGORIA</th>
+                                <th>OPC</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let categoria of categorias; let i=index">
+                                <ng-container *ngFor="let subcategoria of categoria.subcategorias; let j=index">
+                                    <tr *ngFor="let subsubcategoria of subcategoria.subsubcategorias; let k=index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{categoria.descripcion}}</td>
+                                        <td>{{subcategoria.descripcion}}</td>
+                                        <td>{{subsubcategoria.descripcion}}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary separate" (click)="eliminar(i, j, k)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </ng-container>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
             <br>
             <div class="row">
                 <div class="col-sm">
-                    <div id="accordion">
-                        <ng-container *ngFor="let categoria of categorias; let i=index">
-                            <div class="card">
-                                <div class="card-header" id="heading{{i+1}}">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link" data-toggle="collapse" attr.data-target="#collapse{{i+1}}"
-                                            aria-expanded="true" attr.aria-controls="collapse{{i+1}}">
-                                            {{categoria.descripcion}}
-                                        </button>
-                                    </h5>
-                                </div>
-
-                                <div id="collapse{{i+1}}" class="collapse show" attr.aria-labelledby="heading{{i+1}}"
-                                    data-parent="#accordion">
-                                    <div class="card-body">
-                                        <div class="panel-body">
-                                            <table class="table">
-                                                <tr *ngFor="let subcategoria of categoria.subcategorias; let i=index">
-                                                    <td>
-                                                        <a href="/index?categoria={{categoria.descripcion}}&subcategoria={{subcategoria.descripcion}}">{{subcategoria.descripcion}}</a>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-container>
-                    </div>
+                    <footer class="text-muted">
+                        <div class="container">
+                            <p>{{comercio}} {{ubicacion}}. Todos los derechos reservados 2021.</p>
+                            <p>Instagram Gimnasio Olimpia <a href="../../">
+                                    Visitala!</a> o haznos una pregunta a <a href="../../getting-started/">Contactenos</a>.</p>
+                        </div>
+                    </footer>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<ng-template #modalCrearCategoria let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">DATOS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Categoria:</label>
+                <input type="text" [(ngModel)]="crearCategoria.descripcion"
+                    class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="crearCategoriaAccion()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #modalCrearSubcategoria let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">DATOS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Categoria:</label>
+                <select [(ngModel)]="asignarCategoria" [compareWith]="compareFn"
+                    class="form-control form-control-sm">
+                    <option [ngValue]="null"></option>
+                    <option *ngFor="let categoria of categorias" [ngValue]="categoria">
+                        {{categoria.descripcion}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Subcategoria:</label>
+                <input type="text" [(ngModel)]="crearSubcategoria.descripcion"
+                    class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="crearSubcategoriaAccion()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #modalCrearSubsubcategoria let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">DATOS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Categoria:</label>
+                <select [(ngModel)]="asignarCategoria" [compareWith]="compareFn"
+                    class="form-control form-control-sm">
+                    <option [ngValue]="null"></option>
+                    <option *ngFor="let categoria of categorias" [ngValue]="categoria">
+                        {{categoria.descripcion}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Subcategoria:</label>
+                <select [(ngModel)]="asignarSubcategoria" [compareWith]="compareFn"
+                    class="form-control form-control-sm">
+                    <option [ngValue]="null"></option>
+                    <option *ngFor="let subcategoria of subcategorias" [ngValue]="subcategoria">
+                        {{subcategoria.descripcion}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Subsubcategoria:</label>
+                <input type="text" [(ngModel)]="crearSubsubcategoria.descripcion"
+                    class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="crearSubsubcategoriaAccion()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>

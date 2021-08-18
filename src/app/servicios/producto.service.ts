@@ -77,17 +77,6 @@ export class ProductoService {
     );
   }
 
-  consultarPorCategoriaYSubcategoria(categoria: string, subcategoria: string): Observable<Producto[]> {
-    let params = new HttpParams().set("categoria", categoria)
-                                 .set("subcategoria", subcategoria);
-    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorCategoriaYSubcategoria, {params: params, headers: util.options.headers}).pipe(
-      map(response => response as Producto[]),
-      catchError(err => {
-        return throwError(err);
-      })
-    );
-  }
-
   crearImagen(imagen: File, id: number): Observable<boolean> {
     const formData: FormData = new FormData();
     formData.append('imagen', imagen, imagen.name);

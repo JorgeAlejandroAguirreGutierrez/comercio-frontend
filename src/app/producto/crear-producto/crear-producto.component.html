@@ -3,10 +3,12 @@
         <div class="sidebar-heading">MENU </div>
         <hr>
         <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action bg-light" href="/index">PAGINA WEB</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/index">INDEX</a>
             <a class="list-group-item list-group-item-action bg-light" href="/leer-producto">VER PRODUCTOS</a>
             <a class="list-group-item list-group-item-action bg-light" href="/leer-pedido">VER PEDIDOS</a>
-            <a class="list-group-item list-group-item-action bg-light" type="button" href="#" (click)="cerrarSesion($event)">CERRAR SESION</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/categoria">CATEGORIAS</a>
+            <a class="list-group-item list-group-item-action bg-light" type="button" href="#"
+                (click)="cerrarSesion($event)">CERRAR SESION</a>
         </div>
     </div>
     <div id="page-content-wrapper">
@@ -17,7 +19,7 @@
         </nav>
         <div class="container-fluid">
             <div class="form-row">
-                <div class="col-sm-3"></div>
+                <div class="col-sm-2"></div>
                 <div class="col-sm">
                     <hr>
                     <h2 class="font-weight-bold" align="center">CREAR PRODUCTO</h2>
@@ -27,16 +29,6 @@
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
                                 <input type="text" [(ngModel)]="producto.titulo"
-                                    oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
-                                <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Marca:</label>
-                        <div class="col-sm-9 form-group">
-                            <div class="input-group">
-                                <input type="text" [(ngModel)]="producto.marca"
                                     oninput="this.value = this.value.toUpperCase()"
                                     class="form-control form-control-sm">
                                 <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
@@ -55,13 +47,11 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Material:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">Precio:</label>
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
-                                <input type="text" [(ngModel)]="producto.material"
-                                    oninput="this.value = this.value.toUpperCase()"
-                                    class="form-control form-control-sm">
-                                <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                                <input type="text" [(ngModel)]="producto.precio" class="form-control form-control-sm">
+                                <div class="input-group-text"><i class="fa fa-usd"></i></div>
                             </div>
                         </div>
                     </div>
@@ -83,7 +73,8 @@
                         <label class="col-sm-3 col-form-label font-weight-bold">Subcategoria:</label>
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
-                                <select [compareWith]="compareFn" class="form-control form-control-sm" [(ngModel)]="producto.subcategoria">
+                                <select class="form-control form-control-sm" [(ngModel)]="producto.subcategoria"
+                                    [compareWith]="compareFn" (change)="seleccionarSubcategoria()">
                                     <option [ngValue]="0"></option>
                                     <option *ngFor="let subcategoria of subcategorias; let i=index" [ngValue]="subcategoria">
                                         {{subcategoria.descripcion}}
@@ -94,107 +85,136 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Compra:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">Subsubcategoria:</label>
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
-                                <input type="text" [(ngModel)]="producto.compra" class="form-control form-control-sm">
-                                <div class="input-group-text"><i class="fa fa-usd"></i></div>
+                                <select [compareWith]="compareFn" class="form-control form-control-sm"
+                                    [(ngModel)]="producto.subsubcategoria">
+                                    <option [ngValue]="0"></option>
+                                    <option *ngFor="let subsubcategoria of subsubcategorias; let i=index"
+                                        [ngValue]="subsubcategoria">
+                                        {{subsubcategoria.descripcion}}
+                                    </option>
+                                </select>
+                                <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
                             </div>
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Precio:</label>
-                        <div class="col-sm-9 form-group">
-                            <div class="input-group">
-                                <input type="text" [(ngModel)]="producto.precio" class="form-control form-control-sm">
-                                <div class="input-group-text"><i class="fa fa-usd"></i></div>
-                            </div>
+                        <label class="col-sm-3 col-form-label font-weight-bold">Campos Personalizados:</label>
+                        <div class="col-sm-6 form-group">
+                            <select [compareWith]="compareFn" class="form-control form-control-sm"
+                                [(ngModel)]="campo">
+                                <option [ngValue]="0"></option>
+                                <option *ngFor="let campo of campos; let i=index"
+                                    [ngValue]="campo">
+                                    {{campo.valor}}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-sm-3 form-group">
+                            <button class="btn btn-sm btn-block btn-primary" (click)="agregarCampo()">Agregar Campo</button>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Descuento:</label>
-                        <div class="col-sm-9 form-group">
-                            <div class="input-group">
-                                <input type="text" [(ngModel)]="producto.descuento"
-                                    class="form-control form-control-sm">
-                                <div class="input-group-text"><i class="fa fa-usd"></i></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Garantia:</label>
-                        <div class="col-sm form-group">
-                            <div class="input-group input-group-sm mb-3">
-                                <input type="text" [(ngModel)]="producto.garantia" class="form-control">
-                                <div class="input-group-append">
-                                    <span class="input-group-text font-weight-bold">MESES</span>
+                    <ng-container *ngIf="campoMarca">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Marca:</label>
+                            <div class="col-sm-9 form-group">
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="producto.marca"
+                                        oninput="this.value = this.value.toUpperCase()"
+                                        class="form-control form-control-sm">
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Tallas:</label>
-                        <div class="col-sm form-group">
-                            <div class="input-group">
-                                <select [compareWith]="compareFn" [(ngModel)]="tallaForm" class="form-control form-control-sm">
-                                    <option [ngValue]="0"></option>
-                                    <option *ngFor="let talla of tallas; let i=index" [ngValue]="talla.valor">
-                                        {{talla.valor}}</option>
-                                </select>
-                                <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </ng-container>
+                    <ng-container *ngIf="campoMaterial">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Material:</label>
+                            <div class="col-sm-9 form-group">
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="producto.material"
+                                        oninput="this.value = this.value.toUpperCase()"
+                                        class="form-control form-control-sm">
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                                </div>
                             </div>
                         </div>
-                        <br>
-                    </div>
-                    <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Colores:</label>
-                        <div class="col-sm form-group">
-                            <div class="input-group">
-                                <select [compareWith]="compareFn" [(ngModel)]="colorForm" class="form-control form-control-sm">
-                                    <option [ngValue]="0"></option>
-                                    <option *ngFor="let color of colores; let i=index" [ngValue]="color.valor">
-                                        {{color.valor}}</option>
-                                </select>
-                                <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                    </ng-container>
+                    <ng-container *ngIf="campoCompra">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Compra:</label>
+                            <div class="col-sm-9 form-group">
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="producto.compra"
+                                        class="form-control form-control-sm">
+                                    <div class="input-group-text"><i class="fa fa-usd"></i></div>
+                                </div>
                             </div>
                         </div>
-                        <br>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm form-group">
-                            <button class="btn btn-sm btn-block btn-primary" (click)="crearPresentacion()">Agregar
-                                Presentacion</button>
+                    </ng-container>
+                    <ng-container *ngIf="campoDescuento">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Descuento:</label>
+                            <div class="col-sm-9 form-group">
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="producto.descuento"
+                                        class="form-control form-control-sm">
+                                    <div class="input-group-text"><i class="fa fa-usd"></i></div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm form-group">
-                            <table class="table table-hover table-bordered" style="font-size: 0.7rem">
-                                <thead class="table-active">
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>TALLA</th>
-                                        <th>COLOR</th>
-                                        <th>OPC</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let presentacion of this.producto.presentaciones; let i=index">
-                                        <td>{{i+1}}</td>
-                                        <td>{{presentacion.talla.descripcion}}</td>
-                                        <td>{{presentacion.color.descripcion}}</td>
-                                        <td>
-                                            <button (click)="eliminarPresentacion(i)"
-                                                class="btn btn-primary form-control-sm"><i
-                                                    class="fa fa-trash"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    </ng-container>
+                    <ng-container *ngIf="campoGarantia">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Garantia:</label>
+                            <div class="col-sm form-group">
+                                <div class="input-group input-group-sm mb-3">
+                                    <input type="text" [(ngModel)]="producto.garantia" class="form-control">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text font-weight-bold">MESES</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </ng-container>
+                    <ng-container *ngIf="campoTalla">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Tallas:</label>
+                            <div class="col-sm form-group">
+                                <div class="input-group">
+                                    <select [compareWith]="compareFn" [(ngModel)]="tallaForm"
+                                        class="form-control form-control-sm">
+                                        <option [ngValue]="0"></option>
+                                        <option *ngFor="let talla of tallas; let i=index" [ngValue]="talla.valor">
+                                            {{talla.valor}}</option>
+                                    </select>
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="campoColor">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Colores:</label>
+                            <div class="col-sm form-group">
+                                <div class="input-group">
+                                    <select [compareWith]="compareFn" [(ngModel)]="colorForm"
+                                        class="form-control form-control-sm">
+                                        <option [ngValue]="0"></option>
+                                        <option *ngFor="let color of colores; let i=index" [ngValue]="color.valor">
+                                            {{color.valor}}</option>
+                                    </select>
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                                </div>
+                            </div>
+                            <br>
+                        </div>
+                    </ng-container>
                     <div class="form-row">
                         <label class="col-sm-3 col-form-label font-weight-bold">Imagenes:</label>
-                        <div class="col-sm-5 form-group">
+                        <div class="col-sm-3 form-group">
                             <input hidden type="file" #botonImagen id="imagen" name="imagen"
                                 (change)="cargarImagen($event)">
                             <button (click)="botonImagen.click()"
@@ -206,7 +226,6 @@
                             </ng-container>
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <div class="col-sm">
                             <table class="table table-hover table-bordered" style="font-size: 0.7rem">
@@ -231,14 +250,13 @@
                             </table>
                         </div>
                     </div>
-
                     <div class="form-row">
                         <div class="col-sm form-group">
                             <button class="btn btn-sm btn-block btn-success" (click)="crear()">Crear Producto</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-3"></div>
+                <div class="col-sm-2"></div>
             </div>
             <br>
             <div class="row">

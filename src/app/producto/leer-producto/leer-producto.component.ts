@@ -111,17 +111,6 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  consultarPorCategoriaYSubcategoria() {
-    this.productoService.consultarPorCategoriaYSubcategoria(this.categoria.descripcion, this.subcategoria.descripcion).subscribe(
-      res => {
-        this.productos = res;
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
-      }
-    );
-  }
-
   validarSesion(){
     this.sesion=this.sesionService.getSesion();
     this.sesionService.validar(this.sesion.id).subscribe(

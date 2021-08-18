@@ -18,22 +18,67 @@
             </ul>
         </nav>
         <div class="container-fluid">
+            <div class="row buscador-logo">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-2">
+                    <img src="{{prefijoUrlImgFront+logo.valor}}" height="100px" alt="None">
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-5">
+                    <br><br>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="buscar" />
+                </div>
+                <div class="col-sm-2">
+                    <br><br>
+                    <button class="btn btn-sm btn-block btn-warning">Buscar</button>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-hover">
+                <a class="navbar-brand" href="#">Alibaba</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHover"
+                    aria-controls="navbarDD" aria-expanded="false" aria-label="Navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarHover">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <span class="fa fa-bars"></span>
+                                Categorias
+                            </a>
+                            <ul class="dropdown-menu">
+                                <ng-container *ngFor="let categoria of categorias; let i=index">
+                                    <li><a class="dropdown-item" href="#">{{categoria.descripcion}} <ng-container *ngIf="categoria.subcategorias.length>0">&raquo;</ng-container></a>
+                                        <ul class="dropdown-menu" *ngIf="categoria.subcategorias.length>0">
+                                            <ng-container *ngFor="let subcategoria of categoria.subcategorias; let j=index">
+                                                <li><a class="dropdown-item" href="#">{{subcategoria.descripcion}} <ng-container *ngIf="subcategoria.subsubcategorias.length>0">&raquo;</ng-container></a>
+                                                    <ul class="dropdown-menu" *ngIf="subcategoria.subsubcategorias.length>0">
+                                                        <ng-container *ngFor="let subsubcategoria of subcategoria.subsubcategorias; let k=index">
+                                                                <li><a class="dropdown-item" href="#">{{subsubcategoria.descripcion}}</a></li>
+                                                        </ng-container>
+                                                    </ul>
+                                                </li>
+                                            </ng-container>
+                                        </ul>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
             <div class="row">
                 <div class="col-sm">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img class="imgslider d-block w-100" src="{{prefijoUrlImgFront+sliders[0]}}"
-                                    height="350px" alt="First slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="imgslider d-block w-100" src="{{prefijoUrlImgFront+sliders[1]}}"
-                                    height="350px" alt="Second slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="imgslider d-block w-100" src="{{prefijoUrlImgFront+sliders[2]}}"
-                                    height="350px" alt="Third slide">
-                            </div>
+                            <ng-container *ngFor="let slider of sliders; let i=index">
+                                <div [ngClass]="{'carousel-item': true, 'active': i==0}">
+                                    <img class="d-block w-100" src="{{prefijoUrlImgFront+slider.valor}}" height="500px"
+                                        alt="slider {{i}}">
+                                </div>
+                            </ng-container>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
                             data-slide="prev">
@@ -48,12 +93,14 @@
                     </div>
                 </div>
             </div>
-            <br>
+            <div class="navbar-horizontally">
+
+            </div>
             <br>
             <div class="row">
                 <div class="col-sm centrar">
                     <hr>
-                    <h1 class="myfont font-weight-bold">{{categoria}}</h1>
+                    <h1 class="myfont font-weight-bold">PRODUCTOS</h1>
                     <hr>
                 </div>
             </div>

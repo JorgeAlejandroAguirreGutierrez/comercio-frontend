@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, Input } from '@angular/core';
 import { Producto } from '../modelos/producto';
 import { ProductoService } from '../servicios/producto.service';
 import Swal from 'sweetalert2';
@@ -15,6 +15,8 @@ import { Parametro } from '../modelos/parametro';
 import { PedidoService } from 'src/app/servicios/pedido.service';
 import { Cliente } from '../modelos/cliente';
 import { ClienteService } from '../servicios/cliente.service';
+import { Categoria } from '../modelos/categoria';
+import { CategoriaService } from '../servicios/categoria.service';
 
 @Component({
   selector: 'app-principal',
@@ -26,20 +28,12 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   tienda=environment.tienda;
   prefijoUrlImg = environment.prefijo_url_img;
   prefijoUrlImgFront = environment.prefijo_url_imgfront;
-  
-  categoria: string="";
-  subcategoria: string="";
 
-  sliders: string[]=["slider1.jpg", "slider2.jpeg", "slider3.jpg"];
+  sliders: Parametro[]=[];
+  logo: Parametro=new Parametro();
+  buscar: string="";
 
-  @Input() cantidadAgregados:number;
-
-  constructor(private productoService: ProductoService, private parametroService: ParametroService, 
-    private sesionService: SesionService, private pedidoService: PedidoService, private clienteService: ClienteService,
-    private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
-      this.cantidadAgregados=0;
-  }
-
+  categorias: Categoria[]=[];
   productos: Producto[] = [];
   
   productosEnc: any[] = [];
@@ -51,11 +45,15 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   lineaPedido: LineaPedido = new LineaPedido();
 
-  categoria_zapatos: string=constantes.categoria_zapatos;
-  categoria_bolsos: string=constantes.categoria_bolsos;
-  categoria_trajes_deportivos: string=constantes.categoria_trajes_deportivos;
-
   imagenesModal: Imagen[]=[];
+
+  @Input() cantidadAgregados:number;
+
+  constructor(private productoService: ProductoService, private parametroService: ParametroService, private categoriaService: CategoriaService,
+    private sesionService: SesionService, private pedidoService: PedidoService, private clienteService: ClienteService,
+    private router: Router, private modalService: NgbModal, private route: ActivatedRoute) {
+      this.cantidadAgregados=0;
+  }
 
   @ViewChild('modalAgregarLineaPedido', { static: false }) private modalAgregarLineaPedido: any;
   @ViewChild('modalLeerImagen', { static: false }) private modalLeerImagen: any;
@@ -64,15 +62,47 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     util.loadScripts();
-    this.categoria=this.route.snapshot.queryParamMap.get('categoria') || null as any;
+    /* this.categoria=this.route.snapshot.queryParamMap.get('categoria') || null as any;
     this.subcategoria=this.route.snapshot.queryParamMap.get('subcategoria') || null as any;
-    if (this.categoria==null){
-      this.categoria=constantes.categoria_zapatos;
-      this.subcategoria="";
-    }
-    this.consultarPorCategoriaYSubcategoria(this.categoria, this.subcategoria);    
+    */
+    this.consultarSliders();
+    this.consultarLogo();
+    this.consultarCategorias();    
     this.construirPedido();
     
+  }
+
+  consultarSliders(){
+    this.parametroService.consultarPorTipo(constantes.parametroSlider).subscribe(
+      res => {
+        this.sliders=res;
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_sliders, constantes.error_swal)
+      }
+    );
+  }
+
+  consultarLogo(){
+    this.parametroService.consultarPorTipo(constantes.parametroLogo).subscribe(
+      res => {
+        this.logo=res[0];
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_logo, constantes.error_swal)
+      }
+    );
+  }
+
+  consultarCategorias(){
+    this.categoriaService.consultar().subscribe(
+      res => {
+        this.categorias=res;
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_categorias, constantes.error_swal)
+      }
+    );
   }
 
   construirPedido(){
@@ -90,29 +120,6 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-  }
-
-  consultarPorCategoriaYSubcategoria(categoria: string, subcategoria: string){
-    this.productoService.consultarPorCategoriaYSubcategoria(categoria, subcategoria).subscribe(
-      res => {
-        this.productos = res
-        console.log(this.productos);
-        let productosRec: Producto[] = [];
-        for (let i = 0; i < this.productos.length; i++) {
-          productosRec.push(this.productos[i]);
-          if (productosRec.length == 3) {
-            this.productosEnc.push(productosRec);
-            productosRec = [];
-          }
-        }
-        if (productosRec.length > 0) {
-          this.productosEnc.push(productosRec);
-        }
-      },
-      err => {
-        Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
-      }
-    );
   }
 
   agregarLineaPedido(producto: Producto) {

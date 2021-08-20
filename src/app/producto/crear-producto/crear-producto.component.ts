@@ -90,19 +90,19 @@ export class CrearProductoComponent implements OnInit {
   }
 
   agregarCampo(){
-    if(this.campo.valor == constantes.campoMarca)
+    if(this.campo.titulo == constantes.campoMarca)
       this.campoMarca=true;
-    if(this.campo.valor == constantes.campoMaterial)
+    if(this.campo.titulo == constantes.campoMaterial)
       this.campoMaterial=true;
-    if(this.campo.valor == constantes.campoCompra)
+    if(this.campo.titulo == constantes.campoCompra)
       this.campoCompra=true;
-    if(this.campo.valor == constantes.campoDescuento)
+    if(this.campo.titulo == constantes.campoDescuento)
       this.campoDescuento=true;
-    if(this.campo.valor == constantes.campoGarantia)
+    if(this.campo.titulo == constantes.campoGarantia)
       this.campoGarantia=true;
-    if(this.campo.valor == constantes.campoTalla)
+    if(this.campo.titulo == constantes.campoTalla)
       this.campoTalla=true;
-    if(this.campo.valor == constantes.campoColor)
+    if(this.campo.titulo == constantes.campoColor)
       this.campoColor=true;
   }
 

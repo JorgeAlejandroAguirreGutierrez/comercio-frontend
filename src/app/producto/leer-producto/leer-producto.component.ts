@@ -14,6 +14,9 @@ import { environment } from '../../../environments/environment';
 import { Categoria } from 'src/app/modelos/categoria';
 import { Subcategoria } from 'src/app/modelos/subcategoria';
 import { CategoriaService } from 'src/app/servicios/categoria.service';
+import { Subsubcategoria } from 'src/app/modelos/subsubcategoria';
+import { SubcategoriaService } from 'src/app/servicios/subcategoria.service';
+import { SubsubcategoriaService } from 'src/app/servicios/subsubcategoria.service';
 
 @Component({
   selector: 'app-leer-producto',
@@ -27,8 +30,9 @@ export class LeerProductoComponent implements OnInit {
   presentacionForm: Presentacion = new Presentacion();
 
   imagen: any = null as any;
-  categorias: Categoria[] = [];
-  subcategorias: Subcategoria[] = [];
+  categorias: Categoria[]=[];
+  subcategorias: Subcategoria[]=[];
+  subsubcategorias: Subsubcategoria[]=[];
   tallas: Parametro[] = [];
   colores: Parametro[] = [];
 
@@ -41,21 +45,33 @@ export class LeerProductoComponent implements OnInit {
 
   cerrarModal: string = "";
 
+  /*CAMPOS*/
+  campoMarca: boolean = false;
+  campoMaterial: boolean = false;
+  campoCompra: boolean = false;
+  campoDescuento: boolean = false;
+  campoGarantia: boolean = false;
+  campoTalla: boolean = false;
+  campoColor: boolean = false;
+
+  campos: Parametro[]=[];
+  campo: Parametro=null as any;
+
+  productos: Producto[] = [];
+  productoBuscar: Producto = new Producto();
+
   @ViewChild('modalProductoActualizar', { static: false }) private modalProductoActualizar: any;
   @ViewChild('modalProductoDescuento', { static: false }) private modalProductoDescuento: any;
   @ViewChild('modalPresentacionesLeer', { static: false }) private modalPresentacionesLeer: any;
 
   constructor(private sesionService: SesionService, private productoService: ProductoService,
-    private categoriaService: CategoriaService,
+    private categoriaService: CategoriaService, private subcategoriaService: SubcategoriaService, private subsubcategoriaService: SubsubcategoriaService,
     private parametroService: ParametroService, private modalService: NgbModal, private router: Router) { }
-
-  productos: Producto[] = [];
-  productoBuscar: Producto = new Producto();
 
   ngOnInit(): void {
     this.validarSesion();
     this.consultarProductos();
-    this.consultarCategorias();
+    this.consultarCampos();
     this.consultarColores();
 
   }
@@ -71,21 +87,44 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  consultarCategorias() {
-    this.categoriaService.consultar().subscribe(
+  consultarCampos(){
+    this.parametroService.consultarPorTipo(constantes.parametroCampo).subscribe(
       res => {
-        this.categorias = res
+        this.campos = res
       },
       err => {
-        Swal.fire(constantes.error, constantes.error_consultar_categorias, constantes.error_swal)
+        Swal.fire(constantes.error, constantes.error_consultar_campos, constantes.error_swal)
       }
     );
   }
 
-  seleccionarCategoria() {
-    this.subcategorias=[];
-    if(this.productoActualizar.categoria!=null){
-      this.subcategorias=this.productoActualizar.categoria.subcategorias;
+  seleccionarCategoria(){
+    if (this.productoActualizar.categoria!=null){
+      this.subcategoriaService.consultarPorCategoria(this.productoActualizar.categoria.id).subscribe(
+        res => {
+            this.subcategorias=res;
+        },
+        err => {
+          Swal.fire(constantes.error, constantes.error_consultar_por_categoria, constantes.error_swal)
+        }
+      );
+    } else{
+      this.subcategorias=[];
+    }
+  }
+
+  seleccionarSubcategoria(){
+    if (this.productoActualizar.subcategoria!=null){
+      this.subsubcategoriaService.consultarPorSubcategoria(this.productoActualizar.subcategoria.id).subscribe(
+        res => {
+            this.subsubcategorias=res;
+        },
+        err => {
+          Swal.fire(constantes.error, constantes.error_consultar_por_subcategoria, constantes.error_swal)
+        }
+      );
+    } else {
+      this.subsubcategorias=[];
     }
   }
 
@@ -111,6 +150,24 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
+  agregarCampo(){
+    if(this.campo.titulo == constantes.campoMarca)
+      this.campoMarca=true;
+    if(this.campo.titulo == constantes.campoMaterial)
+      this.campoMaterial=true;
+    if(this.campo.titulo == constantes.campoCompra)
+      this.campoCompra=true;
+    if(this.campo.titulo == constantes.campoDescuento)
+      this.campoDescuento=true;
+    if(this.campo.titulo == constantes.campoGarantia)
+      this.campoGarantia=true;
+    if(this.campo.titulo == constantes.campoTalla)
+      this.campoTalla=true;
+    if(this.campo.titulo == constantes.campoColor)
+      this.campoColor=true;
+  }
+
+
   validarSesion(){
     this.sesion=this.sesionService.getSesion();
     this.sesionService.validar(this.sesion.id).subscribe(
@@ -118,13 +175,20 @@ export class LeerProductoComponent implements OnInit {
         this.sesion=res;
       },
       err => {
+        if(err.error==null){
+          this.sesionService.cerrarSesion();
+          this.navegarIndex();
+          return;
+        }
         if(err.error.message==constantes.error_codigo_sesion_invalida){
           this.sesionService.cerrarSesion();
           this.navegarIndex();
+          return;
         }
         if(err.error.message==constantes.error_codigo_modelo_no_existente){
           this.sesionService.cerrarSesion();
           this.navegarIndex();
+          return;
         }
       }
     );
@@ -150,10 +214,33 @@ export class LeerProductoComponent implements OnInit {
 
   editar(i: number) {
     this.productoActualizar = { ... this.productos[i] };
+    this.categorias=[];
     this.subcategorias=[];
-    if(this.productoActualizar.categoria!=null){
-      this.subcategorias = this.productoActualizar.categoria.subcategorias;
-    }
+    this.subsubcategorias=[];
+    this.categoriaService.consultar().subscribe(
+      res => {
+        this.categorias = res
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_categorias, constantes.error_swal)
+      }
+    );
+    this.subcategoriaService.consultarPorCategoria(this.productoActualizar.categoria.id).subscribe(
+      res => {
+          this.subcategorias=res;
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_por_subcategoria, constantes.error_swal)
+      }
+    );
+    this.subsubcategoriaService.consultarPorSubcategoria(this.productoActualizar.subcategoria.id).subscribe(
+      res => {
+          this.subsubcategorias=res;
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_por_subcategoria, constantes.error_swal)
+      }
+    );
     this.open(this.modalProductoActualizar);
   }
 

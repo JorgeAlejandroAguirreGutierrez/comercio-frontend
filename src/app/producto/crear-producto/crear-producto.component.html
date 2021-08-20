@@ -61,7 +61,7 @@
                             <div class="input-group">
                                 <select class="form-control form-control-sm" [(ngModel)]="producto.categoria"
                                     [compareWith]="compareFn" (change)="seleccionarCategoria()">
-                                    <option [ngValue]="0"></option>
+                                    <option [ngValue]="null"></option>
                                     <option *ngFor="let categoria of categorias; let i=index" [ngValue]="categoria">
                                         {{categoria.descripcion}}</option>
                                 </select>
@@ -75,7 +75,7 @@
                             <div class="input-group">
                                 <select class="form-control form-control-sm" [(ngModel)]="producto.subcategoria"
                                     [compareWith]="compareFn" (change)="seleccionarSubcategoria()">
-                                    <option [ngValue]="0"></option>
+                                    <option [ngValue]="null"></option>
                                     <option *ngFor="let subcategoria of subcategorias; let i=index" [ngValue]="subcategoria">
                                         {{subcategoria.descripcion}}
                                     </option>
@@ -90,7 +90,7 @@
                             <div class="input-group">
                                 <select [compareWith]="compareFn" class="form-control form-control-sm"
                                     [(ngModel)]="producto.subsubcategoria">
-                                    <option [ngValue]="0"></option>
+                                    <option [ngValue]="null"></option>
                                     <option *ngFor="let subsubcategoria of subsubcategorias; let i=index"
                                         [ngValue]="subsubcategoria">
                                         {{subsubcategoria.descripcion}}
@@ -105,9 +105,8 @@
                         <div class="col-sm-6 form-group">
                             <select [compareWith]="compareFn" class="form-control form-control-sm"
                                 [(ngModel)]="campo">
-                                <option [ngValue]="0"></option>
-                                <option *ngFor="let campo of campos; let i=index"
-                                    [ngValue]="campo">
+                                <option [ngValue]="null"></option>
+                                <option *ngFor="let campo of campos; let i=index" [ngValue]="campo">
                                     {{campo.valor}}
                                 </option>
                             </select>

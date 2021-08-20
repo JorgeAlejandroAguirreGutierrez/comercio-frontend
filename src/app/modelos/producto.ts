@@ -23,17 +23,17 @@ export class Producto {
 
     constructor(){
         this.id=0;
-        this.titulo="";
-        this.descripcion="";
-        this.material="";
-        this.marca="";
+        this.titulo=null as any;
+        this.descripcion=null as any;
+        this.material=null as any;
+        this.marca=null as any;
         this.categoria=new Categoria();
         this.subcategoria=new Subcategoria();
         this.subsubcategoria=new Subsubcategoria();
-        this.compra=0;
-        this.precio=0;
-        this.descuento=0;
-        this.garantia="";
+        this.compra=null as any;
+        this.precio=null as any;
+        this.descuento=null as any;
+        this.garantia=null as any;
         this.presentaciones=[];
         this.imagenes=[];
         this.disponible=false;

@@ -3,7 +3,6 @@
         <div class="sidebar-heading">MENU </div>
         <hr>
         <div class="list-group list-group-flush">
-            <a href="/categoria" class="list-group-item list-group-item-action bg-light">CATEGORIAS</a>
             <a href="/iniciar-sesion" class="list-group-item list-group-item-action bg-light">INICIAR SESION</a>
         </div>
     </div>
@@ -124,8 +123,10 @@
                                             alt="Card image cap">
                                     </ng-container>
                                     <ng-container *ngIf="producto.imagenes.length>0">
+                                        <a href="/detallar-producto?producto_id={{producto.id}}">
                                         <img class="card-img-top img-sombra" height="400px"
                                             src="{{prefijoUrlImg+producto.imagenes[0].ruta}}" alt="Card image cap">
+                                        </a>
                                     </ng-container>
                                     <div class="card-body">
                                         <div class="card-title d-flex">
@@ -141,10 +142,15 @@
                                                 </ng-container>
                                             </span>
                                         </div>
-                                        <p class="card-text">{{producto.descripcion}}</p>
+                                        <p class="card-text">{{producto.titulo}}</p>
                                         <p class="card-text"><small class="text-muted">*incluye envío</small></p>
                                     </div>
                                     <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex">
+                                            <span class="justify-content-start">
+                                                {{producto.descripcion}}
+                                            </span>
+                                        </li>
                                         <li class="list-group-item d-flex">
                                             <span class="justify-content-start font-weight-bold">
                                                 PRECIO
@@ -157,18 +163,6 @@
                                             <span class="justify-content-end ml-auto precio-descuento"
                                                 style="font-size: medium;">{{producto.precio - producto.descuento |
                                                 currency}}
-                                            </span>
-                                        </li>
-                                        <li class="list-group-item d-flex">
-                                            <span class="justify-content-start font-weight-bold">
-                                                TALLA Y COLOR
-                                            </span>
-                                            <span class="justify-content-end ml-auto">
-                                                <ng-container *ngFor="let presentacion of producto.presentaciones">
-                                                    <span
-                                                        class="badge badge-color-{{presentacion.color.descripcion}} text-white separate"
-                                                        style="font-size: medium;">{{presentacion.talla.descripcion}}</span>
-                                                </ng-container>
                                             </span>
                                         </li>
                                         <li class="list-group-item">
@@ -196,8 +190,8 @@
                             <p class="float-right">
                                 <a href="#">Back to top</a>
                             </p>
-                            <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
-                            <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
+                            <p>{{tienda}} Tienda Virtual. Todos los derechos reservados 2021.</p>
+                            <p>Instagram {{tienda}} <a href="../../">Visitala!</a> o haznos una pregunta a <a
                                     href="../../getting-started/">Contactenos</a>.</p>
                         </div>
                     </footer>
@@ -218,14 +212,6 @@
         <div class="row">
             <div class="col-sm-12">
                 <label>Presentacion:</label>
-                <div class="input-group">
-                    <select [(ngModel)]="presentacionPedido" class="form-control form-control-sm">
-                        <option [value]="i" *ngFor="let presentacion of productoPedido.presentaciones; let i=index">
-                            TALLA: {{presentacion.talla.descripcion}} COLOR: {{presentacion.color.descripcion}}
-                        </option>
-                    </select>
-                    <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
-                </div>
             </div>
         </div>
     </div>

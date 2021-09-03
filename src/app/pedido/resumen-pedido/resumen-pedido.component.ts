@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
 export class ResumenPedidoComponent implements OnInit {
 
   tienda= environment.tienda;
+  prefijoUrlImg=environment.prefijo_url_img;
   pedido: Pedido = new Pedido();
   codigo: string = null as any;
   lineasPedido: LineaPedido[] = [];

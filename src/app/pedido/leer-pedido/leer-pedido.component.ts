@@ -6,6 +6,7 @@ import { PedidoService } from 'src/app/servicios/pedido.service';
 import { SesionService } from 'src/app/servicios/sesion.service';
 import { environment } from '../../../environments/environment';
 import Swal from 'sweetalert2';
+import * as util from '../../util';
 import * as constantes from '../../constantes';
 import { DOCUMENT } from '@angular/common';
 import { ParametroService } from 'src/app/servicios/parametro.service';
@@ -19,6 +20,7 @@ import { Sesion } from 'src/app/modelos/sesion';
 })
 export class LeerPedidoComponent implements OnInit {
   tienda=environment.tienda;
+  prefijoUrlImg = environment.prefijo_url_img;
   pedidoActualizar: Pedido= null as any;
   pedidos: Pedido[]=[];
   qr: any= null as any;
@@ -40,6 +42,7 @@ export class LeerPedidoComponent implements OnInit {
     @Inject(DOCUMENT) private _document: Document) { }
 
   ngOnInit(): void {
+    util.loadScripts();
     this.validarSesion();
     this.consultarPedidos();
     this.consultarEstadosPedido();

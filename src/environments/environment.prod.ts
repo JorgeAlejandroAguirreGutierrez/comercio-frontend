@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  tienda: 'Tienda Virtual',
+  tienda: 'DEMO',
   host:'https://comercio-backend.herokuapp.com',
   prefijo_url_img: 'https://comercio-backend.herokuapp.com/img/',
   prefijo_url_imgqr: 'https://comercio-backend.herokuapp.com/imgqr/',

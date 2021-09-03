@@ -3,13 +3,13 @@ import { Producto } from '../../modelos/producto';
 import { ProductoService } from '../../servicios/producto.service';
 import Swal from 'sweetalert2';
 import * as constantes from '../../constantes';
+import * as util from '../../util';
 import { SesionService } from 'src/app/servicios/sesion.service';
 import { Router } from '@angular/router';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ParametroService } from 'src/app/servicios/parametro.service';
 import { Parametro } from 'src/app/modelos/parametro';
 import { Sesion } from 'src/app/modelos/sesion';
-import { Presentacion } from 'src/app/modelos/presentacion';
 import { environment } from '../../../environments/environment';
 import { Categoria } from 'src/app/modelos/categoria';
 import { Subcategoria } from 'src/app/modelos/subcategoria';
@@ -17,6 +17,9 @@ import { CategoriaService } from 'src/app/servicios/categoria.service';
 import { Subsubcategoria } from 'src/app/modelos/subsubcategoria';
 import { SubcategoriaService } from 'src/app/servicios/subcategoria.service';
 import { SubsubcategoriaService } from 'src/app/servicios/subsubcategoria.service';
+import { Detalle } from 'src/app/modelos/detalle';
+import { DetalleService } from 'src/app/servicios/detalle.service';
+import { isJSDocThisTag } from 'typescript';
 
 @Component({
   selector: 'app-leer-producto',
@@ -27,7 +30,8 @@ export class LeerProductoComponent implements OnInit {
 
   tienda=environment.tienda;
   productoActualizar: Producto = new Producto();
-  presentacionForm: Presentacion = new Presentacion();
+  detalleCrear: Detalle= null as any;
+  detalleActualizar: Detalle= null as any;
 
   imagen: any = null as any;
   categorias: Categoria[]=[];
@@ -43,6 +47,7 @@ export class LeerProductoComponent implements OnInit {
 
   sesion: Sesion=null as any;
 
+  referenciaModal: any;
   cerrarModal: string = "";
 
   /*CAMPOS*/
@@ -60,15 +65,17 @@ export class LeerProductoComponent implements OnInit {
   productos: Producto[] = [];
   productoBuscar: Producto = new Producto();
 
-  @ViewChild('modalProductoActualizar', { static: false }) private modalProductoActualizar: any;
-  @ViewChild('modalProductoDescuento', { static: false }) private modalProductoDescuento: any;
-  @ViewChild('modalPresentacionesLeer', { static: false }) private modalPresentacionesLeer: any;
+  @ViewChild('modalActualizarProducto', { static: false }) private modalActualizarProducto: any;
+  @ViewChild('modalLeerProducto', { static: false }) private modalLeerProducto: any;
+  @ViewChild('modalCrearDetalle', { static: false }) private modalCrearDetalle: any;
+  @ViewChild('modalActualizarDetalle', { static: false }) private modalActualizarDetalle: any;
 
-  constructor(private sesionService: SesionService, private productoService: ProductoService,
+  constructor(private sesionService: SesionService, private productoService: ProductoService, private detalleService: DetalleService,
     private categoriaService: CategoriaService, private subcategoriaService: SubcategoriaService, private subsubcategoriaService: SubsubcategoriaService,
     private parametroService: ParametroService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit(): void {
+    util.loadScripts();
     this.validarSesion();
     this.consultarProductos();
     this.consultarCampos();
@@ -167,6 +174,56 @@ export class LeerProductoComponent implements OnInit {
       this.campoColor=true;
   }
 
+  abrirModalCrearDetalle(){
+    this.detalleCrear=new Detalle();
+    this.open(this.modalCrearDetalle, null as any);
+  }
+
+  abrirModalactualizarDetalle(i: number){
+    this.detalleActualizar={ ... this.productoActualizar.detalles[i]};
+    this.open(this.modalActualizarDetalle, null as any);
+  }
+
+  crearDetalle(){
+    this.detalleCrear.producto= new Producto();
+    this.detalleCrear.producto.id=this.productoActualizar.id;
+    this.detalleService.crear(this.detalleCrear).subscribe(
+      res => {
+        Swal.fire(constantes.exito, constantes.exito_crear_detalle, constantes.exito_swal);
+        this.modalService.dismissAll();
+        this.consultarProductos();
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_crear_detalle, constantes.error_swal)
+      }
+    );
+  }
+
+  actualizarDetalle(){
+    this.detalleActualizar.producto=new Producto();
+    this.detalleActualizar.producto.id=this.productoActualizar.id;
+    this.detalleService.actualizar(this.detalleActualizar).subscribe(
+      res => {
+        Swal.fire(constantes.exito, constantes.exito_actualizar_detalle, constantes.exito_swal);
+        this.modalService.dismissAll();
+        this.consultarProductos();
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_tallas, constantes.error_swal)
+      }
+    );
+  }
+  
+  eliminarDetalle(i: number){
+    this.detalleService.eliminar(this.productoActualizar.detalles[i].id).subscribe(
+      res => {
+        this.consultarProductos();
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_eliminar_detalle, constantes.error_swal)
+      }
+    );
+  }
 
   validarSesion(){
     this.sesion=this.sesionService.getSesion();
@@ -212,7 +269,7 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  editar(i: number) {
+  abrirModalActualizarProducto(i: number) {
     this.productoActualizar = { ... this.productos[i] };
     this.categorias=[];
     this.subcategorias=[];
@@ -241,35 +298,7 @@ export class LeerProductoComponent implements OnInit {
         Swal.fire(constantes.error, constantes.error_consultar_por_subcategoria, constantes.error_swal)
       }
     );
-    this.open(this.modalProductoActualizar);
-  }
-
-  leerPresentaciones(i: number){
-    this.productoActualizar = { ... this.productos[i] };
-    console.log(this.productoActualizar);
-    this.consultarTallas();
-    this.open(this.modalPresentacionesLeer);
-  }
-
-  crearPresentacion() {
-    if (this.presentacionForm.talla.descripcion==constantes.vacio){
-      Swal.fire(constantes.error, constantes.error_talla_no_existente, constantes.error_swal);
-    }
-    if (this.presentacionForm.color.descripcion==constantes.vacio){
-      Swal.fire(constantes.error, constantes.error_color_no_existente, constantes.error_swal);
-    }
-    for (let i = 0; i < this.productoActualizar.presentaciones.length; i++) {
-      if (this.presentacionForm.talla.descripcion == this.productoActualizar.presentaciones[i].talla.descripcion
-        && this.presentacionForm.color.descripcion == this.productoActualizar.presentaciones[i].color.descripcion) {
-        Swal.fire(constantes.error, constantes.error_presentacion_existente, constantes.error_swal);
-        return;
-      }
-    }
-    this.productoActualizar.presentaciones.push(this.presentacionForm);
-  }
-
-  eliminarPresentacion(i: number) {
-    this.productoActualizar.presentaciones.splice(i, 1);
+    this.open(this.modalActualizarProducto, "lg");
   }
 
   eliminarImagen(i: number) {
@@ -311,19 +340,24 @@ export class LeerProductoComponent implements OnInit {
     );
   }
 
-  descuento(i: number) {
+  abrirModalLeerProducto(i: number) {
     this.productoActualizar = { ... this.productos[i] };
-    this.open(this.modalProductoDescuento);
+    this.open(this.modalLeerProducto, "lg");
+  }
+
+  abrirDetalle(i: number){
+
   }
 
   compareFn(a:any, b:any) {
     return a && b && a.id == b.id;
   }
 
-  open(content: any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
+  open(content: any, size: string) {
+    this.referenciaModal=this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true, size: size });
+    this.referenciaModal.result.then((result:any) => {
       this.cerrarModal = `Closed with: ${result}`;
-    }, (reason) => {
+    }, (reason:any) => {
       this.cerrarModal = `Dismissed ${this.getDismissReason(reason)}`;
     });
   }

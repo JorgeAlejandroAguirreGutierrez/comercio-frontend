@@ -1,0 +1,253 @@
+<div class="d-flex myfont" id="wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">MENU </div>
+        <hr>
+        <div class="list-group list-group-flush">
+            <a href="/iniciar-sesion" class="list-group-item list-group-item-action bg-light">INICIAR SESION</a>
+        </div>
+    </div>
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn btn-ligth" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></button>
+            <a class="navbar-brand" href="#">{{tienda}}</a>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a href="/resumen-pedido" class="fa fa-shopping-cart fa-2x">&nbsp;{{cantidadAgregados}}</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="container-fluid">
+            <div class="row buscador-logo">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-2">
+                    <ng-container *ngIf="logo!=null">
+                        <img src="{{prefijoUrlImgFront+logo.valor}}" height="100px" alt="None">
+                    </ng-container>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-sm-5">
+                    <br><br>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="buscar" />
+                </div>
+                <div class="col-sm-2">
+                    <br><br>
+                    <button class="btn btn-sm btn-block btn-warning">Buscar</button>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-hover">
+                <a class="navbar-brand" href="#">Alibaba</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarHover"
+                    aria-controls="navbarDD" aria-expanded="false" aria-label="Navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarHover">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                <span class="fa fa-bars"></span>
+                                Categorias
+                            </a>
+                            <ul class="dropdown-menu">
+                                <ng-container *ngFor="let categoria of categorias; let i=index">
+                                    <li><a class="dropdown-item" href="#">{{categoria.descripcion}} <ng-container
+                                                *ngIf="categoria.subcategorias.length>0">&raquo;</ng-container></a>
+                                        <ul class="dropdown-menu" *ngIf="categoria.subcategorias.length>0">
+                                            <ng-container
+                                                *ngFor="let subcategoria of categoria.subcategorias; let j=index">
+                                                <li><a class="dropdown-item" href="#">{{subcategoria.descripcion}}
+                                                        <ng-container *ngIf="subcategoria.subsubcategorias.length>0">
+                                                            &raquo;</ng-container>
+                                                    </a>
+                                                    <ul class="dropdown-menu"
+                                                        *ngIf="subcategoria.subsubcategorias.length>0">
+                                                        <ng-container
+                                                            *ngFor="let subsubcategoria of subcategoria.subsubcategorias; let k=index">
+                                                            <li><a class="dropdown-item"
+                                                                    href="#">{{subsubcategoria.descripcion}}</a></li>
+                                                        </ng-container>
+                                                    </ul>
+                                                </li>
+                                            </ng-container>
+                                        </ul>
+                                    </li>
+                                </ng-container>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <div class="navbar-horizontally">
+
+            </div>
+            <div class="row">
+                <div class="col-sm centrar">
+                    <hr>
+                    <h1 class="myfont font-weight-bold">PRODUCTO</h1>
+                    <hr>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="row">
+                        <ng-container *ngIf="imagen!=null">
+                            <img class="img-sombra col-sm" height="400px"
+                                src="{{prefijoUrlImg+imagen.ruta}}" alt="Producto">
+                        </ng-container>
+                    </div>
+                    <div class="row">
+                        <ng-container *ngFor="let imagen of producto.imagenes">
+                            <div class="card">
+                                <div class="card-body col-sm-1">
+                                    <img class="img-sombra" height="50px"
+                                        src="{{prefijoUrlImg+imagen.ruta}}" alt="Producto{{imagen.id}}">
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="row">
+                        <label class="col-sm col-form-label font-weight-bold">{{producto.titulo}}</label>
+                    </div>
+                    <div class="row">
+                        <label class="col-sm col-form-label font-weight-bold">{{producto.descripcion}}</label>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <label class="col-sm col-form-label font-weight-bold">Precio: {{producto.precio}}</label>
+                    </div>
+                    <hr>
+                    <ng-container *ngIf="producto.material!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Material:
+                                {{producto.material}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.marca!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Marca: {{producto.marca}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.compra!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Compra: {{producto.compra}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.descuento!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Descuento:
+                                {{producto.descuento}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.garantia!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Garantia:
+                                {{producto.garantia}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.tamano!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Tamaño: {{producto.tamano}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.caracteristica!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Caracteristica:
+                                {{producto.caracteristica}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.talla!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Talla: {{producto.talla}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.color!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Color: {{producto.color}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.memoria!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Memoria: {{producto.memoria}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.procesador!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Procesador:
+                                {{producto.procesador}}</label>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="producto.camara!=null">
+                        <div class="row">
+                            <label class="col-sm col-form-label font-weight-bold">Camara: {{producto.camara}}</label>
+                        </div>
+                    </ng-container>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm">
+                            <table class="table table-hover table-bordered" style="font-size: 0.7rem">
+                                <tbody>
+                                    <tr *ngFor="let detalle of this.producto.detalles; let i=index">
+                                        <td>{{detalle.filtro}}</td>
+                                        <td>{{detalle.valor}}</td>
+                                        <td>{{detalle.pvp}}</td>
+                                        <td>{{detalle.unidad}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <div class="col-sm-2">
+                    <div class="row">
+                        <label class="col-sm col-form-label font-weight-bold">Desde: {{producto.precio}}</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <button class="btn btn-block btn-warning" (click)="abrirModalCrearLineaPedido()">Agregar al
+                                carrito <i class="fa fa-shopping-cart"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-sm">
+                    <footer class="text-muted">
+                        <div class="container">
+                            <p class="float-right">
+                                <a href="#">Back to top</a>
+                            </p>
+                            <p>{{tienda}} Tienda Virtual. Todos los derechos reservados 2021.</p>
+                            <p>Instagram {{tienda}} <a href="../../">Visitala!</a> o haznos una pregunta a <a
+                                    href="../../getting-started/">Contactenos</a>.</p>
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalCrearLineaPedido let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">PEDIDO</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <label>Presentacion:</label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="crearLineaPedido()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>

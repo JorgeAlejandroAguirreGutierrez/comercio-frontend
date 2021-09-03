@@ -29,18 +29,22 @@
                             <table class="table table-sm table-hover table-bordered">
                                 <thead>
                                     <tr>
-                                        <th scope="col">MARCA</th>
-                                        <th scope="col">TALLA</th>
-                                        <th scope="col">COLOR</th>
+                                        <th scope="col">IMAGEN</th>
+                                        <th scope="col">PRODUCTO</th>
+                                        <th scope="col">DESCRIPCION</th>
                                         <th scope="col">VALOR</th>
                                         <th scope="col">OPCIONES</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let lineaPedido of pedido.lineasPedido; let i=index">
-                                        <td>{{lineaPedido.producto.marca}}</td>
-                                        <td>{{lineaPedido.presentacion.talla.descripcion}}</td>
-                                        <td>{{lineaPedido.presentacion.color.descripcion}}</td>
+                                        <td>
+                                            <img width="100px" height="150px"
+                                                src="{{prefijoUrlImg+lineaPedido.producto.imagenes[0].ruta}}"
+                                                alt="Imagen">
+                                        </td>
+                                        <td>{{lineaPedido.producto.titulo}}</td>
+                                        <td>{{lineaPedido.producto.descripcion}}</td>
                                         <td>{{lineaPedido.total | currency}}</td>
                                         <td>
                                             <button type="button" (click)="eliminarLineaPedido(i)"

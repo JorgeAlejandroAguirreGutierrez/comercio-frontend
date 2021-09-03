@@ -3,7 +3,8 @@
         <div class="sidebar-heading">MENU </div>
         <hr>
         <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action bg-light" href="/index">INDEX</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/index">WEB</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/crear-producto">CREAR PRODUCTO</a>
             <a class="list-group-item list-group-item-action bg-light" href="/leer-producto">VER PRODUCTOS</a>
             <a class="list-group-item list-group-item-action bg-light" href="/leer-pedido">VER PEDIDOS</a>
             <a class="list-group-item list-group-item-action bg-light" href="/categoria">CATEGORIAS</a>
@@ -43,7 +44,8 @@
                     &raquo;
                 </div>
                 <div class="col-sm-3">
-                    <button class="btn btn-sm btn-primary btn-block separate" (click)="abrirModalCrearSubsubcategoria()">
+                    <button class="btn btn-sm btn-primary btn-block separate"
+                        (click)="abrirModalCrearSubsubcategoria()">
                         Crear Subsubcategoria
                     </button>
                 </div>
@@ -51,6 +53,7 @@
             <br>
             <hr>
             <div class="row">
+                <div class="col-sm-1"></div>
                 <div class="col-sm-3">
                     <label>Categoria:</label>
                     <input type="text" [(ngModel)]="buscarCategoria" class="form-control form-control-sm"
@@ -66,14 +69,16 @@
                     <input type="text" [(ngModel)]="buscarSubsubcategoria" class="form-control form-control-sm"
                         oninput="this.value = this.value.toUpperCase()">
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-1">
                     <label>&nbsp;</label>
                     <button class="btn btn-sm btn-block btn-primary" (click)="buscar()">Buscar</button>
                 </div>
+                <div class="col-sm-1"></div>
             </div>
             <br>
             <div class="row">
-                <div class="col-sm-12 scrollcustom">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10 scrollcustom">
                     <table class="table table-hover table-bordered" style="font-size: 0.7rem">
                         <thead class="table-active">
                             <tr>
@@ -85,24 +90,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <ng-container *ngFor="let categoria of categorias; let i=index">
-                                <ng-container *ngFor="let subcategoria of categoria.subcategorias; let j=index">
-                                    <tr *ngFor="let subsubcategoria of subcategoria.subsubcategorias; let k=index">
-                                        <td>{{i+1}}</td>
-                                        <td>{{categoria.descripcion}}</td>
-                                        <td>{{subcategoria.descripcion}}</td>
-                                        <td>{{subsubcategoria.descripcion}}</td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary separate" (click)="eliminar(i, j, k)">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </ng-container>
-                            </ng-container>
+                            <tr *ngFor="let categoria of categoriasEnc; let i=index">
+                                <td>{{i+1}}</td>
+                                <td>{{categoria[0]}}</td>
+                                <td>{{categoria[1]}}</td>                                        
+                                <td>{{categoria[2]}}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary separate" (click)="eliminar(categoria)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
+                <div class="col-sm-1"></div>
             </div>
             <br>
             <div class="row">
@@ -111,7 +113,8 @@
                         <div class="container">
                             <p>{{comercio}} {{ubicacion}}. Todos los derechos reservados 2021.</p>
                             <p>Instagram Gimnasio Olimpia <a href="../../">
-                                    Visitala!</a> o haznos una pregunta a <a href="../../getting-started/">Contactenos</a>.</p>
+                                    Visitala!</a> o haznos una pregunta a <a
+                                    href="../../getting-started/">Contactenos</a>.</p>
                         </div>
                     </footer>
                 </div>
@@ -131,8 +134,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <label>Categoria:</label>
-                <input type="text" [(ngModel)]="crearCategoria.descripcion"
-                    class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                <input type="text" [(ngModel)]="crearCategoria.descripcion" class="form-control form-control-sm"
+                    oninput="this.value = this.value.toUpperCase()">
             </div>
         </div>
     </div>
@@ -153,8 +156,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <label>Categoria:</label>
-                <select [(ngModel)]="asignarCategoria" [compareWith]="compareFn"
-                    class="form-control form-control-sm">
+                <select [(ngModel)]="asignarCategoria" [compareWith]="compareFn" class="form-control form-control-sm">
                     <option [ngValue]="null"></option>
                     <option *ngFor="let categoria of categorias" [ngValue]="categoria">
                         {{categoria.descripcion}}
@@ -165,8 +167,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <label>Subcategoria:</label>
-                <input type="text" [(ngModel)]="crearSubcategoria.descripcion"
-                    class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                <input type="text" [(ngModel)]="crearSubcategoria.descripcion" class="form-control form-control-sm"
+                    oninput="this.value = this.value.toUpperCase()">
             </div>
         </div>
     </div>
@@ -187,8 +189,7 @@
         <div class="row">
             <div class="col-sm-12">
                 <label>Categoria:</label>
-                <select [(ngModel)]="asignarCategoria" [compareWith]="compareFn"
-                    class="form-control form-control-sm">
+                <select [(ngModel)]="asignarCategoria" [compareWith]="compareFn" (change)="cambioAsignarSubcategoria()" class="form-control form-control-sm">
                     <option [ngValue]="null"></option>
                     <option *ngFor="let categoria of categorias" [ngValue]="categoria">
                         {{categoria.descripcion}}
@@ -211,8 +212,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <label>Subsubcategoria:</label>
-                <input type="text" [(ngModel)]="crearSubsubcategoria.descripcion"
-                    class="form-control form-control-sm" oninput="this.value = this.value.toUpperCase()">
+                <input type="text" [(ngModel)]="crearSubsubcategoria.descripcion" class="form-control form-control-sm"
+                    oninput="this.value = this.value.toUpperCase()">
             </div>
         </div>
     </div>

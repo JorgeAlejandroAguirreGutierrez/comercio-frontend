@@ -73,10 +73,9 @@
                                                             <table class="table table-hover" style="font-size: 0.7rem">
                                                                 <thead>
                                                                     <tr>
+                                                                        <th scope="col">IMAGEN</th>
                                                                         <th scope="col">PRODUCTO</th>
-                                                                        <th scope="col">MARCA</th>
-                                                                        <th scope="col">TALLA</th>
-                                                                        <th scope="col">COLOR</th>
+                                                                        <th scope="col">DESCRIPCION</th>
                                                                         <th scope="col">VALOR</th>
                                                                     </tr>
                                                                 </thead>
@@ -87,11 +86,8 @@
                                                                                 src="{{prefijoUrlImg+lineaPedido.producto.imagenes[0].ruta}}"
                                                                                 alt="Imagen">
                                                                         </td>
-                                                                        <td>{{lineaPedido.producto.marca}}</td>
-                                                                        <td>{{lineaPedido.presentacion.talla.descripcion}}
-                                                                        </td>
-                                                                        <td>{{lineaPedido.presentacion.color.descripcion}}
-                                                                        </td>
+                                                                        <td>{{lineaPedido.producto.titulo}}</td>
+                                                                        <td>{{lineaPedido.producto.descripcion}}</td>
                                                                         <td>{{lineaPedido.total | currency}}</td>
                                                                     </tr>
                                                                 </tbody>

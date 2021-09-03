@@ -40,6 +40,14 @@ export class ProductoService {
       }));
   }
 
+  async obtenerSync(id: number): Promise<Producto> {
+    return this.http.get<Producto>(environment.host + util.ruta + util.producto + '/' + id, util.options).pipe(
+      map(response => response as Producto),
+      catchError(err => {
+        return throwError(err);
+      })).toPromise();
+  }
+
   actualizar(producto: Producto): Observable<Producto> {
     return this.http.put(environment.host + util.ruta + util.producto, producto, util.options).pipe(
       map(response => response as Producto),
@@ -70,6 +78,15 @@ export class ProductoService {
   consultarPorCategoria(categoria: string): Observable<Producto[]> {
     let params = new HttpParams().set('categoria', categoria);
     return this.http.get<Producto[]>(environment.host + util.ruta + util.producto+util.consultarPorCategoria,{params: params, headers: util.options.headers}).pipe(
+      map(response => response as Producto[]),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
+  }
+
+  consultarPorUltimaFecha(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(environment.host + util.ruta + util.producto + util.consultarPorUltimaFecha, util.options).pipe(
       map(response => response as Producto[]),
       catchError(err => {
         return throwError(err);

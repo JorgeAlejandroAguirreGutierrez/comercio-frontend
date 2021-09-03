@@ -1,11 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Color } from 'src/app/modelos/color';
 import { Parametro } from 'src/app/modelos/parametro';
-import { Presentacion } from 'src/app/modelos/presentacion';
 import { Producto } from 'src/app/modelos/producto';
 import { Sesion } from 'src/app/modelos/sesion';
-import { Talla } from 'src/app/modelos/talla';
 import { ParametroService } from 'src/app/servicios/parametro.service';
 import { ProductoService } from 'src/app/servicios/producto.service';
 import { SesionService } from 'src/app/servicios/sesion.service';
@@ -19,6 +16,8 @@ import { Subcategoria } from 'src/app/modelos/subcategoria';
 import { Subsubcategoria } from 'src/app/modelos/subsubcategoria';
 import { SubcategoriaService } from 'src/app/servicios/subcategoria.service';
 import { SubsubcategoriaService } from 'src/app/servicios/subsubcategoria.service';
+import { Detalle } from 'src/app/modelos/detalle';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-crear-producto',
@@ -29,9 +28,7 @@ export class CrearProductoComponent implements OnInit {
 
   tienda=environment.tienda;
   producto: Producto=new Producto();
-  tallaForm: string= "";
-  colorForm: string= "";
-  color: string="";
+  detalle: Detalle=null as any;
   imagenes: any[]= [];
 
   categorias: Categoria[]=[];
@@ -48,14 +45,19 @@ export class CrearProductoComponent implements OnInit {
   campoCompra: boolean = false;
   campoDescuento: boolean = false;
   campoGarantia: boolean = false;
+  campoTamano: boolean = false;
   campoTalla: boolean = false;
   campoColor: boolean = false;
 
   campos: Parametro[]=[];
   campo: Parametro=null as any;
+
+  cerrarModal: string="";
+
+  @ViewChild('modalCrearDetalle', { static: false }) private modalCrearDetalle: any;
   
 
-  constructor(private productoService : ProductoService, private parametroService: ParametroService,
+  constructor(private productoService : ProductoService, private parametroService: ParametroService, private modalService: NgbModal,
     private categoriaService: CategoriaService, private subcategoriaService: SubcategoriaService, private subsubcategoriaService: SubsubcategoriaService,
     private sesionService: SesionService, private router: Router ) { }
 
@@ -100,6 +102,8 @@ export class CrearProductoComponent implements OnInit {
       this.campoDescuento=true;
     if(this.campo.titulo == constantes.campoGarantia)
       this.campoGarantia=true;
+    if(this.campo.titulo == constantes.campoTamano)
+      this.campoTamano=true;
     if(this.campo.titulo == constantes.campoTalla)
       this.campoTalla=true;
     if(this.campo.titulo == constantes.campoColor)
@@ -136,23 +140,18 @@ export class CrearProductoComponent implements OnInit {
     }
   }
 
-  validarSesion(){
-    this.sesion=this.sesionService.getSesion();
-    this.sesionService.validar(this.sesion.id).subscribe(
-      res => {
-        this.sesion=res;
-      },
-      err => {
-        if(err.error.message==constantes.error_codigo_sesion_invalida){
-          this.sesionService.cerrarSesion();
-          this.navegarIndex();
-        }
-        if(err.error.message==constantes.error_codigo_modelo_no_existente){
-          this.sesionService.cerrarSesion();
-          this.navegarIndex();
-        }
-      }
-    );
+  abrirModalCrearDetalle(){
+    this.detalle=new Detalle();
+    this.open(this.modalCrearDetalle);
+  }
+
+  crearDetalle(){
+    this.modalService.dismissAll();
+    this.producto.detalles.push({... this.detalle});
+  }
+
+  eliminarDetalle(i: number){
+    this.producto.detalles.splice(i, 1);
   }
 
   crear(){
@@ -177,21 +176,6 @@ export class CrearProductoComponent implements OnInit {
     );
   }
 
-  crearPresentacion(){
-    let talla: Talla=new Talla();
-    talla.descripcion=this.tallaForm;
-    let color: Color=new Color();
-    color.descripcion=this.colorForm;
-    let presentacion: Presentacion=new Presentacion();
-    presentacion.talla=talla;
-    presentacion.color=color;
-    this.producto.presentaciones.push(presentacion);
-  }
-
-  eliminarPresentacion(i: number){
-    this.producto.presentaciones.splice(i, 1);
-  }
-
   cargarImagen(event: any){
     let imagenes: FileList=event.target.files;
     this.imagenes.push(imagenes.item(0));
@@ -211,6 +195,43 @@ export class CrearProductoComponent implements OnInit {
 
   eliminarImagen(i: number){
     this.imagenes.splice(i, 1);
+  }
+
+  validarSesion(){
+    this.sesion=this.sesionService.getSesion();
+    this.sesionService.validar(this.sesion.id).subscribe(
+      res => {
+        this.sesion=res;
+      },
+      err => {
+        if(err.error.message==constantes.error_codigo_sesion_invalida){
+          this.sesionService.cerrarSesion();
+          this.navegarIndex();
+        }
+        if(err.error.message==constantes.error_codigo_modelo_no_existente){
+          this.sesionService.cerrarSesion();
+          this.navegarIndex();
+        }
+      }
+    );
+  }
+
+  open(content: any) {
+    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', centered: true }).result.then((result) => {
+      this.cerrarModal = `Closed with: ${result}`;
+    }, (reason) => {
+      this.cerrarModal = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 
   compareFn(a: any, b: any) {

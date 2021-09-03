@@ -1,103 +1,97 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">{{tienda}}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="/index">WEB</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/crear-producto">CREAR PRODUCTO</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/leer-pedido">VER PEDIDOS</a>
-            </li>
-        </ul>
-        <div class="d-flex">
-            <a class="nav-link" type="button" href="#" (click)="cerrarSesion($event)">CERRAR SESION</a>
+<div class="d-flex myfont" id="wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        <div class="sidebar-heading">MENU </div>
+        <hr>
+        <div class="list-group list-group-flush">
+            <a class="list-group-item list-group-item-action bg-light" href="/index">WEB</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/crear-producto">CREAR PRODUCTO</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/leer-producto">VER PRODUCTOS</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/leer-pedido">VER PEDIDOS</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/categoria">CATEGORIAS</a>
+            <a class="list-group-item list-group-item-action bg-light" type="button" href="#" (click)="cerrarSesion($event)">CERRAR SESION</a>
         </div>
     </div>
-</nav>
-<br>
-<br>
-<br>
-<div class="container-fluid">
-    <div class="form-row">
-        <div class="col-sm">
-            <hr>
-            <h2 class="font-weight-bold" align="center">VER PRODUCTOS</h2>
-            <hr>
-        </div>
-    </div>
-    <div class="form-row form-group">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-10 table-responsive">
-            <table class="table table-sm table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th scope="col">TITULO</th>
-                        <th scope="col">PRECIO</th>
-                        <th scope="col">DESC</th>
-                        <th scope="col">DISP</th>
-                        <th scope="col">OPCIONES</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let producto of productos; let i=index">
-                        <td>{{producto.titulo}}</td>
-                        <td>
-                            {{producto.precio | currency}}
-                        </td>
-                        <td>
-                            {{producto.descuento | currency}}
-                        </td>
-                        <td>
-                            <ng-container *ngIf="producto.disponible">
-                                SI
-                            </ng-container>
-                            <ng-container *ngIf="!producto.disponible">
-                                NO
-                            </ng-container>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-primary separate" (click)="leerPresentaciones(i)">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            <button class="btn btn-sm btn-primary separate" (click)="editar(i)">
-                                <i class="fa fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-primary separate" (click)="disponible(i)">
-                                <i class="fa fa-minus-circle"></i>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-sm-1"></div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-sm">
-            <footer class="text-muted">
-                <div class="container">
-                    <p class="float-right">
-                        <a href="#">Back to top</a>
-                    </p>
-                    <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
-                    <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
-                            href="../../getting-started/">Contactenos</a>.</p>
+    <div id="page-content-wrapper">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom justify">
+            <button class="btn btn-ligth" id="menu-toggle"><i class="fa fa-bars" aria-hidden="true"></i></button>
+            <span class="separate"></span>
+            <a class="navbar-brand" href="#">{{tienda}}</a>
+        </nav>
+        <div class="container-fluid">
+            <div class="form-row">
+                <div class="col-sm">
+                    <hr>
+                    <h2 class="font-weight-bold" align="center">VER PRODUCTOS</h2>
+                    <hr>
                 </div>
-            </footer>
+            </div>
+            <div class="form-row form-group">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-10 table-responsive">
+                    <table class="table table-sm table-hover table-bordered">
+                        <thead>
+                            <tr>
+                                <th scope="col">TITULO</th>
+                                <th scope="col">PRECIO</th>
+                                <th scope="col">DESC</th>
+                                <th scope="col">DISP</th>
+                                <th scope="col">OPCIONES</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let producto of productos; let i=index">
+                                <td>{{producto.titulo}}</td>
+                                <td>
+                                    {{producto.precio | currency}}
+                                </td>
+                                <td>
+                                    {{producto.descuento | currency}}
+                                </td>
+                                <td>
+                                    <ng-container *ngIf="producto.disponible">
+                                        SI
+                                    </ng-container>
+                                    <ng-container *ngIf="!producto.disponible">
+                                        NO
+                                    </ng-container>
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary separate" (click)="abrirModalLeerProducto(i)">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-primary separate" (click)="abrirModalActualizarProducto(i)">
+                                        <i class="fa fa-edit"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-primary separate" (click)="disponible(i)">
+                                        <i class="fa fa-minus-circle"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-sm-1"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm">
+                    <footer class="text-muted">
+                        <div class="container">
+                            <p class="float-right">
+                                <a href="#">Back to top</a>
+                            </p>
+                            <p>Ciudad Victoria Tienda Virtual. Todos los derechos reservados 2021.</p>
+                            <p>Instagram Ciudad Victoria <a href="../../">Visitala!</a> o haznos una pregunta a <a
+                                    href="../../getting-started/">Contactenos</a>.</p>
+                        </div>
+                    </footer>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
-<ng-template #modalProductoActualizar let-modal>
+<ng-template #modalActualizarProducto let-modal>
     <div class="modal-header">
         <h4 class="modal-title" id="modal-basic-title">ACTUALIZAR PRODUCTO</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -138,7 +132,8 @@
             <label class="col-sm-3 col-form-label font-weight-bold">Categoria:</label>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <select [(ngModel)]="productoActualizar.categoria" (change)="seleccionarCategoria()" [compareWith]="compareFn" class="form-control form-control-sm">
+                    <select [(ngModel)]="productoActualizar.categoria" (change)="seleccionarCategoria()"
+                        [compareWith]="compareFn" class="form-control form-control-sm">
                         <option [ngValue]="null"></option>
                         <option *ngFor="let categoria of categorias; let i=index" [ngValue]="categoria">
                             {{categoria.descripcion}}
@@ -152,7 +147,8 @@
             <label class="col-sm-3 col-form-label font-weight-bold">Subcategoria:</label>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <select [(ngModel)]="productoActualizar.subcategoria" [compareWith]="compareFn" class="form-control form-control-sm">
+                    <select [(ngModel)]="productoActualizar.subcategoria" [compareWith]="compareFn"
+                        class="form-control form-control-sm">
                         <option [ngValue]="null"></option>
                         <option *ngFor="let subcategoria of subcategorias; let i=index" [ngValue]="subcategoria">
                             {{subcategoria.descripcion}}
@@ -166,9 +162,11 @@
             <label class="col-sm-3 col-form-label font-weight-bold">Subsubcategoria:</label>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <select [(ngModel)]="productoActualizar.subsubcategoria" [compareWith]="compareFn" class="form-control form-control-sm">
+                    <select [(ngModel)]="productoActualizar.subsubcategoria" [compareWith]="compareFn"
+                        class="form-control form-control-sm">
                         <option [ngValue]="null"></option>
-                        <option *ngFor="let subsubcategoria of subsubcategorias; let i=index" [ngValue]="subsubcategoria">
+                        <option *ngFor="let subsubcategoria of subsubcategorias; let i=index"
+                            [ngValue]="subsubcategoria">
                             {{subsubcategoria.descripcion}}
                         </option>
                     </select>
@@ -176,11 +174,10 @@
                 </div>
             </div>
         </div>
-        <div class="form-row">
+        <div class="form-group row">
             <label class="col-sm-3 col-form-label font-weight-bold">Campos:</label>
             <div class="col-sm-5 form-group">
-                <select [compareWith]="compareFn" class="form-control form-control-sm"
-                    [(ngModel)]="campo">
+                <select [compareWith]="compareFn" class="form-control form-control-sm" [(ngModel)]="campo">
                     <option [ngValue]="0"></option>
                     <option *ngFor="let campo of campos; let i=index" [ngValue]="campo">
                         {{campo.valor}}
@@ -231,7 +228,8 @@
                 <label class="col-sm-3 col-form-label font-weight-bold">Descuento:</label>
                 <div class="col-sm-9">
                     <div class="input-group">
-                        <input type="text" [(ngModel)]="productoActualizar.descuento" class="form-control form-control-sm">
+                        <input type="text" [(ngModel)]="productoActualizar.descuento"
+                            class="form-control form-control-sm">
                         <div class="input-group-text"><i class="fa fa-usd"></i></div>
                     </div>
                 </div>
@@ -292,67 +290,69 @@
     </div>
 </ng-template>
 
-<ng-template #modalPresentacionesLeer let-modal>
+<ng-template #modalLeerProducto let-modal>
     <div class="modal-header">
-        <h4 class="modal-title" id="modal-basic-title">VER PRESENTACIONES</h4>
+        <h4 class="modal-title" id="modal-basic-title">VER PRODUCTO</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <div class="modal-body">
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label font-weight-bold">Talla:</label>
+            <label class="col-sm-3 col-form-label font-weight-bold">Titulo:</label>
             <div class="col-sm">
-                <div class="input-group">
-                    <select [(ngModel)]="presentacionForm.talla.descripcion" [compareWith]="compareFn" class="form-control form-control-sm">
-                        <option [ngValue]="null"></option>
-                        <option *ngFor="let talla of tallas; let i=index" [value]=talla.valor>{{talla.valor}}</option>
-                    </select>
-                    <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
-                </div>
+                <input type="text" [(ngModel)]="productoActualizar.titulo" class="form-control form-control-sm" [disabled]="true">
             </div>
         </div>
         <div class="form-group row">
-            <label class="col-sm-3 col-form-label font-weight-bold">Color:</label>
+            <label class="col-sm-3 col-form-label font-weight-bold">Descripcion:</label>
             <div class="col-sm">
-                <div class="input-group">
-                    <select [(ngModel)]="presentacionForm.color.descripcion" [compareWith]="compareFn" class="form-control form-control-sm">
-                        <option [ngValue]="null"></option>
-                        <option *ngFor="let color of colores; let i=index" [value]=color.valor>{{color.valor}}</option>
-                    </select>
-                    <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
-                </div>
+                <input type="text" [(ngModel)]="productoActualizar.descripcion" class="form-control form-control-sm" [disabled]="true">
             </div>
         </div>
         <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Precio:</label>
             <div class="col-sm">
-                <button class="btn btn-sm btn-block btn-primary" (click)="crearPresentacion()">Agregar
-                    Presentacion</button>
+                <input type="text" [(ngModel)]="productoActualizar.precio" class="form-control form-control-sm" [disabled]="true">
             </div>
         </div>
+        <hr>
+        <div class="form-group row">
+            <div class="col-sm form-group">
+                <button class="btn btn-sm btn-block btn-primary" (click)="abrirModalCrearDetalle()">Crear Detalle</button>
+            </div>
+        </div>
+        <hr>
         <div class="form-group row">
             <div class="col-sm">
                 <table class="table table-hover table-bordered" style="font-size: 0.7rem">
                     <thead class="table-active">
                         <tr>
                             <th>No.</th>
-                            <th>TALLA</th>
-                            <th>COLOR</th>
+                            <th>FILTRO</th>
+                            <th>VALOR</th>
+                            <th>PVP</th>
+                            <th>STOCK</th>
+                            <th>UNIDAD</th>
                             <th>OPC</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let presentacion of this.productoActualizar.presentaciones; let i=index">
+                        <tr *ngFor="let detalle of this.productoActualizar.detalles; let i=index">
                             <td>{{i+1}}</td>
-                            <td> <span class="badge bg-primary text-white"
-                                style="font-size: small;">{{presentacion.talla.descripcion}} </span>
-                            </td>
-                            <td><span class="badge bg-primary text-white"
-                                style="font-size: small;">{{presentacion.color.descripcion}} </span></td>
+                            <td>{{detalle.filtro}}</td>
+                            <td>{{detalle.valor}}</td>
+                            <td>{{detalle.pvp}}</td>
+                            <td>{{detalle.stock}}</td>
+                            <td>{{detalle.unidad}}</td>
                             <td>
-                                <button (click)="eliminarPresentacion(i)" class="btn btn-primary form-control-sm"><i
-                                        class="fa fa-trash"></i></button>
-                            </td>
+                                <button class="btn btn-sm btn-primary separate" (click)="abrirModalactualizarDetalle(i)">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-sm btn-primary separate" (click)="eliminarDetalle(i)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>                            
                         </tr>
                     </tbody>
                 </table>
@@ -360,7 +360,96 @@
         </div>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-outline-dark" (click)="actualizar()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #modalCrearDetalle let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">CREAR DETALLE</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Filtro:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleCrear.filtro" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Valor:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleCrear.valor" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">PVP:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleCrear.pvp" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Stock:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleCrear.stock" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Unidad:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleCrear.unidad" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="crearDetalle()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>
+
+<ng-template #modalActualizarDetalle let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">ACTUALIZAR DETALLE</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Filtro:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleActualizar.filtro" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Valor:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleActualizar.valor" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">PVP:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleActualizar.pvp" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Stock:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleActualizar.stock" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Unidad:</label>
+            <div class="col-sm">
+                <input type="text" [(ngModel)]="detalleActualizar.unidad" oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="actualizarDetalle()">Guardar</button>
         <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
     </div>
 </ng-template>

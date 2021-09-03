@@ -62,12 +62,10 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     util.loadScripts();
-    /* this.categoria=this.route.snapshot.queryParamMap.get('categoria') || null as any;
-    this.subcategoria=this.route.snapshot.queryParamMap.get('subcategoria') || null as any;
-    */
     this.consultarSliders();
     this.consultarLogo();
-    this.consultarCategorias();    
+    this.consultarCategorias();   
+    this.consultarPorUltimaFecha(); 
     this.construirPedido();
     
   }
@@ -105,6 +103,28 @@ export class PrincipalComponent implements OnInit, OnDestroy {
     );
   }
 
+  consultarPorUltimaFecha(){
+    this.productoService.consultarPorUltimaFecha().subscribe(
+      res => {
+        this.productos=res;
+        let productosRec: Producto[] = [];
+        for (let i = 0; i < this.productos.length; i++) {
+          productosRec.push(this.productos[i]);
+          if (productosRec.length == 3) {
+            this.productosEnc.push(productosRec);
+            productosRec = [];
+          }
+        }
+        if (productosRec.length > 0) {
+          this.productosEnc.push(productosRec);
+        }
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_producto, constantes.error_swal)
+      }
+    );
+  }
+
   construirPedido(){
     let codigo = this.sesionService.getCodigo();
     if (codigo != null) {
@@ -130,7 +150,6 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   crearLineaPedido() {
     this.modalService.dismissAll();
     this.lineaPedido.producto = this.productoPedido;
-    this.lineaPedido.presentacion = this.productoPedido.presentaciones[this.presentacionPedido];
     this.lineaPedido.total= Number(this.productoPedido.precio)- Number(this.productoPedido.descuento);
     this.lineasPedido.push({ ... this.lineaPedido});
     this.lineaPedido = new LineaPedido();

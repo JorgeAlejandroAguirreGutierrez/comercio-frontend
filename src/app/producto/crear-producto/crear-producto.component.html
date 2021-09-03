@@ -3,12 +3,12 @@
         <div class="sidebar-heading">MENU </div>
         <hr>
         <div class="list-group list-group-flush">
-            <a class="list-group-item list-group-item-action bg-light" href="/index">INDEX</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/index">WEB</a>
+            <a class="list-group-item list-group-item-action bg-light" href="/crear-producto">CREAR PRODUCTO</a>
             <a class="list-group-item list-group-item-action bg-light" href="/leer-producto">VER PRODUCTOS</a>
             <a class="list-group-item list-group-item-action bg-light" href="/leer-pedido">VER PEDIDOS</a>
             <a class="list-group-item list-group-item-action bg-light" href="/categoria">CATEGORIAS</a>
-            <a class="list-group-item list-group-item-action bg-light" type="button" href="#"
-                (click)="cerrarSesion($event)">CERRAR SESION</a>
+            <a class="list-group-item list-group-item-action bg-light" type="button" href="#" (click)="cerrarSesion($event)">CERRAR SESION</a>
         </div>
     </div>
     <div id="page-content-wrapper">
@@ -178,19 +178,29 @@
                             </div>
                         </div>
                     </ng-container>
+                    <ng-container *ngIf="campoTamano">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">Tamaño:</label>
+                            <div class="col-sm-9 form-group">
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="producto.tamano"
+                                        oninput="this.value = this.value.toUpperCase()"
+                                        class="form-control form-control-sm">
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
                     <ng-container *ngIf="campoTalla">
                         <div class="form-row">
                             <label class="col-sm-3 col-form-label font-weight-bold">Tallas:</label>
                             <div class="col-sm form-group">
-                                <div class="input-group">
-                                    <select [compareWith]="compareFn" [(ngModel)]="tallaForm"
-                                        class="form-control form-control-sm">
-                                        <option [ngValue]="0"></option>
-                                        <option *ngFor="let talla of tallas; let i=index" [ngValue]="talla.valor">
-                                            {{talla.valor}}</option>
-                                    </select>
-                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
-                                </div>
+                                <select [compareWith]="compareFn" [(ngModel)]="producto.talla"
+                                    class="form-control form-control-sm">
+                                    <option [ngValue]="null"></option>
+                                    <option *ngFor="let talla of tallas; let i=index" [ngValue]="talla.valor">
+                                        {{talla.valor}}</option>
+                                </select>
                             </div>
                         </div>
                     </ng-container>
@@ -198,19 +208,53 @@
                         <div class="form-row">
                             <label class="col-sm-3 col-form-label font-weight-bold">Colores:</label>
                             <div class="col-sm form-group">
-                                <div class="input-group">
-                                    <select [compareWith]="compareFn" [(ngModel)]="colorForm"
-                                        class="form-control form-control-sm">
-                                        <option [ngValue]="0"></option>
-                                        <option *ngFor="let color of colores; let i=index" [ngValue]="color.valor">
-                                            {{color.valor}}</option>
-                                    </select>
-                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
-                                </div>
+                                <select [compareWith]="compareFn" [(ngModel)]="producto.color"
+                                    class="form-control form-control-sm">
+                                    <option [ngValue]="null"></option>
+                                    <option *ngFor="let color of colores; let i=index" [ngValue]="color.valor">
+                                        {{color.valor}}</option>
+                                </select>
                             </div>
-                            <br>
                         </div>
                     </ng-container>
+                    <div class="form-row">
+                        <div class="col-sm form-group">
+                            <button class="btn btn-sm btn-block btn-primary" (click)="abrirModalCrearDetalle()">Crear Detalle</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm">
+                            <table class="table table-hover table-bordered" style="font-size: 0.7rem">
+                                <thead class="table-active">
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>FILTRO</th>
+                                        <th>VALOR</th>
+                                        <th>PVP</th>
+                                        <th>STOCK</th>
+                                        <th>UNIDAD</th>
+                                        <th>OPC</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let detalle of producto.detalles; let i=index">
+                                        <td>{{i+1}}</td>
+                                        <td>{{detalle.filtro}}</td>
+                                        <td>{{detalle.valor}}</td>
+                                        <td>{{detalle.pvp}}</td>
+                                        <td>{{detalle.stock}}</td>
+                                        <td>{{detalle.unidad}}</td>
+                                        <td>
+                                            <button (click)="eliminarDetalle(i)"
+                                                class="btn btn-primary form-control-sm"><i
+                                                    class="fa fa-trash"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                     <div class="form-row">
                         <label class="col-sm-3 col-form-label font-weight-bold">Imagenes:</label>
                         <div class="col-sm-3 form-group">
@@ -275,3 +319,53 @@
         </div>
     </div>
 </div>
+
+<ng-template #modalCrearDetalle let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">DATOS</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Filtro:</label>
+            <div class="col-sm-9">
+                <input type="text" [(ngModel)]="detalle.filtro" class="form-control form-control-sm"
+                    oninput="this.value = this.value.toUpperCase()">
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Valor:</label>
+            <div class="col-sm-9">
+                <input type="text" [(ngModel)]="detalle.valor" class="form-control form-control-sm"
+                    oninput="this.value = this.value.toUpperCase()">
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-3 col-form-label font-weight-bold">PVP:</label>
+            <div class="col-sm-9">
+                <input type="text" [(ngModel)]="detalle.pvp" class="form-control form-control-sm"
+                    oninput="this.value = this.value.toUpperCase()">
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Stock:</label>
+            <div class="col-sm-9">
+                <input type="text" [(ngModel)]="detalle.stock" class="form-control form-control-sm"
+                    oninput="this.value = this.value.toUpperCase()">
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-sm-3 col-form-label font-weight-bold">Unidad:</label>
+            <div class="col-sm-9">
+                <input type="text" [(ngModel)]="detalle.unidad" class="form-control form-control-sm"
+                    oninput="this.value = this.value.toUpperCase()">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="crearDetalle()">Guardar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cerrar')">Cerrar</button>
+    </div>
+</ng-template>

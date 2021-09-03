@@ -17,6 +17,7 @@ import { LeerPedidoComponent } from './pedido/leer-pedido/leer-pedido.component'
 import { LeerPedidoClienteComponent } from './pedido/leer-pedido-cliente/leer-pedido-cliente.component';
 import { DateShortPipe } from './pipes/date-short-pipe';
 import { CategoriaComponent } from './categoria/categoria.component';
+import { DetallarProductoComponent } from './producto/detallar-producto/detallar-producto.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { CategoriaComponent } from './categoria/categoria.component';
     LeerPedidoComponent,
     LeerPedidoClienteComponent,
     DateShortPipe,
-    CategoriaComponent
+    CategoriaComponent,
+    DetallarProductoComponent
   ],
   imports: [
     BrowserModule,

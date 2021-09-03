@@ -39,6 +39,7 @@ export class CategoriaComponent implements OnInit {
   asignarCategoria: Categoria=null as any;
   asignarSubcategoria: Subcategoria=null as any;
 
+  categoriasEnc:any[]=[];
   categorias: Categoria[]=[];
   subcategorias: Subcategoria[]=[];
   subsubcategorias: Subsubcategoria[]=[];
@@ -56,15 +57,53 @@ export class CategoriaComponent implements OnInit {
   ngOnInit(): void {
     util.loadScripts();
     this.validarSesion();
-    this.consultarCategorias();
-    this.consultarSubcategorias();
-    this.consultarSubsubcategorias();
+    this.consultarCategoriasEnc();
+  }
+
+  consultarCategoriasEnc(){
+    this.categoriasEnc=[];
+    this.categoriaService.consultar().subscribe(
+      res => {
+        let categorias: Categoria[] = res
+        for(let i=0; i<categorias.length; i++){
+          let categoriaEnc: string[]=[];
+          categoriaEnc.push(categorias[i].descripcion);
+          if (categorias[i].subcategorias.length==0){
+            categoriaEnc.push(constantes.vacio);
+            categoriaEnc.push(constantes.vacio);
+            this.categoriasEnc.push(categoriaEnc);
+            categoriaEnc=[];
+          }
+          for(let j=0; j<categorias[i].subcategorias.length; j++){
+            categoriaEnc=[];
+            categoriaEnc.push(categorias[i].descripcion);
+            categoriaEnc.push(categorias[i].subcategorias[j].descripcion);
+            if(categorias[i].subcategorias[j].subsubcategorias.length==0){
+              categoriaEnc.push(constantes.vacio);
+              this.categoriasEnc.push(categoriaEnc);
+              categoriaEnc=[];
+            }
+            for(let k=0; k<categorias[i].subcategorias[j].subsubcategorias.length; k++){
+              categoriaEnc=[];
+              categoriaEnc.push(categorias[i].descripcion);
+              categoriaEnc.push(categorias[i].subcategorias[j].descripcion);
+              categoriaEnc.push(categorias[i].subcategorias[j].subsubcategorias[k].descripcion);
+              this.categoriasEnc.push(categoriaEnc);
+            }
+          }
+        }
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_categorias, constantes.error_swal)
+      }
+    );
   }
 
   consultarCategorias(){
     this.categoriaService.consultar().subscribe(
       res => {
         this.categorias = res
+        console.log(this.categorias); 
       },
       err => {
         Swal.fire(constantes.error, constantes.error_consultar_categorias, constantes.error_swal)
@@ -101,7 +140,9 @@ export class CategoriaComponent implements OnInit {
   crearCategoriaAccion(){
     this.categoriaService.crear(this.crearCategoria).subscribe(
       res => {
-        Swal.fire(constantes.error, constantes.exito_crear_categoria, constantes.error_swal)
+        this.modalService.dismissAll();
+        this.consultarCategoriasEnc();
+        Swal.fire(constantes.exito, constantes.exito_crear_categoria, constantes.exito_swal)
       },
       err => {
         Swal.fire(constantes.error, constantes.error_crear_categoria, constantes.error_swal)
@@ -114,7 +155,9 @@ export class CategoriaComponent implements OnInit {
     this.asignarCategoria=null as any;
     this.subcategoriaService.crear(this.crearSubcategoria).subscribe(
       res => {
-        Swal.fire(constantes.error, constantes.exito_crear_subcategoria, constantes.error_swal)
+        this.modalService.dismissAll();
+        this.consultarCategoriasEnc();
+        Swal.fire(constantes.exito, constantes.exito_crear_subcategoria, constantes.exito_swal)
       },
       err => {
         Swal.fire(constantes.error, constantes.error_crear_subcategoria, constantes.error_swal)
@@ -129,7 +172,9 @@ export class CategoriaComponent implements OnInit {
     this.asignarCategoria=null as any;
     this.subsubcategoriaService.crear(this.crearSubsubcategoria).subscribe(
       res => {
-        Swal.fire(constantes.error, constantes.exito_crear_subcategoria, constantes.error_swal)
+        this.modalService.dismissAll();
+        this.consultarCategoriasEnc();
+        Swal.fire(constantes.exito, constantes.exito_crear_subcategoria, constantes.exito_swal)
       },
       err => {
         Swal.fire(constantes.error, constantes.error_crear_subsubcategoria, constantes.error_swal)
@@ -137,9 +182,13 @@ export class CategoriaComponent implements OnInit {
     );
   }
 
-  eliminar(i: number, j: number, k: number){
-    this.categoriaService.eliminar(this.categorias[i].subcategorias[j].subsubcategorias[k].id).subscribe(
+  eliminar(categoriaCompleta: string[]){
+    let categoria=categoriaCompleta[0];
+    let subcategoria= categoriaCompleta[1];
+    let subsubcategoria= categoriaCompleta[2];
+    this.categoriaService.eliminarPorCategoriaSubcategoriaSubsubcategoria(categoria, subcategoria, subsubcategoria).subscribe(
       res => {
+        this.consultarCategoriasEnc();
         Swal.fire(constantes.exito, constantes.exito_eliminar_categoria, constantes.exito_swal)
       },
       err => {
@@ -149,13 +198,36 @@ export class CategoriaComponent implements OnInit {
   }
 
   abrirModalCrearCategoria(){
+    this.crearCategoria=new Categoria();
+    this.consultarCategorias();
     this.open(this.modalCrearCategoria);
   }
   abrirModalCrearSubcategoria(){
+    this.asignarCategoria=null as any;
+    this.crearSubcategoria=new Subcategoria();
+    this.consultarCategorias();
     this.open(this.modalCrearSubcategoria);
   }
   abrirModalCrearSubsubcategoria(){
+    this.asignarCategoria=null as any;
+    this.asignarSubcategoria=null as any;
+    this.crearSubsubcategoria=new Subsubcategoria();
+    this.consultarCategorias();
+    this.consultarSubcategorias();
     this.open(this.modalCrearSubsubcategoria);
+  }
+
+  cambioAsignarSubcategoria(){
+    if (this.asignarSubcategoria != null){
+      this.subcategoriaService.consultarPorCategoria(this.asignarCategoria.id).subscribe(
+        res => {
+          this.subcategorias = res
+        },
+        err => {
+          Swal.fire(constantes.error, constantes.error_eliminar_categoria, constantes.error_swal)
+        }
+      );
+    }
   }
 
   validarSesion(){

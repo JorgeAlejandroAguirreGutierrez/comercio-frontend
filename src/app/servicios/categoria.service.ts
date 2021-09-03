@@ -58,6 +58,18 @@ export class CategoriaService {
       })
     );
   }
+  eliminarPorCategoriaSubcategoriaSubsubcategoria(categoria:string, subcategoria: string, subsubcategoria: string): Observable<Categoria> {
+    let params = new HttpParams()
+    .set('categoria', categoria)
+    .set('subcategoria', subcategoria)
+    .set('subsubcategoria', subsubcategoria);
+    return this.http.delete(environment.host + util.ruta + util.categoria+ util.eliminarPorCategoriaSubcategoriaSubsubcategoria, {params: params, headers: util.options.headers}).pipe(
+      map(response => response as any),
+      catchError(err => {
+        return throwError(err);
+      })
+    );
+  }
 
   buscar(categoria: Categoria): Observable<Categoria[]> {
     return this.http.put(environment.host+util.ruta+util.categoria+util.buscar, categoria, util.options).pipe(

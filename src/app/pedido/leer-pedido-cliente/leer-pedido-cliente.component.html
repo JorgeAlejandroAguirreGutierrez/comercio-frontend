@@ -70,7 +70,7 @@
                                                 <div class="col-sm-8">
                                                     <div class="row">
                                                         <div class="col-sm table-responsive">
-                                                            <table class="table table-hover" style="font-size: 0.7rem">
+                                                            <table class="table table-sm table-hover" style="font-size: 0.7rem">
                                                                 <thead>
                                                                     <tr>
                                                                         <th scope="col">IMAGEN</th>
@@ -82,7 +82,7 @@
                                                                 <tbody>
                                                                     <tr *ngFor="let lineaPedido of pedido.lineasPedido">
                                                                         <td>
-                                                                            <img width="100px" height="150px"
+                                                                            <img width="100%" height="150px"
                                                                                 src="{{prefijoUrlImg+lineaPedido.producto.imagenes[0].ruta}}"
                                                                                 alt="Imagen">
                                                                         </td>

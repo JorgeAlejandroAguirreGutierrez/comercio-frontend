@@ -47,6 +47,8 @@ export class PrincipalComponent implements OnInit, OnDestroy {
 
   imagenesModal: Imagen[]=[];
 
+  cantidadPedido:number=0;
+
   @Input() cantidadAgregados:number;
 
   constructor(private productoService: ProductoService, private parametroService: ParametroService, private categoriaService: CategoriaService,
@@ -150,14 +152,15 @@ export class PrincipalComponent implements OnInit, OnDestroy {
   crearLineaPedido() {
     this.modalService.dismissAll();
     this.lineaPedido.producto = this.productoPedido;
-    this.lineaPedido.total= Number(this.productoPedido.precio)- Number(this.productoPedido.descuento);
+    this.lineaPedido.cantidad=this.cantidadPedido;
+    this.lineaPedido.total= (Number(this.productoPedido.precio)- Number(this.productoPedido.descuento))*Number(this.cantidadPedido);
     this.lineasPedido.push({ ... this.lineaPedido});
     this.lineaPedido = new LineaPedido();
     this.productoPedido=new Producto();
-    this.presentacionPedido=-1;
     console.log(this.lineasPedido);
     this.sesionService.setLineasPedido(this.lineasPedido);
     this.cantidadAgregados=this.cantidadAgregados+1;
+    this.cantidadPedido=0;
     Swal.fire(constantes.exito, constantes.exito_agregar_producto, constantes.exito_swal);
   }
 

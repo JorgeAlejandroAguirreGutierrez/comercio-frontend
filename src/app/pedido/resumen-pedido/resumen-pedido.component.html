@@ -26,12 +26,13 @@
                     <div class="form-row form-group">
                         <div class="col-sm-1"></div>
                         <div class="col-sm-10 table-responsive">
-                            <table class="table table-sm table-hover table-bordered">
+                            <table class="table table-sm table-hover">
                                 <thead>
                                     <tr>
                                         <th scope="col">IMAGEN</th>
                                         <th scope="col">PRODUCTO</th>
                                         <th scope="col">DESCRIPCION</th>
+                                        <th scope="col">CANTIDAD</th>
                                         <th scope="col">VALOR</th>
                                         <th scope="col">OPCIONES</th>
                                     </tr>
@@ -39,12 +40,13 @@
                                 <tbody>
                                     <tr *ngFor="let lineaPedido of pedido.lineasPedido; let i=index">
                                         <td>
-                                            <img width="100px" height="150px"
+                                            <img width="100%" height="200px"
                                                 src="{{prefijoUrlImg+lineaPedido.producto.imagenes[0].ruta}}"
                                                 alt="Imagen">
                                         </td>
                                         <td>{{lineaPedido.producto.titulo}}</td>
                                         <td>{{lineaPedido.producto.descripcion}}</td>
+                                        <td>{{lineaPedido.cantidad}}</td>
                                         <td>{{lineaPedido.total | currency}}</td>
                                         <td>
                                             <button type="button" (click)="eliminarLineaPedido(i)"
@@ -132,6 +134,14 @@
                         <div class="col-sm-10 form-group">
                             <button (click)="generarPedido()" class="btn btn-sm btn-warning btn-block"
                                 [disabled]="pedido.generar">Generar Pedido</button>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-10 form-group">
+                            <button (click)="cancelarPedido()" class="btn btn-sm btn-danger btn-block"
+                                [disabled]="pedido.generar">Cancelar Pedido</button>
                         </div>
                         <div class="col-sm-1"></div>
                     </div>

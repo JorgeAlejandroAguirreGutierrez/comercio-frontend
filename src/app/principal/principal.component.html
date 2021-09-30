@@ -131,7 +131,7 @@
                                     <div class="card-body">
                                         <div class="card-title d-flex">
                                             <span class="justify-content-start font-weight-bold">
-                                                <h2>{{producto.marca}}</h2>
+                                                <h2>{{producto.titulo}}</h2>
                                             </span>
                                             <span class="justify-content-end ml-auto" style="font-size: medium;">
                                                 <ng-container *ngIf="producto.imagenes.length>1">
@@ -142,13 +142,13 @@
                                                 </ng-container>
                                             </span>
                                         </div>
-                                        <p class="card-text">{{producto.titulo}}</p>
+                                        <p class="card-text">{{producto.descripcion}}</p>
                                         <p class="card-text"><small class="text-muted">*incluye envío</small></p>
                                     </div>
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item d-flex">
                                             <span class="justify-content-start">
-                                                {{producto.descripcion}}
+                                                {{producto.marca}}
                                             </span>
                                         </li>
                                         <li class="list-group-item d-flex">
@@ -209,9 +209,14 @@
         </button>
     </div>
     <div class="modal-body">
-        <div class="row">
-            <div class="col-sm-12">
-                <label>Presentacion:</label>
+        <div class="form-group row">
+            <label class="col-sm-3 col-form-label font-weight-bold">CANTIDAD:</label>
+            <div class="col-sm-9">
+                <div class="input-group">
+                    <input type="text" [(ngModel)]="cantidadPedido"
+                        oninput="this.value = this.value.toUpperCase()" class="form-control form-control-sm">
+                    <div class="input-group-text"><i class="fa fa-tumblr"></i></div>
+                </div>
             </div>
         </div>
     </div>

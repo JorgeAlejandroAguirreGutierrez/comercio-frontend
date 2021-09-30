@@ -48,6 +48,10 @@ export class CrearProductoComponent implements OnInit {
   campoTamano: boolean = false;
   campoTalla: boolean = false;
   campoColor: boolean = false;
+  campoCaracteristica: boolean = false;
+  campoMemoria: boolean = false;
+  campoProcesador: boolean = false;
+  campoCamara: boolean = false;
 
   campos: Parametro[]=[];
   campo: Parametro=null as any;
@@ -66,7 +70,30 @@ export class CrearProductoComponent implements OnInit {
     this.validarSesion();
     this.consultarCampos();
     this.consultarCategorias();
+    this.consultarColores();
     
+  }
+
+  consultarColores(){
+    this.parametroService.consultarPorTipo(constantes.parametroColor).subscribe(
+      res => {
+        this.colores = res
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_colores, constantes.error_swal)
+      }
+    );
+  }
+
+  consultarTallas(){
+    this.parametroService.consultarPorTipo(constantes.parametroTalla).subscribe(
+      res => {
+        this.tallas = res
+      },
+      err => {
+        Swal.fire(constantes.error, constantes.error_consultar_tallas, constantes.error_swal)
+      }
+    );
   }
 
   consultarCampos(){
@@ -108,6 +135,14 @@ export class CrearProductoComponent implements OnInit {
       this.campoTalla=true;
     if(this.campo.titulo == constantes.campoColor)
       this.campoColor=true;
+    if(this.campo.titulo == constantes.campoCaracteristica)
+      this.campoCaracteristica=true;
+    if(this.campo.titulo == constantes.campoMemoria)
+      this.campoMemoria=true;
+    if(this.campo.titulo == constantes.campoProcesador)
+      this.campoProcesador=true;
+    if(this.campo.titulo == constantes.campoCamara)
+      this.campoCamara=true;
   }
 
   seleccionarCategoria(){

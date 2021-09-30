@@ -176,7 +176,16 @@ export class ResumenPedidoComponent implements OnInit {
     });
   }
 
+  cancelarPedido(){
+    this.sesionService.eliminarCodigo();
+    this.sesionService.eliminarLineasPedido();
+    this.navegarIndex();
+  }
+
   navegarLeerPedidoCliente() {
     this.router.navigate(['/leer-pedido-cliente']);
+  }
+  navegarIndex() {
+    this.router.navigate(['/index']);
   }
 }

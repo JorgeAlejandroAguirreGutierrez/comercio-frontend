@@ -25,7 +25,7 @@
                     <h2 class="font-weight-bold" align="center">CREAR PRODUCTO</h2>
                     <hr>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Titulo:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">TITULO:</label>
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
                                 <input type="text" [(ngModel)]="producto.titulo"
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Descripcion:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">DESCRIPCION:</label>
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
                                 <input type="text" [(ngModel)]="producto.descripcion"
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Precio:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">PRECIO:</label>
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
                                 <input type="text" [(ngModel)]="producto.precio" class="form-control form-control-sm">
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Categoria:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">CATEGORIA:</label>
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
                                 <select class="form-control form-control-sm" [(ngModel)]="producto.categoria"
@@ -70,7 +70,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Subcategoria:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">SUBCATEGORIA:</label>
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
                                 <select class="form-control form-control-sm" [(ngModel)]="producto.subcategoria"
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Subsubcategoria:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">SUBSUBCATEGORIA:</label>
                         <div class="col-sm-9 form-group">
                             <div class="input-group">
                                 <select [compareWith]="compareFn" class="form-control form-control-sm"
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Campos Personalizados:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">CAMPOS PERSONALIZADOS:</label>
                         <div class="col-sm-6 form-group">
                             <select [compareWith]="compareFn" class="form-control form-control-sm"
                                 [(ngModel)]="campo">
@@ -117,7 +117,7 @@
                     </div>
                     <ng-container *ngIf="campoMarca">
                         <div class="form-row">
-                            <label class="col-sm-3 col-form-label font-weight-bold">Marca:</label>
+                            <label class="col-sm-3 col-form-label font-weight-bold">MARCA:</label>
                             <div class="col-sm-9 form-group">
                                 <div class="input-group">
                                     <input type="text" [(ngModel)]="producto.marca"
@@ -130,7 +130,7 @@
                     </ng-container>
                     <ng-container *ngIf="campoMaterial">
                         <div class="form-row">
-                            <label class="col-sm-3 col-form-label font-weight-bold">Material:</label>
+                            <label class="col-sm-3 col-form-label font-weight-bold">MATERIAL:</label>
                             <div class="col-sm-9 form-group">
                                 <div class="input-group">
                                     <input type="text" [(ngModel)]="producto.material"
@@ -143,7 +143,7 @@
                     </ng-container>
                     <ng-container *ngIf="campoCompra">
                         <div class="form-row">
-                            <label class="col-sm-3 col-form-label font-weight-bold">Compra:</label>
+                            <label class="col-sm-3 col-form-label font-weight-bold">COMPRA:</label>
                             <div class="col-sm-9 form-group">
                                 <div class="input-group">
                                     <input type="text" [(ngModel)]="producto.compra"
@@ -155,7 +155,7 @@
                     </ng-container>
                     <ng-container *ngIf="campoDescuento">
                         <div class="form-row">
-                            <label class="col-sm-3 col-form-label font-weight-bold">Descuento:</label>
+                            <label class="col-sm-3 col-form-label font-weight-bold">DESCUENTO:</label>
                             <div class="col-sm-9 form-group">
                                 <div class="input-group">
                                     <input type="text" [(ngModel)]="producto.descuento"
@@ -167,20 +167,18 @@
                     </ng-container>
                     <ng-container *ngIf="campoGarantia">
                         <div class="form-row">
-                            <label class="col-sm-3 col-form-label font-weight-bold">Garantia:</label>
+                            <label class="col-sm-3 col-form-label font-weight-bold">GARANTIA:</label>
                             <div class="col-sm form-group">
-                                <div class="input-group input-group-sm mb-3">
+                                <div class="input-group">
                                     <input type="text" [(ngModel)]="producto.garantia" class="form-control">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text font-weight-bold">MESES</span>
-                                    </div>
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
                                 </div>
                             </div>
                         </div>
                     </ng-container>
                     <ng-container *ngIf="campoTamano">
                         <div class="form-row">
-                            <label class="col-sm-3 col-form-label font-weight-bold">Tamaño:</label>
+                            <label class="col-sm-3 col-form-label font-weight-bold">TAMAÑO:</label>
                             <div class="col-sm-9 form-group">
                                 <div class="input-group">
                                     <input type="text" [(ngModel)]="producto.tamano"
@@ -193,7 +191,7 @@
                     </ng-container>
                     <ng-container *ngIf="campoTalla">
                         <div class="form-row">
-                            <label class="col-sm-3 col-form-label font-weight-bold">Tallas:</label>
+                            <label class="col-sm-3 col-form-label font-weight-bold">TALLAS:</label>
                             <div class="col-sm form-group">
                                 <select [compareWith]="compareFn" [(ngModel)]="producto.talla"
                                     class="form-control form-control-sm">
@@ -206,7 +204,7 @@
                     </ng-container>
                     <ng-container *ngIf="campoColor">
                         <div class="form-row">
-                            <label class="col-sm-3 col-form-label font-weight-bold">Colores:</label>
+                            <label class="col-sm-3 col-form-label font-weight-bold">COLORES:</label>
                             <div class="col-sm form-group">
                                 <select [compareWith]="compareFn" [(ngModel)]="producto.color"
                                     class="form-control form-control-sm">
@@ -214,6 +212,50 @@
                                     <option *ngFor="let color of colores; let i=index" [ngValue]="color.valor">
                                         {{color.valor}}</option>
                                 </select>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="campoCaracteristica">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">CARACTERISTICA:</label>
+                            <div class="col-sm form-group">
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="producto.caracteristica" class="form-control form-control-sm">
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="campoMemoria">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">MEMORIA:</label>
+                            <div class="col-sm form-group">
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="producto.memoria" class="form-control form-control-sm">
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="campoProcesador">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">PROCESADOR:</label>
+                            <div class="col-sm form-group">
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="producto.procesador" class="form-control form-control-sm">
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="campoCamara">
+                        <div class="form-row">
+                            <label class="col-sm-3 col-form-label font-weight-bold">CAMARA:</label>
+                            <div class="col-sm form-group">
+                                <div class="input-group">
+                                    <input type="text" [(ngModel)]="producto.camara" class="form-control form-control-sm">
+                                    <div class="input-group-text"><i class="fa fa-product-hunt"></i></div>
+                                </div>
                             </div>
                         </div>
                     </ng-container>
@@ -256,7 +298,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <label class="col-sm-3 col-form-label font-weight-bold">Imagenes:</label>
+                        <label class="col-sm-3 col-form-label font-weight-bold">IMAGENES:</label>
                         <div class="col-sm-3 form-group">
                             <input hidden type="file" #botonImagen id="imagen" name="imagen"
                                 (change)="cargarImagen($event)">

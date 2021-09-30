@@ -100,3 +100,7 @@ export const campoGarantia="GARANTIA";
 export const campoTamano="TAMANO";
 export const campoTalla="TALLA";
 export const campoColor="COLOR";
+export const campoCaracteristica="CARACTERISTICA";
+export const campoMemoria="MEMORIA";
+export const campoProcesador="PROCESADOR";
+export const campoCamara="CAMARA";
